@@ -1,0 +1,30 @@
+
+Goals
+----
+- Setu should absorb all complexities.
+- Client and Agent should be light and simple as far as possible.
+
+Setu responsibilties
+
+Element Identification
+- When an element is created in client using elementX API, Setu should create a local object.
+- The above object should have identified=False set.
+- When someone takes first action on this, then a find call should happen to the agent API. At that time only the agent side object is created.
+- This means idendifyIfNull kind of methods should be present in Setu and not in agent.
+- The agent side element would be tied to one of the identifiers described in OR relationship in locators.
+- Any re-identification logic should be present in Setu. For this to effectively take place, Setu element
+should store all identifiers, when element is identified, it should store the successful one separately.
+
+Unsupported API
+---------------
+- Setu should return not supported error Jsons to improve performance and prevent unnecessary back and forth traffic for unsupported methods for an automator/element.
+- 
+
+Actions
+- For any actions e.g. enterText, if 2-3 calls are wrapped, they need to be present in Setu.
+- Only granular calls would be present in agent.
+
+Exceptions
+----------
+- 
+
