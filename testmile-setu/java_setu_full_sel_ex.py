@@ -30,6 +30,8 @@ print(role_select.is_visible_text_selected("Subscriber"))
 print(role_select.is_value_selected("subscriber"))
 print(role_select.is_index_selected(2))
 print(role_select.get_first_selected_option())
+role_select.select_by_value("editor")
+role_select.select_by_visible_text("Subscriber")
 #automator.quit()
 
 '''
