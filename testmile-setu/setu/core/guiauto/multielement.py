@@ -40,12 +40,23 @@ class GuiMultiElement(BaseElement):
         else:
             return None
 
-    def get_text_content(self):
+    def get_text_contents(self):
         self.find_if_not_found()
         self.wait_until_visible()
         response = self._act(ElementActionBodyCreator.get_text_content())
         return self.__return_attr_values(response)
 
+    def get_values(self):
+        self.find_if_not_found()
+        self.wait_until_visible()
+        response = self._act(ElementActionBodyCreator.get_attr_value(attr="value"))
+        return self.__return_attr_values(response)
+
+    def are_selected(self):
+        self.find_if_not_found()
+        self.wait_until_visible()
+        response = self._act(ElementActionBodyCreator.is_selected())
+        return self.__return_attr_values(response)
 
 class _GuiPartialElement(GuiElement):
 

@@ -27,6 +27,9 @@ blog_name.enter_text("Hello")
 blog_name.set_text("Hello")
 role_select = automator.convert_to_select(automator.create_element_with_locator("id","default_role"))
 print(role_select.is_visible_text_selected("Subscriber"))
+print(role_select.is_value_selected("subscriber"))
+print(role_select.is_index_selected(2))
+print(role_select.get_first_selected_option())
 #automator.quit()
 
 '''
