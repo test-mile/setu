@@ -11,6 +11,40 @@ automator.create_element_with_locator("id","user_login").set_text("user")
 automator.create_element_with_locator("id","user_pass").set_text("bitnami")
 automator.create_element_with_locator("id","wp-submit").click()
 automator.create_element_with_locator("class_name","welcome-view-site").wait_until_clickable()
+#automator.take_screenshot()
+
+win_handler = automator.get_window_handler()
+print(win_handler.get_current_window_handle())
+print(win_handler.get_current_window_size())
+print(win_handler.get_all_window_handles())
+win_handler.set_window_size(200,400)
+time.sleep(5)
+win_handler.maximize_window()
+time.sleep(5)
+print(win_handler.get_window_title())
+automator.execute_javascript("window.open('google.com')")
+print(win_handler.get_all_window_handles())
+print(win_handler.get_window_title())
+time.sleep(5)
+win_handler.switch_to_new_window()
+print(win_handler.get_window_title())
+win_handler.close_current_window()
+time.sleep(5)
+automator.execute_javascript("window.open('google.com')")
+print(win_handler.get_all_window_handles())
+time.sleep(5)
+automator.execute_javascript("window.open('yahoo.com')")
+print(win_handler.get_all_window_handles())
+time.sleep(5)
+automator.execute_javascript("window.open('bing.com')")
+print(win_handler.get_all_window_handles())
+time.sleep(5)
+win_handler.close_all_child_windows()
+print(win_handler.get_window_title())
+time.sleep(5)
+win_handler.close_current_window()
+
+#automator.execute_javascript("window.open('google.com')")
 
 # automator.create_element_with_locator("link_text","Posts").click()
 # automator.create_element_with_locator("link_text","Categories").click()
@@ -21,33 +55,72 @@ automator.create_element_with_locator("class_name","welcome-view-site").wait_unt
 # # Should not change the state
 # checkboxes.get_instance_at_index(0).check()
 
-automator.create_element_with_locator("link_text","Settings").click()
-blog_name = automator.create_element_with_locator("id", "blogname")
-blog_name.enter_text("Hello")
-blog_name.set_text("Hello")
-role_select = automator.convert_to_select(automator.create_element_with_locator("id","default_role"))
-print(role_select.is_visible_text_selected("Subscriber"))
-print(role_select.is_value_selected("subscriber"))
-print(role_select.is_index_selected(2))
-print(role_select.get_first_selected_option())
-role_select.select_by_value("editor")
-role_select.select_by_visible_text("Subscriber")
+# automator.create_element_with_locator("link_text","Settings").click()
+# blog_name = automator.create_element_with_locator("id", "blogname")
+# blog_name.enter_text("Hello")
+# blog_name.set_text("Hello")
+
+# role_select = automator.convert_to_select(automator.create_element_with_locator("id","default_role"))
+# time.sleep(2)
+# print(role_select.has_visible_text_selected("Subscriber"))
+# time.sleep(2)
+# print(role_select.has_value_selected("subscriber"))
+# time.sleep(2)
+# print(role_select.has_index_selected(2))
+# time.sleep(2)
+# print(role_select.get_first_selected_option())
+# time.sleep(2)
+# role_select.select_by_value("editor")
+# time.sleep(2)
+# role_select.select_by_visible_text("Subscriber")
+# time.sleep(2)
+# role_select.select_by_index(4)
+# time.sleep(5)
+# data_format = automator.convert_to_radiogroup(automator.create_multielement_with_locator("name", "date_format"))
+# time.sleep(2)
+# print(data_format.has_value_selected("Y-m-d"))
+# time.sleep(2)
+# print(data_format.has_index_selected(1))
+# time.sleep(2)
+# print(data_format.get_first_selected_option())
+# time.sleep(2)
+# data_format.select_by_value(r'\c\u\s\t\o\m')
+# time.sleep(2)
+# data_format.select_by_index(2)
+
+# automator.create_element_with_locator("link_text","Posts").click()
+# automator.create_element_with_locator("link_text","Add New").click()
+# automator.create_element_with_locator("id","title").set_text("Sample")
+# # Switch to frame by name
+# automator.switch_to_frame_by_name("content_ifr")
+# tiny_mce = automator.create_element_with_locator("id","tinymce")
+# tiny_mce.set_text("This is a test - frame by name.")
+# automator.switch_to_root()
+# automator.create_element_with_locator("id","publish").click()
+# time.sleep(5)
+# # Switch to frame by name
+# automator.switch_to_frame_by_index(0)
+# tiny_mce = automator.create_element_with_locator("id","tinymce")
+# tiny_mce.set_text("This is a test - frame by index.")
+# automator.switch_to_root()
+# automator.create_element_with_locator("id","publish").click()
+# time.sleep(5)
+# # Switch to frame by element, use GuiElement representing the frame
+# frame_element = automator.create_element_with_locator("id", "content_ifr")
+# automator.switch_to_frame_of_element(frame_element)
+# tiny_mce = automator.create_element_with_locator("id","tinymce")
+# tiny_mce.set_text("This is a test - frame of element.")
+# automator.switch_to_root()
+# automator.create_element_with_locator("id","publish").click()
+# time.sleep(5)
+# # Switch to parent
+# frame_element = automator.create_element_with_locator("xpath", "//iframe")
+# automator.switch_to_frame_of_element(frame_element)
+# tiny_mce = automator.create_element_with_locator("id","tinymce")
+# tiny_mce.set_text("This is a test - switching to parent after this.")
+# automator.switch_to_parent_frame()
+# automator.create_element_with_locator("id","publish").click()
+# time.sleep(5)
+
+#automator.go_to("http://192.168.56.103/wp-login.php?action=logout")
 #automator.quit()
-
-'''
-		
-		automator.getElementFinder().find("id", "users_can_register").getCheckBoxHandler().check();
-		
-		DropdownHandler roleDropDown = automator.getElementFinder().find("id", "default_role").asDropDown();
-
-		roleDropDown.selectText("Author");
-		assertTrue(roleDropDown.hasSelectedText("Author"), "Check Author Role Selected");
-		roleDropDown.selectAtIndex(0);
-		assertTrue(roleDropDown.hasSelectedIndex(0), "Check Author Role Selected");
-		roleDropDown.selectValue("author");
-		assertTrue(roleDropDown.hasSelectedValue("author"), "Check Author Role Selected");
-		
-		automator.getBrowserHandler().goTo("http://192.168.56.103/wp-login.php?action=logout");
-		
-		automator.quit();
-'''

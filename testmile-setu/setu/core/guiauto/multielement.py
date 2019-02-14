@@ -30,6 +30,20 @@ class GuiMultiElement(BaseElement):
         self.find_if_not_found()
         return self.__instances[index]
 
+    def get_instance_at_ordinal(self, ordinal):
+        self.find_if_not_found()
+        return self.__instances[ordinal-1]
+
+    def get_instance_by_visible_text(self, text):
+        texts = self.__get_all_texts()
+        first_index = self.__find_first_text_index(texts, text)
+        return self.get_instance_at_index(first_index)
+
+    def get_instance_by_value(self, value):
+        values = self.__get_all_values()
+        first_index = self.__find_first_value_index(values, value)
+        return self.get_instance_at_index(first_index)
+
     def wait_until_visible(self):
         self.find_if_not_found()
         self._act(ElementActionBodyCreator.wait_until_visible())
@@ -40,23 +54,82 @@ class GuiMultiElement(BaseElement):
         else:
             return None
 
+    def get_tag_names(self):
+        self.find_if_not_found()
+        response = self._act(ElementActionBodyCreator.get_tag_name())
+        return self.__return_attr_values(response)
+
     def get_text_contents(self):
         self.find_if_not_found()
-        self.wait_until_visible()
         response = self._act(ElementActionBodyCreator.get_text_content())
         return self.__return_attr_values(response)
 
     def get_values(self):
         self.find_if_not_found()
-        self.wait_until_visible()
         response = self._act(ElementActionBodyCreator.get_attr_value(attr="value"))
+        return self.__return_attr_values(response)
+
+    def get_attr_values(self, attr):
+        self.find_if_not_found()
+        response = self._act(ElementActionBodyCreator.get_attr_value(attr=attr))
         return self.__return_attr_values(response)
 
     def are_selected(self):
         self.find_if_not_found()
-        self.wait_until_visible()
         response = self._act(ElementActionBodyCreator.is_selected())
         return self.__return_attr_values(response)
+
+    # getting index attribute when it does not exist retursn value attribute.
+    # So, not going the Selenium way. Setu would treat index as computer counting.
+    def has_index_selected(self, index):
+        self.find_if_not_found()
+        return self.get_instance_at_index(index).is_selected()
+
+    # Ordinal is human counting
+    def has_ordinal_selected(self, ordinal):
+        return self.has_index_selected(ordinal-1)
+
+    def __find_first_match_index(self, in_sequence, to_match):
+        try:
+            return in_sequence.index(to_match)
+        except:
+            return -1
+
+    def __get_all_texts(self):
+        self.find_if_not_found()
+        texts = self.get_text_contents()
+        print(texts)
+        return texts
+
+    def __find_first_text_index(self, texts, text):
+        first_index = texts.index(text)
+        if first_index == -1:
+            raise Exception("No option with {} visible text present in drop down.".format(text))
+        return first_index
+
+    def __get_all_values(self):
+        self.find_if_not_found()
+        values = self.get_values()
+        print(values)
+        return values
+
+    def __find_first_value_index(self, values, value):
+        first_index = values.index(value)
+        if first_index == -1:
+            raise Exception("No option with {} value present in drop down.".format(value))
+        return first_index
+
+    def get_first_selected_instance(self):
+        self.find_if_not_found()
+        booleans = self.are_selected()
+        print(booleans)
+        first_index = None
+        try:
+            first_index = booleans.index(True)
+        except:
+            raise Exception("No option in drop down is currenlty selected.")
+        else:
+            return self.get_instance_at_index(first_index)
 
 class _GuiPartialElement(GuiElement):
 

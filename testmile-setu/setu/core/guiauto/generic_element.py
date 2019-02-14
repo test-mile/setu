@@ -62,6 +62,18 @@ class GuiGenericElement(BaseElement):
         self.wait_until_clickable()
         self._only_click()
 
+    def __conditional_selected_state_click(self, condition_state):
+        self.find_if_not_found()
+        self.wait_until_clickable()
+        if self.is_selected() == condition_state:
+            self._only_click()
+
+    def select(self):
+        self.__conditional_selected_state_click(False)
+
+    def deselect(self):
+        self.__conditional_selected_state_click(True)
+
     def wait_until_clickable(self):
         self.find_if_not_found()
         self._act(ElementActionBodyCreator.wait_until_clickable(**self._noargs()))

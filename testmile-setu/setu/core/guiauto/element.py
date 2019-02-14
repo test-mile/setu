@@ -45,18 +45,10 @@ class GuiElement(GuiGenericElement):
     ### Checkbox abstraction
     #################################
     def check(self):
-        self._find_if_not_found()
-        self.wait_until_visible()
-        if self.is_selected() is not True:
-            self.wait_until_clickable()
-            self._only_click()
+        self.select()
 
     def uncheck(self):
-        self._find_if_not_found()
-        self.wait_until_visible()
-        if self.is_selected() is True:
-            self.wait_until_clickable()
-            self._only_click()
+        self.deselect()
 
     def toggle_checkbox(self):
         self.click()
