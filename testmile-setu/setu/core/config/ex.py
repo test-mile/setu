@@ -1,4 +1,4 @@
-ex = {
+EX_CONFIG = {
 
 		"ROOT_DIR" :  "/Users/rahulverma/Documents/github_tm/daksha/daksha-examples/",
 		"LOG_DIR" : "/Users/rahulverma/Documents/github_tm/daksha/daksha-examples/log/",

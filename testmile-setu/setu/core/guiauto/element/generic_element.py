@@ -1,7 +1,7 @@
-from .base_element import BaseElement
-from .element_actions import *
-from .element_container import ElementContainer
-from .emd import SimpleGuiElementMetaData
+from setu.core.guiauto.element.base_element import BaseElement
+from setu.core.guiauto.actions.element_actions import *
+from setu.core.guiauto.base.element_container import ElementContainer
+from setu.core.guiauto.locator.emd import SimpleGuiElementMetaData
 
 class GuiGenericElement(BaseElement):
     def __init__(self, automator, emd, uri_format):

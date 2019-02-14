@@ -1,5 +1,5 @@
 from setu.core.lib.setu_types import SetuManagedObject
-from .element import GuiElement
+from setu.core.guiauto.element.guielement import GuiElement
 
 # UUID is for client reference. Agent does not know about this.
 class GuiWebSelect(SetuManagedObject):

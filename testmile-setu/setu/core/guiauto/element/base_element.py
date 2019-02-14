@@ -1,10 +1,10 @@
 import abc
 
-from .element_container import ElementContainer
+from setu.core.guiauto.base.element_container import ElementContainer
 
 class BaseElement(ElementContainer, metaclass=abc.ABCMeta):
     def __init__(self, automator, emd):
-        super().__init__(automator.get_agent_requester())
+        super().__init__(automator.config, automator.agent_requester)
         self.__automator = automator
         self.__emd = emd
         self.__found = False

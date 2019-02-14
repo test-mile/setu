@@ -1,5 +1,5 @@
-from .generic_element import GuiGenericElement
-from .element_actions import ElementActionBodyCreator
+from setu.core.guiauto.element.generic_element import GuiGenericElement
+from setu.core.guiauto.actions.element_actions import ElementActionBodyCreator
 
 class GuiElement(GuiGenericElement):
     

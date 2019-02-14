@@ -1,26 +1,23 @@
-from .config_utils import Config
-from .automator_actions import TestAutomatorActionBodyCreator
+from setu.core.config.config_utils import Config
+from setu.core.guiauto.actions.automator_actions import \
+    TestAutomatorActionBodyCreator
+from setu.core.config.config_types import SetuConfigOption
 
-class WindowHandler:
+from .guiautomator import GuiAutomator
+from .handler import Handler
 
-    def __init__(self, automator):
-        self.__automator = automator
-        self.__config = Config(automator.get_config())
-        self._req_call = self.__automator._act
+class WindowHandler(Handler):
+
+    def __init__(self, automator: GuiAutomator):
+        super().__init__(automator)
         self._main_win_handle = self.get_current_window_handle()
-
-    def get_req_call(self):
-        return self._req_call
-
-    def get_config(self):
-        return self.__config
 
     def resize_window_as_per_config(self):
         # Resize window
-        config = self.get_config()
-        browser_width = config.value("BROWSER_DIM_WIDTH")
-        browser_height = config.value("BROWSER_DIM_HEIGHT")
-        should_maximize = config.value("BROWSER_MAXIMIZE")
+        config = self.config
+        browser_width = config.value(SetuConfigOption.BROWSER_DIM_WIDTH)
+        browser_height = config.value(SetuConfigOption.BROWSER_DIM_HEIGHT)
+        should_maximize = config.value(SetuConfigOption.BROWSER_MAXIMIZE)
 
         if config.is_not_set(browser_width) and config.is_not_set(browser_height):
             if should_maximize:
@@ -46,7 +43,7 @@ class WindowHandler:
         self.switch_to_window(self._main_win_handle)
 
     def switch_to_window(self, handle):
-        self.get_req_call()(TestAutomatorActionBodyCreator.switch_to_window(handle))
+        self._act(TestAutomatorActionBodyCreator.switch_to_window(handle))
 
     def close_all_child_windows(self):
         for handle in self.get_all_child_window_handles():
@@ -55,26 +52,26 @@ class WindowHandler:
         self.switch_to_main_window()
 
     def get_window_title(self):
-        response = self.get_req_call()(TestAutomatorActionBodyCreator.get_window_title())
+        response = self._act(TestAutomatorActionBodyCreator.get_window_title())
         return response["data"]["title"]
 
     def get_current_window_handle(self):
-        response = self.get_req_call()(TestAutomatorActionBodyCreator.get_current_window_handle())
+        response = self._act(TestAutomatorActionBodyCreator.get_current_window_handle())
         return response["data"]["handle"]
 
     def maximize_window(self):
-        self.get_req_call()(TestAutomatorActionBodyCreator.maximize_window())
+        self._act(TestAutomatorActionBodyCreator.maximize_window())
 
     def get_current_window_size(self):
-        response = self.get_req_call()(TestAutomatorActionBodyCreator.get_current_window_size())
+        response = self._act(TestAutomatorActionBodyCreator.get_current_window_size())
         size = response["data"]["size"]
         return size["width"], size["height"]
 
     def set_window_size(self, width, height):
-        self.get_req_call()(TestAutomatorActionBodyCreator.set_window_size(width, height))
+        self._act(TestAutomatorActionBodyCreator.set_window_size(width, height))
 
     def get_all_window_handles(self):
-        response = self.get_req_call()(TestAutomatorActionBodyCreator.get_all_window_handles())
+        response = self._act(TestAutomatorActionBodyCreator.get_all_window_handles())
         return response["data"]["handles"]
 
     def is_main_window(self):
@@ -82,6 +79,5 @@ class WindowHandler:
 
     def close_current_window(self):
         if not self.is_main_window():
-            self.get_req_call()(TestAutomatorActionBodyCreator.close_current_window())
+            self._act(TestAutomatorActionBodyCreator.close_current_window())
             self.switch_to_main_window()
-

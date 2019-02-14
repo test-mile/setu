@@ -1,5 +1,5 @@
 
-from .core.guiauto.automator import GuiAutomator
-from .core.guiauto.emd import GuiElementMetaData, SimpleGuiElementMetaData
+from .core.guiauto.automator.guiautomator import GuiAutomator
+from .core.guiauto.locator.emd import GuiElementMetaData, SimpleGuiElementMetaData
 
 __all__ = ["GuiAutomator", "GuiElementMetaData", "SimpleGuiElementMetaData"]
