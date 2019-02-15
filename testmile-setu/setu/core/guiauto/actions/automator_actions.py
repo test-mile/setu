@@ -72,3 +72,35 @@ class TestAutomatorActionBodyCreator:
     @classmethod
     def execute_javascript(cls, script):
         return cls._create_json_dict("EXECUTE_JAVASCRIPT", script=script)
+
+    @classmethod
+    def is_alert_present(cls):
+        return cls._create_json_dict("IS_ALERT_PRESENT")
+
+    @classmethod
+    def confirm_alert(cls):
+        return cls._create_json_dict("CONFIRM_ALERT")
+
+    @classmethod
+    def dismiss_alert(cls):
+        return cls._create_json_dict("DISMISS_ALERT")
+
+    @classmethod
+    def send_text_to_alert(cls, text):
+        return cls._create_json_dict("SEND_TEXT_TO_ALERT",text=text)
+
+    @classmethod
+    def get_text_from_alert(cls):
+        return cls._create_json_dict("GET_TEXT_FROM_ALERT")
+
+    @classmethod
+    def switch_to_view_context(cls, view_name):
+        return cls._create_json_dict("SWITCH_TO_VIEW_CONTEXT",viewContext=view_name)
+
+    @classmethod
+    def get_current_view_context(cls):
+        return cls._create_json_dict("GET_CURRENT_VIEW_CONTEXT")
+
+    @classmethod
+    def get_all_view_contexts(cls):
+        return cls._create_json_dict("GET_ALL_VIEW_CONTEXTS")

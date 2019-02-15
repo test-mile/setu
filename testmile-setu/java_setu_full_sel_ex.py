@@ -21,67 +21,6 @@ automator.create_element_with_locator("id","user_pass").set_text("bitnami")
 automator.create_element_with_locator("id","wp-submit").click()
 automator.create_element_with_locator("class_name","welcome-view-site").wait_until_clickable()
 
-#####################
-# Take screenshot
-#####################
-# automator.take_screenshot()
-
-#####################
-# Window Handling
-#####################
-
-# win_handler = automator.window_handler
-# print(win_handler.get_current_window_handle())
-# print(win_handler.get_current_window_size())
-# print(win_handler.get_all_window_handles())
-# win_handler.set_window_size(200,400)
-# time.sleep(5)
-# win_handler.maximize_window()
-# time.sleep(5)
-# print(win_handler.get_window_title())
-# automator.execute_javascript("window.open('google.com')")
-# print(win_handler.get_all_window_handles())
-# print(win_handler.get_window_title())
-# time.sleep(5)
-# win_handler.switch_to_new_window()
-# print(win_handler.get_window_title())
-# win_handler.close_current_window()
-# time.sleep(5)
-# automator.execute_javascript("window.open('google.com')")
-# print(win_handler.get_all_window_handles())
-# time.sleep(5)
-# automator.execute_javascript("window.open('yahoo.com')")
-# print(win_handler.get_all_window_handles())
-# time.sleep(5)
-# automator.execute_javascript("window.open('bing.com')")
-# print(win_handler.get_all_window_handles())
-# time.sleep(5)
-# win_handler.close_all_child_windows()
-# print(win_handler.get_window_title())
-# time.sleep(5)
-# win_handler.close_current_window()
-
-#####################
-# Multi-Element
-#####################
-
-# automator.create_element_with_locator("link_text","Posts").click()
-# automator.create_element_with_locator("link_text","Categories").click()
-# checkboxes = automator.create_multielement_with_locator("name","delete_tags[]")
-# checkboxes.get_instance_at_index(0).check()
-# checkboxes.get_instance_at_index(0).uncheck()
-# checkboxes.get_instance_at_index(0).check()
-# # Should not change the state
-# checkboxes.get_instance_at_index(0).check()
-
-#####################
-# Set/Enter Text
-#####################
-
-# automator.create_element_with_locator("link_text","Settings").click()
-# blog_name = automator.create_element_with_locator("id", "blogname")
-# blog_name.enter_text("Hello")
-# blog_name.set_text("Hello")
 
 #####################
 # Select
@@ -162,7 +101,7 @@ automator.create_element_with_locator("class_name","welcome-view-site").wait_unt
 # time.sleep(5)
 
 ######################
-# Context
+# Alert Handling
 ######################
 
 

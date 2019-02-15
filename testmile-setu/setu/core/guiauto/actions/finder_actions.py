@@ -3,9 +3,9 @@
 class FinderActions:
 
     @classmethod
-    def find_first_element(cls, **kwargs):
+    def retain_first_element(cls, **kwargs):
         return {
-            "action" : "FIND_ELEMENT",
+            "action" : "RETAIN_FIRST_ELEMENT",
             "args" : kwargs
         }
 

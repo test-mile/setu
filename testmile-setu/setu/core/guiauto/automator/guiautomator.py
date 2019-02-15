@@ -1,16 +1,17 @@
+import base64
 import os
 import time
-import base64
 
-from setu.core.webclient.requester import SetuAgentRequester
+from setu.core.config.config_types import SetuConfigOption
 from setu.core.guiauto.actions.automator_actions import *
-from setu.core.guiauto.element.guielement import GuiElement
-from setu.core.guiauto.element.multielement import GuiMultiElement
-from setu.core.guiauto.locator.emd import SimpleGuiElementMetaData
 from setu.core.guiauto.base.element_container import ElementContainer
 from setu.core.guiauto.element.dropdown import GuiWebSelect
+from setu.core.guiauto.element.guielement import GuiElement
+from setu.core.guiauto.element.multielement import GuiMultiElement
 from setu.core.guiauto.element.radio_group import GuiWebRadioGroup
-from setu.core.config.config_types import SetuConfigOption
+from setu.core.guiauto.locator.emd import SimpleGuiElementMetaData
+from setu.core.webclient.requester import SetuAgentRequester
+
 
 class GuiAutomator(ElementContainer):
 
@@ -21,7 +22,13 @@ class GuiAutomator(ElementContainer):
         self.__window_handler = None
 
         from .frame_handler import FrameHandler
+        from .alert_handler import AlertHandler
+        from .automator_conditions import GuiAutomatorConditions
+        from .viewcontext_handler import ViewContextHandler
         self.__frame_handler = FrameHandler(self)
+        self.__alert_handler = AlertHandler(self)
+        self.__conditions_handler = GuiAutomatorConditions(self)
+        self.__view_handler = ViewContextHandler(self)
 
     @property
     def window_handler(self):
@@ -30,6 +37,18 @@ class GuiAutomator(ElementContainer):
     @property
     def frame_handler(self):
         return self.__frame_handler
+
+    @property
+    def alert_handler(self):
+        return self.__alert_handler
+
+    @property
+    def view_handler(self):
+        return self.__view_handler
+
+    @property
+    def conditions(self):
+        return self.__conditions_handler
 
     def __create_screenshots_dir(self):
         sdir = self.config.value(SetuConfigOption.SCREENSHOTS_DIR)
@@ -52,8 +71,23 @@ class GuiAutomator(ElementContainer):
     def quit(self):
         self._get("/quit")
 
-    def take_screenshot(self):
+    def __screenshot(self):
+        switch_view_context = None
+        if self.config.value(SetuConfigOption.TESTRUN_TARGET_PLATFORM).lower() == "android": 
+            view_name = self.view_handler.get_current_view_context()   
+            if self.view_handler._does_name_represent_web_view(view_name) :
+                self.view_handler.switch_to_native_view() 
+                switch_view_context = view_name
+
         response = self._get("/screenshot")
+
+        if switch_view_context:
+            self.view_handler.switch_to_view_context(switch_view_context)
+        
+        return response
+
+    def take_screenshot(self):
+        response = self.__screenshot()
         image = base64.b64decode(response["data"]["codedImage"])
         path = os.path.join(self.config.value(SetuConfigOption.SCREENSHOTS_DIR), "{}.png".format(str(time.time()).replace(".","-")))
         f = open(path, "wb")

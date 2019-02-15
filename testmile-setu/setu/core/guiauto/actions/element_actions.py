@@ -21,16 +21,16 @@ class ElementActionBodyCreator:
         return cls._create_json_dict("SEND_TEXT", **kwargs)
 
     @classmethod
-    def wait_until_clickable(cls, **kwargs):
-        return cls._create_json_dict("WAIT_UNTIL_CLICKABLE", **kwargs)
-
-    @classmethod
-    def wait_until_visible(cls, **kwargs):
-        return cls._create_json_dict("WAIT_UNTIL_VISIBLE", **kwargs)
-
-    @classmethod
     def is_selected(cls, **kwargs):
         return cls._create_json_dict("IS_SELECTED", **kwargs)
+
+    @classmethod
+    def is_visible(cls, **kwargs):
+        return cls._create_json_dict("IS_VISIBLE", **kwargs)
+
+    @classmethod
+    def is_clickable(cls, **kwargs):
+        return cls._create_json_dict("IS_CLICKABLE", **kwargs)
 
     @classmethod
     def get_tag_name(cls, **kwargs):

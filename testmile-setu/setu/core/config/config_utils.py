@@ -1,6 +1,20 @@
 from .config_types import SetuConfigOption
+from enum import Enum, auto
+
+class GuiAutomationContext(Enum):
+	WEB = auto()
+	NATIVE = auto()
+	SCREEN = auto()
+	ANDROID_WEB = auto()
+	IOS_WEB = auto()
+	ANDROID_NATIVE = auto()
+	IOS_NATIVE = auto()
 
 class Config:
+    DESKTOP_CONTEXTS = {GuiAutomationContext.NATIVE, GuiAutomationContext.WEB}
+    MOBILE_WEB_CONTEXTS = {GuiAutomationContext.ANDROID_WEB, GuiAutomationContext.IOS_WEB}
+    ALL_WEB_CONTEXTS = {GuiAutomationContext.WEB, GuiAutomationContext.ANDROID_WEB, GuiAutomationContext.IOS_WEB}
+    MOBILE_NATIVE_CONTEXTS = {GuiAutomationContext.ANDROID_NATIVE, GuiAutomationContext.IOS_NATIVE}
 
     def __init__(self, config_enum_class, config_dict):
         self.__key_enum_class = config_enum_class
@@ -28,6 +42,20 @@ class Config:
     def as_json_dict(self):
         return {k.name: v for k,v in self.__config_dict.items()}
 
+    def get_guiauto_context(self):
+        return GuiAutomationContext[self.value(SetuConfigOption.GUIAUTO_CONTEXT).upper()]
+
+    def has_desktop_context(self):
+        return self.get_guiauto_context() in self.DESKTOP_CONTEXTS
+
+    def has_mobile_web_context(self):
+        return self.get_guiauto_context() in self.MOBILE_WEB_CONTEXTS
+
+    def has_mobile_native_context(self):
+        return self.get_guiauto_context() in self.MOBILE_NATIVE_CONTEXTS
+
+    def has_web_context(self):
+        return self.get_guiauto_context() in self.ALL_WEB_CONTEXTS
 
 class SetuConfig(Config):
 
