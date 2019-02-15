@@ -3,14 +3,14 @@
 class FinderActions:
 
     @classmethod
-    def retain_first_element(cls, **kwargs):
+    def find_element(cls, **kwargs):
         return {
-            "action" : "RETAIN_FIRST_ELEMENT",
+            "action" : "FIND_ELEMENT",
             "args" : kwargs
         }
 
     @classmethod
-    def find_multi_element(cls, **kwargs):
+    def find_multielement(cls, **kwargs):
         return {
             "action" : "FIND_MULTIELEMENT",
             "args" : kwargs

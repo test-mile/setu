@@ -39,11 +39,11 @@ class ElementContainer(SetuAgentProxy, metaclass=abc.ABCMeta):
     def create_multielement_with_locator(self, locator_name, locator_value):
         return self.create_multielement(SimpleGuiElementMetaData(locator_name, locator_value))
 
-    def _find(self, gui_element):
+    def _find(self, json_creator, gui_element):
         found = False
         for locator_type, locator_value in gui_element.get_locator_meta_data().get_locators(): 
             try:
-                body = self._act(FinderActions.find_multi_element(
+                body = self._act(json_creator(
                     uuid=gui_element.get_setu_id(),
                     byType=locator_type,
                     byValue=locator_value
@@ -54,15 +54,17 @@ class ElementContainer(SetuAgentProxy, metaclass=abc.ABCMeta):
         if not found:
             raise Exception("Could not locate elements with locator(s): {}".format(gui_element.get_locator_meta_data().get_locators()))
 
-    def wait_until_found(self, gui_element):
-        return self.__container_conditions.PresenceOf(gui_element).wait()
+    def wait_until_element_found(self, gui_element):
+        return self.__container_conditions.PresenceOfElement(gui_element).wait()
+
+    def wait_until_multielement_found(self, gui_element):
+        return self.__container_conditions.PresenceOfMultiElement(gui_element).wait()
 
     def find_multielement(self, gui_element):
-        locator_type, locator_value, body = self.wait_until_found(gui_element)
+        locator_type, locator_value, body = self.wait_until_multielement_found(gui_element)
         gui_element.set_found_with(locator_type, locator_value)
         gui_element.set_instance_count(body["data"]["instanceCount"])
 
     def find_element(self, gui_element):
-        locator_type, locator_value, __ = self.wait_until_found(gui_element)
+        locator_type, locator_value, __ = self.wait_until_element_found(gui_element)
         gui_element.set_found_with(locator_type, locator_value)
-        self._act(FinderActions.retain_first_element(uuid=gui_element.get_setu_id()))
