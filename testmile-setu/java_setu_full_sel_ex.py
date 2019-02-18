@@ -100,10 +100,6 @@ automator.create_element_with_locator("class_name","welcome-view-site").wait_unt
 # automator.create_element_with_locator("id","publish").click()
 # time.sleep(5)
 
-######################
-# Alert Handling
-######################
-
 
 
 #automator.go_to("http://192.168.56.103/wp-login.php?action=logout")

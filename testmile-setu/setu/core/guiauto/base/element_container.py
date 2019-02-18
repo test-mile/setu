@@ -20,6 +20,12 @@ class ElementContainer(SetuAgentProxy, metaclass=abc.ABCMeta):
     def _add_multielement(self, setu_id, melement):
         self.melement_map[setu_id] = melement
 
+    def get_element_for_setu_id(self,id):
+        return self.element_map[id]
+
+    def get_multielement_for_setu_id(self,id):
+        return self.melement_map[id]
+
     def create_element(self, locator_meta_data):
         from setu.core.guiauto.element.guielement import GuiElement
         elem = GuiElement(self, locator_meta_data)

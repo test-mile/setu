@@ -58,6 +58,11 @@ class GuiElement(BaseElement):
         response = self._act(ElementActionBodyCreator.get_attr_value(**self._kwargs(attr=attr)))
         return self.__return_attr_value(response)
 
+    def get_text_content(self):
+        self.find_if_not_found()
+        response = self._act(ElementActionBodyCreator.get_text_content(**self._noargs()))
+        return self.__return_attr_value(response)
+
     def click(self):
         self.find_if_not_found()
         self.wait_until_clickable()

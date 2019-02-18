@@ -7,7 +7,7 @@ class AlertHandler(Handler):
     def __init__(self, automator):
         super().__init__(automator)
 
-    def wait_for_alert(self):
+    def wait(self):
         self.automator.conditions.AlertIsPresent().wait()
 
     def is_alert_present(self):
@@ -15,19 +15,19 @@ class AlertHandler(Handler):
         return response["data"]["checkResult"]
 
     def confirm_alert(self):
-        self.wait_for_alert()
+        self.wait()
         self._act(TestAutomatorActionBodyCreator.confirm_alert())
 
     def dismiss_alert(self):
-        self.wait_for_alert()
+        self.wait()
         self._act(TestAutomatorActionBodyCreator.dismiss_alert())
 
     def send_text_to_alert(self, text):
-        self.wait_for_alert()
+        self.wait()
         self._act(TestAutomatorActionBodyCreator.send_text_to_alert(text))
 
     def get_text_from_alert(self):
-        self.wait_for_alert()
+        self.wait()
         response = self._act(TestAutomatorActionBodyCreator.get_text_from_alert())
         return response["data"]["text"]
 

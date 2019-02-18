@@ -1,6 +1,6 @@
 import time
 
-from setu import GuiAutomator, SimpleGuiElementMetaData
+from setu import GuiAutomator
 from setu.core.config.ex import EX_CONFIG
 from setu.core.config.config_utils import SetuConfig
 

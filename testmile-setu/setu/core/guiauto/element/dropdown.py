@@ -28,8 +28,9 @@ class GuiWebSelect(SetuManagedObject):
     def has_visible_text_selected(self, text):
         return self.__options.get_instance_by_visible_text(text).is_selected()
 
-    def get_first_selected_option(self):
-        return self.__options.get_first_selected_instance()
+    def get_first_selected_option_text(self):
+        option = self.__options.get_first_selected_instance()
+        return option.get_text_content()
 
     def select_by_index(self, index):
         self.__options.get_instance_at_index(index).select()

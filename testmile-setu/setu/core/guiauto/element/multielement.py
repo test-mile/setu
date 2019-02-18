@@ -56,28 +56,23 @@ class GuiMultiElement(BaseElement):
 
     def get_tag_names(self):
         self.find_if_not_found()
-        response = self._act(ElementActionBodyCreator.get_tag_name())
-        return self.__return_attr_values(response)
+        return [instance.get_tag_name() for instance in self.__instances]
 
     def get_text_contents(self):
         self.find_if_not_found()
-        response = self._act(ElementActionBodyCreator.get_text_content())
-        return self.__return_attr_values(response)
+        return [instance.get_text_content() for instance in self.__instances]
 
     def get_values(self):
         self.find_if_not_found()
-        response = self._act(ElementActionBodyCreator.get_attr_value(attr="value"))
-        return self.__return_attr_values(response)
+        return [instance.get_attr_value("value") for instance in self.__instances]
 
     def get_attr_values(self, attr):
         self.find_if_not_found()
-        response = self._act(ElementActionBodyCreator.get_attr_value(attr=attr))
-        return self.__return_attr_values(response)
+        return [instance.get_attr_value(attr=attr) for instance in self.__instances]
 
     def are_selected(self):
         self.find_if_not_found()
-        response = self._act(ElementActionBodyCreator.is_selected())
-        return self.__return_attr_values(response)
+        return [instance.is_selected() for instance in self.__instances]
 
     # getting index attribute when it does not exist retursn value attribute.
     # So, not going the Selenium way. Setu would treat index as computer counting.
