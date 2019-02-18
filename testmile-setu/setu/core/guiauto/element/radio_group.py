@@ -28,8 +28,9 @@ class GuiWebRadioGroup(SetuManagedObject):
     def has_value_selected(self, value):
         return self._radios.get_instance_by_value(value).is_selected()
 
-    def get_first_selected_option(self):
-        return self._radios.get_first_selected_instance()
+    def get_first_selected_option_value(self):
+        instance = self._radios.get_first_selected_instance()
+        return instance.get_attr_value("value")
 
     def select_by_index(self, index):
         self._radios.get_instance_at_index(index).select()

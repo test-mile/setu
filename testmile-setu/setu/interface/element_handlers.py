@@ -43,16 +43,42 @@ class DropdownHandler:
 
     @classmethod
     def get_first_selected_option_text(cls, dropdown):
-        return {"checkResult" : dropdown.get_first_selected_option_text()}
+        return {"text" : dropdown.get_first_selected_option_text()}
 
     @classmethod
     def select_by_visible_text(cls, dropdown, text):
-        return {"checkResult" : dropdown.select_by_visible_text(text)}
+        return dropdown.select_by_visible_text(text)
 
     @classmethod
     def select_by_value(cls, dropdown, value):
-        return {"checkResult" : dropdown.select_by_value(value)}
+        return dropdown.select_by_value(value)
 
     @classmethod
     def select_by_index(cls, dropdown, index):
-        return {"checkResult" : dropdown.select_by_index(index)}
+        return dropdown.select_by_index(index)
+
+class RadioGroupHandler:
+
+    @classmethod
+    def has_visible_text_selected(cls, radiogroup, text):
+        return {"checkResult" : radiogroup.has_visible_text_selected(text)}
+
+    @classmethod
+    def has_value_selected(cls, radiogroup, value):
+        return {"checkResult" : radiogroup.has_value_selected(value)}
+
+    @classmethod
+    def has_index_selected(cls, radiogroup, index):
+        return {"checkResult" : radiogroup.has_index_selected(index)}
+
+    @classmethod
+    def get_first_selected_option_value(cls, radiogroup):
+        return {"value" : radiogroup.get_first_selected_option_value()}
+
+    @classmethod
+    def select_by_value(cls, radiogroup, value):
+        return radiogroup.select_by_value(value)
+
+    @classmethod
+    def select_by_index(cls, radiogroup, index):
+        return radiogroup.select_by_index(index)

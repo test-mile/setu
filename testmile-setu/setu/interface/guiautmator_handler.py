@@ -49,6 +49,10 @@ class GuiAutomatorHandler:
         dropdown =  self.automator.get_element_for_setu_id(elem_setu_id)
         return getattr(DropdownHandler, action)(dropdown, **json_dict)
 
+    def take_radiogroup_action(self, action, elem_setu_id, json_dict):
+        radiogroup =  self.automator.get_element_for_setu_id(elem_setu_id)
+        return getattr(RadioGroupHandler, action)(radiogroup, **json_dict)
+
     def take_multielement_action(self, action, elem_setu_id, json_dict):
         multi_element =  self.automator.get_multielement_for_setu_id(elem_setu_id)
         is_instance_action = json_dict["isInstanceAction"]
@@ -84,3 +88,8 @@ class GuiAutomatorHandler:
         element =  self.automator.get_element_for_setu_id(elementSetuId)
         dropdown = self.automator.convert_to_select(element)
         return {"dropdownSetuId" : dropdown.setu_id}
+
+    def convert_element_to_radiogroup(self, elementSetuId):
+        element =  self.automator.get_multielement_for_setu_id(elementSetuId)
+        radiogroup = self.automator.convert_to_radiogroup(element)
+        return {"radiogroupSetuId" : radiogroup.setu_id}

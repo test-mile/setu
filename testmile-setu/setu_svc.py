@@ -12,5 +12,6 @@ api.add_resource(AutomatorActionSvc, '/guiautomator/action', endpoint='guiauto_a
 api.add_resource(ElementActionSvc, '/guiautomator/element/action', endpoint='guielem_action')
 api.add_resource(MultiElementActionSvc, '/guiautomator/multielement/action', endpoint='guimultielem_action')
 api.add_resource(DropDownActionSvc, '/guiautomator/dropdown/action', endpoint='dropdown_action')
+api.add_resource(RadioGroupActionSvc, '/guiautomator/radiogroup/action', endpoint='radiogroup_action')
 # api.add_resource(ItemList, '/items', endpoint='items')
 app.run(port=9000, debug=True)

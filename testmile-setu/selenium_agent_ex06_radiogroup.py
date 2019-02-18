@@ -21,15 +21,22 @@ automator.create_element_with_locator("id","user_pass").set_text("bitnami")
 automator.create_element_with_locator("id","wp-submit").click()
 automator.create_element_with_locator("class_name","welcome-view-site").wait_until_clickable()
 
+#####################
+# Radio Group
+#####################
+
 automator.create_element_with_locator("link_text","Settings").click()
-role_select = automator.convert_to_select(automator.create_element_with_locator("id","default_role"))
-print(role_select.has_visible_text_selected("Subscriber"))
-print(role_select.has_value_selected("subscriber"))
-print(role_select.has_index_selected(2))
-print(role_select.get_first_selected_option_text())
-role_select.select_by_value("editor")
-role_select.select_by_visible_text("Subscriber")
-role_select.select_by_index(4)
+data_format = automator.convert_to_radiogroup(automator.create_multielement_with_locator("name", "date_format"))
+time.sleep(2)
+print(data_format.has_value_selected("Y-m-d"))
+time.sleep(2)
+print(data_format.has_index_selected(1))
+time.sleep(2)
+print(data_format.get_first_selected_option_value())
+time.sleep(2)
+data_format.select_by_value(r'\c\u\s\t\o\m')
+time.sleep(2)
+data_format.select_by_index(2)
 
 #automator.go_to("http://192.168.56.103/wp-login.php?action=logout")
 #automator.quit()

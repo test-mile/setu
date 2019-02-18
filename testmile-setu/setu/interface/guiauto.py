@@ -103,3 +103,23 @@ class DropDownActionSvc(Resource):
                 'emessage' : str(e),
                 'etrace' : traceback.format_exc()
             }, 500
+
+class RadioGroupActionSvc(Resource):
+
+    def post(self):
+        try:
+            json_dict = request.get_json(force=True)
+            handler = get_handler(json_dict)
+            del json_dict["args"]["automatorSetuId"]
+            elem_setu_id = json_dict["args"]["radiogroupSetuId"]
+            del json_dict["args"]["radiogroupSetuId"]
+            output = handler.take_radiogroup_action(json_dict["action"].lower(), elem_setu_id, json_dict["args"])
+            return {'result' : 'success', 'responseData':output}, 200
+        except Exception as e:
+            print(e)
+            import traceback
+            return {
+                'result' : 'ERROR',
+                'emessage' : str(e),
+                'etrace' : traceback.format_exc()
+            }, 500
