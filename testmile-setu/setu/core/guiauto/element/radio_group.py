@@ -4,9 +4,9 @@ from .multielement import GuiMultiElement
 # UUID is for client reference. Agent does not know about this.
 class GuiWebRadioGroup(SetuManagedObject):
 
-    def __init__(self, gui_main_multielement: GuiMultiElement):
+    def __init__(self, element_container, locator_name, locator_value):
         super().__init__()
-        self._radios = gui_main_multielement
+        self._radios = element_container.create_multielement_with_locator(locator_name, locator_value)
         self._validate_radio_buttons()
 
     def _validate_radio_buttons(self):

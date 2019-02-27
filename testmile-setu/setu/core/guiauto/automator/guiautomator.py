@@ -5,10 +5,8 @@ import time
 from setu.core.config.config_types import SetuConfigOption
 from setu.core.guiauto.actions.automator_actions import *
 from setu.core.guiauto.base.element_container import ElementContainer
-from setu.core.guiauto.element.dropdown import GuiWebSelect
 from setu.core.guiauto.element.guielement import GuiElement
 from setu.core.guiauto.element.multielement import GuiMultiElement
-from setu.core.guiauto.element.radio_group import GuiWebRadioGroup
 from setu.core.guiauto.locator.emd import SimpleGuiElementMetaData
 from setu.core.webclient.requester import SetuAgentRequester
 
@@ -99,13 +97,3 @@ class GuiAutomator(ElementContainer):
 
     def execute_javascript(self, js):
         self._act(TestAutomatorActionBodyCreator.execute_javascript(js))
-
-    def convert_to_select(self, gui_element):
-        select = GuiWebSelect(gui_element)
-        self._add_element(select.get_setu_id(), select)
-        return select
-
-    def convert_to_radiogroup(self, gui_multielement):
-        rg = GuiWebRadioGroup(gui_multielement)
-        self._add_element(rg.get_setu_id(), rg)
-        return rg

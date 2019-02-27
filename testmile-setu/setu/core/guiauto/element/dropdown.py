@@ -4,14 +4,14 @@ from setu.core.guiauto.element.guielement import GuiElement
 # UUID is for client reference. Agent does not know about this.
 class GuiWebSelect(SetuManagedObject):
 
-    def __init__(self, gui_main_element: GuiElement):
+    def __init__(self, element_container, locator_name, locator_value):
         super().__init__()
-        self._wrapped_main_element = gui_main_element
+        self._wrapped_main_element = element_container.create_element_with_locator(locator_name, locator_value)
         tag = self._wrapped_main_element.get_tag_name()
         if tag.lower() != "select":
             raise Exception("The element should have a 'select' tag for WebSelect element. Found: " + tag)
         self._multi = self.__is_multi_select()
-        self.__options = gui_main_element.create_multielement_with_locator("tag_name", "option")
+        self.__options = self._wrapped_main_element.create_multielement_with_locator("tag_name", "option")
 
     def __is_multi_select(self):
         return self._wrapped_main_element.get_attr_value("multiple") is True or self._wrapped_main_element.get_attr_value("multi") is True

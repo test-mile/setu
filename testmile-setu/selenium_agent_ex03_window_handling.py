@@ -4,18 +4,10 @@ from setu import GuiAutomator, SimpleGuiElementMetaData
 from setu.core.config.ex import EX_CONFIG
 from setu.core.config.config_utils import SetuConfig
 
-#####################
-# Creating Gui Automator
-#####################
+from wp_login_logout import login, logout
 
 automator = GuiAutomator("http://localhost:9898", SetuConfig(EX_CONFIG))
-automator.launch()
-
-#####################
-# Basic Login Example
-#####################
-
-automator.go_to("http://192.168.56.103/wp-admin")
+login(automator)
 
 win_handler = automator.window_handler
 print(win_handler.get_current_window_handle())
@@ -48,5 +40,4 @@ print(win_handler.get_window_title())
 time.sleep(5)
 win_handler.close_current_window()
 
-#automator.go_to("http://192.168.56.103/wp-login.php?action=logout")
-#automator.quit()
+logout(automator)

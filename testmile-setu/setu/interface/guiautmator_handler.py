@@ -42,13 +42,11 @@ class GuiAutomatorHandler:
         return {"elementSetuId" : elem.setu_id}
 
     def create_dropdown(self, withType, withValue):
-        element = self.automator.create_element_with_locator(withType, withValue)
-        dropdown = self.automator.convert_to_select(element)
+        dropdown = self.automator.create_dropdown(withType, withValue)
         return {"elementSetuId" : dropdown.setu_id}
 
     def create_radiogroup(self, withType, withValue):
-        element = self.automator.create_multielement_with_locator(withType, withValue)
-        radiogroup = self.automator.convert_to_radiogroup(element)
+        radiogroup = self.automator.create_radiogroup(withType, withValue)
         return {"elementSetuId" : radiogroup.setu_id}
 
     def take_element_action(self, action, elem_setu_id, json_dict):
