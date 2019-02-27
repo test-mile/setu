@@ -39,7 +39,17 @@ class GuiAutomatorHandler:
 
     def create_multielement(self, withType, withValue):
         elem = self.automator.create_multielement_with_locator(withType, withValue)
-        return {"multiElementSetuId" : elem.setu_id}
+        return {"elementSetuId" : elem.setu_id}
+
+    def create_dropdown(self, withType, withValue):
+        element = self.automator.create_element_with_locator(withType, withValue)
+        dropdown = self.automator.convert_to_select(element)
+        return {"elementSetuId" : dropdown.setu_id}
+
+    def create_radiogroup(self, withType, withValue):
+        element = self.automator.create_multielement_with_locator(withType, withValue)
+        radiogroup = self.automator.convert_to_radiogroup(element)
+        return {"elementSetuId" : radiogroup.setu_id}
 
     def take_element_action(self, action, elem_setu_id, json_dict):
         element =  self.automator.get_element_for_setu_id(elem_setu_id)
@@ -83,13 +93,3 @@ class GuiAutomatorHandler:
             return {"text" : getattr(self.automator.window_handler, handle_type)()}
         else:
             return getattr(self.automator.window_handler, handle_type)()     
-
-    def convert_element_to_dropdown(self, elementSetuId):
-        element =  self.automator.get_element_for_setu_id(elementSetuId)
-        dropdown = self.automator.convert_to_select(element)
-        return {"dropdownSetuId" : dropdown.setu_id}
-
-    def convert_element_to_radiogroup(self, elementSetuId):
-        element =  self.automator.get_multielement_for_setu_id(elementSetuId)
-        radiogroup = self.automator.convert_to_radiogroup(element)
-        return {"radiogroupSetuId" : radiogroup.setu_id}

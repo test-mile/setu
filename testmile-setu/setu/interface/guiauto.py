@@ -71,8 +71,8 @@ class MultiElementActionSvc(Resource):
             json_dict = request.get_json(force=True)
             handler = get_handler(json_dict)
             del json_dict["args"]["automatorSetuId"]
-            elem_setu_id = json_dict["args"]["multiElementSetuId"]
-            del json_dict["args"]["multiElementSetuId"]
+            elem_setu_id = json_dict["args"]["elementSetuId"]
+            del json_dict["args"]["elementSetuId"]
             output = handler.take_multielement_action(json_dict["action"].lower(), elem_setu_id, json_dict["args"])
             return {'result' : 'success', 'responseData':output}, 200
         except Exception as e:
@@ -91,8 +91,8 @@ class DropDownActionSvc(Resource):
             json_dict = request.get_json(force=True)
             handler = get_handler(json_dict)
             del json_dict["args"]["automatorSetuId"]
-            elem_setu_id = json_dict["args"]["dropdownSetuId"]
-            del json_dict["args"]["dropdownSetuId"]
+            elem_setu_id = json_dict["args"]["elementSetuId"]
+            del json_dict["args"]["elementSetuId"]
             output = handler.take_dropdown_action(json_dict["action"].lower(), elem_setu_id, json_dict["args"])
             return {'result' : 'success', 'responseData':output}, 200
         except Exception as e:
@@ -111,8 +111,8 @@ class RadioGroupActionSvc(Resource):
             json_dict = request.get_json(force=True)
             handler = get_handler(json_dict)
             del json_dict["args"]["automatorSetuId"]
-            elem_setu_id = json_dict["args"]["radiogroupSetuId"]
-            del json_dict["args"]["radiogroupSetuId"]
+            elem_setu_id = json_dict["args"]["elementSetuId"]
+            del json_dict["args"]["elementSetuId"]
             output = handler.take_radiogroup_action(json_dict["action"].lower(), elem_setu_id, json_dict["args"])
             return {'result' : 'success', 'responseData':output}, 200
         except Exception as e:
