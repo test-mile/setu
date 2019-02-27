@@ -114,3 +114,21 @@ class WindowHandler:
     @classmethod
     def maximize(cls, window):
         return window.maximize()
+
+class AlertHandler:
+
+    @classmethod
+    def confirm(cls, alert):
+        alert.confirm()
+
+    @classmethod
+    def dismiss(cls, alert):
+        alert.dismiss()
+
+    @classmethod
+    def get_text(cls, alert):
+        return {"text" : alert.get_text()}
+
+    @classmethod
+    def send_text(cls, alert, text):
+        alert.send_text(text)

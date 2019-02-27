@@ -53,6 +53,10 @@ class GuiAutomatorHandler:
         radiogroup = self.automator.create_frame_with_locator(withType, withValue)
         return {"elementSetuId" : radiogroup.setu_id}
 
+    def create_alert(self):
+        alert = self.automator.alert_handler.create_alert()
+        return {"elementSetuId" : alert.setu_id}
+
     def take_element_action(self, action, elem_setu_id, json_dict):
         element =  self.automator.get_element_for_setu_id(elem_setu_id)
         return getattr(ElementHandler, action)(element, **json_dict)
@@ -73,6 +77,10 @@ class GuiAutomatorHandler:
         win =  self.automator.window_handler.get_window_for_setu_id(elem_setu_id)
         return getattr(WindowHandler, action)(win, **json_dict)
 
+    def take_alert_action(self, action, elem_setu_id, json_dict):
+        alert =  self.automator.alert_handler.get_alert_for_setu_id(elem_setu_id)
+        return getattr(AlertHandler, action)(alert, **json_dict)
+
     def take_multielement_action(self, action, elem_setu_id, json_dict):
         multi_element =  self.automator.get_multielement_for_setu_id(elem_setu_id)
         is_instance_action = json_dict["isInstanceAction"]
@@ -86,16 +94,7 @@ class GuiAutomatorHandler:
             return getattr(MultiElementHandler, action)(element, **json_dict)
 
     def execute_javascript(self, script):
-        self.automator.execute_javascript(script)
-
-    def handle_alert(self, handleType, text=None):
-        handle_type = handleType.lower()
-        if handle_type == "send_text_to_alert":
-            return getattr(self.automator.alert_handler, handle_type)(text)
-        elif handle_type == "get_text_from_alert":
-            return {"text" : getattr(self.automator.alert_handler, handle_type)()}
-        else:
-            return getattr(self.automator.alert_handler, handle_type)()   
+        self.automator.execute_javascript(script)  
 
     def __handle_windows(self, handleType):
         handle_type = handleType.lower()

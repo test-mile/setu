@@ -10,15 +10,20 @@ login(automator)
 
 alert_handler = automator.alert_handler
 automator.execute_javascript("alert('dummy')")
-alert_handler.confirm_alert()
+alert_handler.create_alert().confirm()
 automator.execute_javascript("alert('dummy')")
-alert_handler.dismiss_alert()
+alert_handler.create_alert().dismiss()
+
 automator.execute_javascript("alert('Sample')")
-assert alert_handler.get_text_from_alert() == "Sample"
-alert_handler.confirm_alert()
+alert = alert_handler.create_alert()
+assert alert.get_text() == "Sample"
+alert.confirm()
 time.sleep(3)
+
 automator.execute_javascript("prompt('Are You Sure?')")
-alert_handler.send_text_to_alert("Yes")
-alert_handler.dismiss_alert()
+alert = alert_handler.create_alert()
+alert.send_text("Yes")
+alert.confirm()
+time.sleep(3)
 
 logout(automator)
