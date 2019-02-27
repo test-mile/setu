@@ -9,7 +9,7 @@ automator = GuiAutomator("http://localhost:9898", SetuConfig(EX_CONFIG))
 login(automator)
 
 automator.create_element_with_locator("link_text","Settings").click()
-data_format = automator.create_radiogroup("name", "date_format")
+data_format = automator.create_radiogroup_with_locator("name", "date_format")
 time.sleep(2)
 print(data_format.has_value_selected("Y-m-d"))
 time.sleep(2)

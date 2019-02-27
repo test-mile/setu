@@ -45,13 +45,13 @@ class ElementContainer(SetuAgentProxy, metaclass=abc.ABCMeta):
     def create_multielement_with_locator(self, locator_name, locator_value):
         return self.create_multielement(SimpleGuiElementMetaData(locator_name, locator_value))
 
-    def create_dropdown(self, locator_name, locator_value):
+    def create_dropdown_with_locator(self, locator_name, locator_value):
         from setu.core.guiauto.element.dropdown import GuiWebSelect
         select = GuiWebSelect(self, locator_name, locator_value)
         self._add_element(select.get_setu_id(), select)
         return select
 
-    def create_radiogroup(self, locator_name, locator_value):
+    def create_radiogroup_with_locator(self, locator_name, locator_value):
         from setu.core.guiauto.element.radio_group import GuiWebRadioGroup
         rg = GuiWebRadioGroup(self, locator_name, locator_value)
         self._add_element(rg.get_setu_id(), rg)

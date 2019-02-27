@@ -13,35 +13,28 @@ automator.create_element_with_locator("link_text","Add New").click()
 
 automator.create_element_with_locator("id","title").set_text("Sample")
 
-frame_handler = automator.frame_handler
-# Switch to frame by name
-frame_handler.switch_to_frame_by_name("content_ifr")
+# jump to frame by name
+frame = automator.create_frame_with_locator("id", "content_ifr")
+frame.jump()
 tiny_mce = automator.create_element_with_locator("id","tinymce")
 tiny_mce.set_text("This is a test - frame by name.")
-frame_handler.switch_to_root()
+frame.jump_to_root()
 automator.create_element_with_locator("id","publish").click()
 time.sleep(5)
-# Switch to frame by name
-frame_handler.switch_to_frame_by_index(0)
+# jump to frame by index
+frame = automator.create_frame_with_locator("index", "0")
+frame.jump()
 tiny_mce = automator.create_element_with_locator("id","tinymce")
 tiny_mce.set_text("This is a test - frame by index.")
-frame_handler.switch_to_root()
+frame.jump_to_root()
 automator.create_element_with_locator("id","publish").click()
 time.sleep(5)
-# Switch to frame by element, use GuiElement representing the frame
-frame_element = automator.create_element_with_locator("id", "content_ifr")
-frame_handler.switch_to_frame_of_element(frame_element)
+# jump to parent
+frame = automator.create_frame_with_locator("xpath", "//iframe")
+frame.jump()
 tiny_mce = automator.create_element_with_locator("id","tinymce")
-tiny_mce.set_text("This is a test - frame of element.")
-frame_handler.switch_to_root()
-automator.create_element_with_locator("id","publish").click()
-time.sleep(5)
-# Switch to parent
-frame_element = automator.create_element_with_locator("xpath", "//iframe")
-frame_handler.switch_to_frame_of_element(frame_element)
-tiny_mce = automator.create_element_with_locator("id","tinymce")
-tiny_mce.set_text("This is a test - switching to parent after this.")
-frame_handler.switch_to_parent_frame()
+tiny_mce.set_text("This is a test - jumping to parent after this.")
+frame.jump_to_parent()
 automator.create_element_with_locator("id","publish").click()
 time.sleep(5)
 

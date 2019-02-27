@@ -3,39 +3,72 @@ from setu.core.guiauto.element.guielement import GuiElement
 from setu.core.guiauto.actions.automator_actions import TestAutomatorActionBodyCreator
 
 # UUID is for client reference. Agent does not know about this.
-class IFrameWithElement(SetuManagedObject):
+class IFrame(SetuManagedObject):
 
-    def __init__(self, gui_main_element: GuiElement):
+    def __init__(self, automator, locator_name, locator_value):
         super().__init__()
-        self._wrapped_main_element = gui_main_element
+        self._multi_element = None
+        if locator_name.lower() == "index":
+            index = int(locator_value)
+            self._multi_element = automator.create_multielement_with_locator("xpath", "//iframe")
+            self._multi_element.find()
+            self._wrapped_main_element = self._multi_element.get_instance_at_index(index)
+        else:
+            self._wrapped_main_element = automator.create_element_with_locator(locator_name, locator_value)
         tag = self._wrapped_main_element.get_tag_name()
         if tag.lower() != "iframe":
             raise Exception("The element should have a 'iframe' tag for IFrame element. Found: " + tag)
-        self.__first_level = True
         self.__parent_frames = []
-        self.__automator = gui_main_element.get_automator()
+        self.__automator = automator
+
+    def set_parents(self, parents):
+        self.__parent_frames = parents
 
     def _act(self, json_dict):
         return self.__automator.actor_callable(json_dict)
 
-    def switch_to_frame_by_name(self, name):
-        self._act(TestAutomatorActionBodyCreator.switch_to_frame_by_name(name))
+    def jump(self):
+        if self.__parent_frames:
+            for parent in self.__parent_frames:
+                parent.switch()
 
-    def switch_to_frame_by_index(self, index):
-        self._act(TestAutomatorActionBodyCreator.switch_to_frame_by_index(index))
+        # Handle frame by index
+        if self._multi_element:
+            self._multi_element.find()
+            self._act(TestAutomatorActionBodyCreator.jump_to_frame(
+                self._multi_element,
+                **self.get_instance_dict())
+        )
+        else:
+            self._wrapped_main_element.find()
+            self._act(TestAutomatorActionBodyCreator.jump_to_frame(
+                self._wrapped_main_element,
+                **self.get_instance_dict())
+            )
+        self.__automator.set_frame_context(self)
 
-    def switch_to_parent_frame(self):
-        self._act(TestAutomatorActionBodyCreator.switch_to_parent_frame())
+    def jump_to_child(self, locator_name, locator_value):
+        frame = IFrame(self.__automator, locator_name, locator_value)
+        frame.set_parents(self.__parent_frames + [self])
+        frame.jump()
+        self.__automator.set_frame_context(frame)
 
-    def switch_to_root(self):
-        self._act(TestAutomatorActionBodyCreator.switch_to_root())
+    def jump_to_parent(self):
+        self._act(TestAutomatorActionBodyCreator.jump_to_parent_frame())
+        if self.__parent_frames:
+            self.__automator.set_frame_context(self.__parent_frames[-1])
+        else:
+            self.__automator.set_frame_context_as_root()
 
-    def switch_to_frame_of_element(self, element):
-        element.find_if_not_found()
-        self._act(TestAutomatorActionBodyCreator.switch_to_frame_of_element(element))
+    def jump_to_root(self):
+        self._act(TestAutomatorActionBodyCreator.jump_to_html_root())
+        self.__automator.set_frame_context_as_root()
 
-    def switch_to_parent(self):
-        self.__automator.se
-
-    def __is_multi_select(self):
-        return self._wrapped_main_element.get_attr_value("multiple") is True or self._wrapped_main_element.get_attr_value("multi") is True
+    def get_instance_dict(self):
+        d = {}
+        if self._multi_element:
+            d["isInstanceAction"] = True
+            d["instanceIndex"] = self._wrapped_main_element._get_instance_number()
+        else:
+            d["isInstanceAction"] = False
+        return d

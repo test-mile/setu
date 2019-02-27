@@ -18,13 +18,12 @@ class GuiAutomator(ElementContainer):
         self.__automator_uri = "/guiauto/automator/{}".format(self.get_setu_id())
         self.__create_screenshots_dir()
         self.__window_handler = None
+        self.__frame_context = "root"
 
-        from .frame_handler import FrameHandler
         from .alert_handler import AlertHandler
         from .automator_conditions import GuiAutomatorConditions
         from .viewcontext_handler import ViewContextHandler
         from .browser_navigator import BrowserNavigator
-        self.__frame_handler = FrameHandler(self)
         self.__alert_handler = AlertHandler(self)
         self.__conditions_handler = GuiAutomatorConditions(self)
         self.__view_handler = ViewContextHandler(self)
@@ -39,10 +38,6 @@ class GuiAutomator(ElementContainer):
         return self.__window_handler
 
     @property
-    def frame_handler(self):
-        return self.__frame_handler
-
-    @property
     def alert_handler(self):
         return self.__alert_handler
 
@@ -53,6 +48,9 @@ class GuiAutomator(ElementContainer):
     @property
     def conditions(self):
         return self.__conditions_handler
+
+    def get_frame_context(self):
+        return self.__frame_context
 
     def __create_screenshots_dir(self):
         sdir = self.config.value(SetuConfigOption.SCREENSHOTS_DIR)
@@ -97,3 +95,19 @@ class GuiAutomator(ElementContainer):
 
     def execute_javascript(self, js):
         self._act(TestAutomatorActionBodyCreator.execute_javascript(js))
+
+    def __set_frame_context_str(self, name):
+        self.__frame_context = name
+        print("Automator is in {} frame".format(self.__frame_context))
+
+    def set_frame_context(self, frame):
+        self.__set_frame_context_str(frame.get_setu_id())
+
+    def set_frame_context_as_root(self):
+        self.__set_frame_context_str("root")
+
+    def create_frame_with_locator(self, locator_name, locator_value):
+        from setu.core.guiauto.element.frame import IFrame
+        frame = IFrame(self, locator_name, locator_value)
+        self._add_element(frame.get_setu_id(), frame)
+        return frame

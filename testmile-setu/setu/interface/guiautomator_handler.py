@@ -42,11 +42,15 @@ class GuiAutomatorHandler:
         return {"elementSetuId" : elem.setu_id}
 
     def create_dropdown(self, withType, withValue):
-        dropdown = self.automator.create_dropdown(withType, withValue)
+        dropdown = self.automator.create_dropdown_with_locator(withType, withValue)
         return {"elementSetuId" : dropdown.setu_id}
 
     def create_radiogroup(self, withType, withValue):
-        radiogroup = self.automator.create_radiogroup(withType, withValue)
+        radiogroup = self.automator.create_radiogroup_with_locator(withType, withValue)
+        return {"elementSetuId" : radiogroup.setu_id}
+
+    def create_frame(self, withType, withValue):
+        radiogroup = self.automator.create_frame_with_locator(withType, withValue)
         return {"elementSetuId" : radiogroup.setu_id}
 
     def take_element_action(self, action, elem_setu_id, json_dict):
@@ -60,6 +64,14 @@ class GuiAutomatorHandler:
     def take_radiogroup_action(self, action, elem_setu_id, json_dict):
         radiogroup =  self.automator.get_element_for_setu_id(elem_setu_id)
         return getattr(RadioGroupHandler, action)(radiogroup, **json_dict)
+
+    def take_frame_action(self, action, elem_setu_id, json_dict):
+        frame =  self.automator.get_element_for_setu_id(elem_setu_id)
+        return getattr(FrameHandler, action)(frame, **json_dict)
+
+    def take_window_action(self, action, elem_setu_id, json_dict):
+        win =  self.automator.window_handler.get_window_for_setu_id(elem_setu_id)
+        return getattr(WindowHandler, action)(win, **json_dict)
 
     def take_multielement_action(self, action, elem_setu_id, json_dict):
         multi_element =  self.automator.get_multielement_for_setu_id(elem_setu_id)
@@ -85,9 +97,15 @@ class GuiAutomatorHandler:
         else:
             return getattr(self.automator.alert_handler, handle_type)()   
 
-    def handle_windows(self, handleType):
+    def __handle_windows(self, handleType):
         handle_type = handleType.lower()
-        if handle_type == "get_window_title":
-            return {"text" : getattr(self.automator.window_handler, handle_type)()}
-        else:
-            return getattr(self.automator.window_handler, handle_type)()     
+        return getattr(self.automator.window_handler, handle_type)()  
+
+    def get_main_window(self):
+        return {"elementSetuId" : self.__handle_windows("get_main_window").setu_id}
+
+    def close_all_child_windows(self):
+        return self.__handle_windows("close_all_child_windows")  
+
+    def create_new_child_window(self):
+        return {"elementSetuId" : self.__handle_windows("create_new_child_window").setu_id}

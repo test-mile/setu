@@ -1,7 +1,7 @@
 from flask import request
 from flask_restful import Resource
 from .objmgr import SetuSvcObjectManager
-from .guiautmator_handler import GuiAutomatorHandler
+from .guiautomator_handler import GuiAutomatorHandler
 from setu.core.config.ex import EX_CONFIG
 
 _GUI_AUTOMATORS = {}
@@ -114,6 +114,47 @@ class RadioGroupActionSvc(Resource):
             elem_setu_id = json_dict["args"]["elementSetuId"]
             del json_dict["args"]["elementSetuId"]
             output = handler.take_radiogroup_action(json_dict["action"].lower(), elem_setu_id, json_dict["args"])
+            return {'result' : 'success', 'responseData':output}, 200
+        except Exception as e:
+            print(e)
+            import traceback
+            return {
+                'result' : 'ERROR',
+                'emessage' : str(e),
+                'etrace' : traceback.format_exc()
+            }, 500
+
+class FrameActionSvc(Resource):
+
+    def post(self):
+        try:
+            json_dict = request.get_json(force=True)
+            handler = get_handler(json_dict)
+            del json_dict["args"]["automatorSetuId"]
+            elem_setu_id = json_dict["args"]["elementSetuId"]
+            del json_dict["args"]["elementSetuId"]
+            output = handler.take_frame_action(json_dict["action"].lower(), elem_setu_id, json_dict["args"])
+            return {'result' : 'success', 'responseData':output}, 200
+        except Exception as e:
+            print(e)
+            import traceback
+            return {
+                'result' : 'ERROR',
+                'emessage' : str(e),
+                'etrace' : traceback.format_exc()
+            }, 500
+
+
+class WindowActionSvc(Resource):
+
+    def post(self):
+        try:
+            json_dict = request.get_json(force=True)
+            handler = get_handler(json_dict)
+            del json_dict["args"]["automatorSetuId"]
+            elem_setu_id = json_dict["args"]["elementSetuId"]
+            del json_dict["args"]["elementSetuId"]
+            output = handler.take_window_action(json_dict["action"].lower(), elem_setu_id, json_dict["args"])
             return {'result' : 'success', 'responseData':output}, 200
         except Exception as e:
             print(e)

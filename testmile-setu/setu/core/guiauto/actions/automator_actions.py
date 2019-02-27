@@ -14,28 +14,16 @@ class TestAutomatorActionBodyCreator:
         return cls._create_json_dict("GO_TO_URL", **kwargs)
 
     @classmethod
-    def switch_to_frame(cls, **kwargs):
-        return cls._create_json_dict("SWITCH_TO_FRAME", **kwargs)
+    def jump_to_parent_frame(cls):
+        return cls._create_json_dict("JUMP_TO_PARENT_FRAME")
 
     @classmethod
-    def switch_to_frame_by_name(cls, name):
-        return cls.switch_to_frame(byType="NAME", byValue=name)
+    def jump_to_html_root(cls):
+        return cls._create_json_dict("JUMP_TO_HTML_ROOT")
 
     @classmethod
-    def switch_to_frame_by_index(cls, index):
-        return cls.switch_to_frame(byType="INDEX", byValue=index)
-
-    @classmethod
-    def switch_to_parent_frame(cls):
-        return cls.switch_to_frame(byType="PARENT")
-
-    @classmethod
-    def switch_to_root(cls):
-        return cls.switch_to_frame(byType="ROOT")
-
-    @classmethod
-    def switch_to_frame_of_element(cls, element):
-        return cls.switch_to_frame(byType="ELEMENT_SETU_ID",byValue=element.get_setu_id())
+    def jump_to_frame(cls, element, **kwargs):
+        return cls._create_json_dict("JUMP_TO_FRAME", byType="ELEMENT_SETU_ID",byValue=element.get_setu_id(), **kwargs)
 
     @classmethod
     def get_current_window_handle(cls):

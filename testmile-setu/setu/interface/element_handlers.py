@@ -82,3 +82,35 @@ class RadioGroupHandler:
     @classmethod
     def select_by_index(cls, radiogroup, index):
         return radiogroup.select_by_index(index)
+
+class FrameHandler:
+
+    @classmethod
+    def jump(cls, frame):
+        return frame.jump()
+
+    @classmethod
+    def jump_to_parent(cls, frame):
+        return frame.jump_to_parent()
+
+    @classmethod
+    def jump_to_root(cls, frame):
+        return frame.jump_to_root()
+
+class WindowHandler:
+
+    @classmethod
+    def jump(cls, window):
+        return window.jump()
+
+    @classmethod
+    def get_title(cls, window):
+        return {"title" : window.get_title()}
+
+    @classmethod
+    def close(cls, window):
+        return window.close()
+
+    @classmethod
+    def maximize(cls, window):
+        return window.maximize()

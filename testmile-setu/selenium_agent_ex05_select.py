@@ -9,7 +9,7 @@ automator = GuiAutomator("http://localhost:9898", SetuConfig(EX_CONFIG))
 login(automator)
 
 automator.create_element_with_locator("link_text","Settings").click()
-role_select = automator.create_dropdown("id","default_role")
+role_select = automator.create_dropdown_with_locator("id","default_role")
 print(role_select.has_visible_text_selected("Subscriber"))
 print(role_select.has_value_selected("subscriber"))
 print(role_select.has_index_selected(2))

@@ -13,10 +13,13 @@ class GuiElement(BaseElement):
     def _get_object_uri(self):
         return self.__element_uri
 
+    def find(self):
+        self.get_automator().find_element(self)
+
     #Override
     def find_if_not_found(self):
         if not self.is_found():
-            self.get_automator().find_element(self)
+            self.find()
 
     def _is_partial_element(self):
         return False
