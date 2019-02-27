@@ -4,6 +4,7 @@ class SetuConfigOption(Enum):
     ROOT_DIR = auto()
     LOG_DIR = auto()
     SCREENSHOTS_DIR = auto()
+    GUIAUTO_NAMESPACE_DIR = auto()
     
     TESTRUN_ENVIRONMENT = auto()
     TESTRUN_TARGET_PLATFORM = auto()

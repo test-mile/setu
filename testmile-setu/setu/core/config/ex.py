@@ -3,6 +3,7 @@ EX_CONFIG = {
 		"ROOT_DIR" :  "/Users/rahulverma/Documents/github_tm/daksha/daksha-examples/",
 		"LOG_DIR" : "/Users/rahulverma/Documents/github_tm/daksha/daksha-examples/log/",
 		"SCREENSHOTS_DIR" : "/Users/rahulverma/Documents/github_tm/daksha/daksha-examples/screenshots/",
+        "GUIAUTO_NAMESPACE_DIR" : "/Users/rahulverma/Documents/github_tm/daksha/daksha-examples/gui_namespace/",
 		
 		"TESTRUN_ENVIRONMENT" : "TEST",
 		"TESTRUN_TARGET_PLATFORM" : "windows",
