@@ -1,16 +1,17 @@
 
 
 class SetuSvcObjectManager:
-    GUIAUOTMATOR_HANDLERS = {}
+    TESTSESSION_HANDLERS = {}
 
     @classmethod
-    def register_gui_automator_handler(cls, handler):
-        cls.GUIAUOTMATOR_HANDLERS[handler.setu_id] = handler
+    def register_testsession_handler(cls, handler):
+        cls.TESTSESSION_HANDLERS[handler.setu_id] = handler
 
     @classmethod
-    def deregister_gui_automator_handler(cls, handler):
-        del cls.GUIAUOTMATOR_HANDLERS[handler.setu_id]
+    def deregister_testsession_handler(cls, handler):
+        del cls.TESTSESSION_HANDLERS[handler.setu_id]
 
     @classmethod
-    def get_gui_automator_handler(cls, setu_id):
-        return cls.GUIAUOTMATOR_HANDLERS[setu_id]
+    def get_testsession_handler(cls, setu_id):
+        return cls.TESTSESSION_HANDLERS[setu_id]
+

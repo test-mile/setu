@@ -1,4 +1,3 @@
-from setu.core.config.config_utils import Config
 from setu.core.guiauto.actions.automator_actions import \
     TestAutomatorActionBodyCreator
 

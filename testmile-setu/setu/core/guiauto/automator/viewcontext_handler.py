@@ -1,7 +1,6 @@
-from setu.core.config.config_utils import Config
 from setu.core.guiauto.actions.automator_actions import \
     TestAutomatorActionBodyCreator
-from setu.core.config.config_types import SetuConfigOption
+from setu.core.constants import SetuConfigOption
 
 from .guiautomator import GuiAutomator
 from .handler import Handler

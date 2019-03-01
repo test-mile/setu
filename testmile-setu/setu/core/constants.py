@@ -5,12 +5,14 @@ class SetuConfigOption(Enum):
     LOG_DIR = auto()
     SCREENSHOTS_DIR = auto()
     GUIAUTO_NAMESPACE_DIR = auto()
+    PROJECT_CONF_DIR = auto()
+    PROJECT_CONF_FILE = auto()
     
     TESTRUN_ENVIRONMENT = auto()
     TESTRUN_TARGET_PLATFORM = auto()
     TESTRUN_TARGET_PLATFORM_VERSION = auto()
 
-    GUI_AUTOMATOR_NAME = auto()
+    GUIAUTO_AUTOMATOR_NAME = auto()
     
     BROWSER_NAME = auto()
     BROWSER_VERSION = auto()
@@ -39,3 +41,20 @@ class SetuConfigOption(Enum):
     APPIUM_AUTO_LAUNCH = auto()
     
     IMAGE_COMPARISON_MIN_SCORE = auto()
+
+class GuiAutomatorName(Enum):
+    SELENIUM = auto()
+
+class GuiAutomationContext(Enum):
+	WEB = auto()
+	NATIVE = auto()
+	SCREEN = auto()
+	ANDROID_WEB = auto()
+	IOS_WEB = auto()
+	ANDROID_NATIVE = auto()
+	IOS_NATIVE = auto()
+
+class Browser(Enum):
+    FIREFOX = auto()
+    SAFARI = auto()
+    CHROME = auto()

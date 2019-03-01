@@ -1,7 +1,7 @@
 from setu.core.lib.setu_types import SetuManagedObject
 from setu.core.guiauto.element.guielement import GuiElement
 from setu.core.guiauto.actions.automator_actions import TestAutomatorActionBodyCreator
-from setu.core.config.config_types import SetuConfigOption
+from setu.core.constants import SetuConfigOption
 
 class BasicWindow(SetuManagedObject):
 
@@ -60,18 +60,18 @@ class MainWindow(BasicWindow):
     def __resize_window_as_per_config(self):
         # Resize window
         config = self.config
-        browser_width = config.value(SetuConfigOption.BROWSER_DIM_WIDTH)
-        browser_height = config.value(SetuConfigOption.BROWSER_DIM_HEIGHT)
-        should_maximize = config.value(SetuConfigOption.BROWSER_MAXIMIZE)
+        browser_width = config.setu_config.value(SetuConfigOption.BROWSER_DIM_WIDTH)
+        browser_height = config.setu_config.value(SetuConfigOption.BROWSER_DIM_HEIGHT)
+        should_maximize = config.setu_config.value(SetuConfigOption.BROWSER_MAXIMIZE)
 
-        if config.is_not_set(SetuConfigOption.BROWSER_DIM_WIDTH) and config.is_not_set(SetuConfigOption.BROWSER_DIM_HEIGHT):
+        if config.setu_config.is_not_set(SetuConfigOption.BROWSER_DIM_WIDTH) and config.setu_config.is_not_set(SetuConfigOption.BROWSER_DIM_HEIGHT):
             if should_maximize:
                 self.maximize()
         else:
             width, height = None, None
             current_width, current_height = self.get_size()
-            width = config.is_not_set(SetuConfigOption.BROWSER_DIM_WIDTH) and browser_width or current_width
-            height = config.is_not_set(SetuConfigOption.BROWSER_DIM_HEIGHT) and browser_height or current_height
+            width = config.setu_config.is_not_set(SetuConfigOption.BROWSER_DIM_WIDTH) and browser_width or current_width
+            height = config.setu_config.is_not_set(SetuConfigOption.BROWSER_DIM_HEIGHT) and browser_height or current_height
             self.set_window_size(width, height)
 
     def is_main_window(self):

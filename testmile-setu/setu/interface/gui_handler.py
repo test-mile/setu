@@ -1,13 +1,17 @@
 import uuid
 from setu.core.guiauto.automator.guiautomator import GuiAutomator
+from setu.core.config.config_utils import SetuConfig
 from .element_handlers import *
 
-
-# Arg names of methods show JSON names, so don't follow Python conventions.
-class GuiAutomatorHandler:
+class GuiMgrHandler:
 
     def __init__(self):
-        self.__testcycle = None
+        pass
+
+# Arg names of methods show JSON names, so don't follow Python conventions.
+class GuiHandler:
+
+    def __init__(self):
         self.__automator = None
 
     @property
@@ -19,7 +23,7 @@ class GuiAutomatorHandler:
         return self.__automator
 
     def launch_automator(self, config):
-        automator = GuiAutomator("http://localhost:9898", config)
+        automator = GuiAutomator("http://localhost:9898", SetuConfig(config))
         automator.launch()
         self.__automator = automator
 

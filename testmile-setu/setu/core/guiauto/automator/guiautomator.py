@@ -2,7 +2,7 @@ import base64
 import os
 import time
 
-from setu.core.config.config_types import SetuConfigOption
+from setu.core.constants import SetuConfigOption
 from setu.core.guiauto.actions.automator_actions import *
 from setu.core.guiauto.base.element_container import ElementContainer
 from setu.core.guiauto.element.guielement import GuiElement
@@ -53,7 +53,7 @@ class GuiAutomator(ElementContainer):
         return self.__frame_context
 
     def __create_screenshots_dir(self):
-        sdir = self.config.value(SetuConfigOption.SCREENSHOTS_DIR)
+        sdir = self.config.setu_config.value(SetuConfigOption.SCREENSHOTS_DIR)
         if not os.path.isdir(sdir):
             os.makedirs(sdir)
 
