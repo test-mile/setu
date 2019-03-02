@@ -44,3 +44,21 @@ class TestSessionActionSvc(Resource):
                 'emessage' : str(e),
                 'etrace' : traceback.format_exc()
             }, 500 
+
+
+class TestSessionConfActionSvc(Resource):
+    def post(self):
+        try:
+            json_dict = request.get_json(force=True)
+            handler = get_handler(json_dict)
+            del json_dict["args"]["testSessionSetuId"]
+            output = handler.take_conf_action(json_dict)
+            return {'result' : 'success', 'responseData': output}, 200
+        except Exception as e:
+            print(e)
+            import traceback
+            return {
+                'result' : 'ERROR',
+                'emessage' : str(e),
+                'etrace' : traceback.format_exc()
+            }, 500 

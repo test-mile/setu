@@ -7,6 +7,8 @@ class SetuConfigOption(Enum):
     GUIAUTO_NAMESPACE_DIR = auto()
     PROJECT_CONF_DIR = auto()
     PROJECT_CONF_FILE = auto()
+
+    APP_URL = auto()
     
     TESTRUN_ENVIRONMENT = auto()
     TESTRUN_TARGET_PLATFORM = auto()

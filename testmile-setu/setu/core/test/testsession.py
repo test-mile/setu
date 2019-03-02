@@ -13,6 +13,3 @@ class TestSession(SetuManagedObject):
 
     def init(self, root_dir):
         return self.__configurator.init(root_dir)
-
-    def load_project_conf(self):
-        return self.__configurator.create_project_config()

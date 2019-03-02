@@ -97,6 +97,5 @@ class ConfigValidator:
                 return False
         if  type(input) is not str or not check_scheme():
             cls.raise_exc(input)
-        
         return input
 

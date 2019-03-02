@@ -41,6 +41,7 @@ class ConfigCreator:
 
     @classmethod
     def create_config_for_raw_map(self, map, validator_func):
+        print(map)
         out_map = {}
         for conf_name, raw_value in map.items():
             validator_name, validator = validator_func(conf_name)
