@@ -92,3 +92,9 @@ class TestSessionHandler:
         del json_dict["args"]["elementSetuId"]
         return handler.take_alert_action(json_dict["action"].lower(), elem_setu_id, json_dict["args"])
 
+    def get_setu_option_value(self, configSetuId, option):
+        return {"value" : self.__testsession.configurator.get_setu_option_value(configSetuId, option)}
+
+    def register_config(self, setuOptions, userOptions=None):
+        return {"configSetuId" : self.__testsession.configurator.register_config(setuOptions, userOptions)}
+

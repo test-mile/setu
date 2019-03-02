@@ -1,3 +1,5 @@
+import platform
+import os
 from enum import Enum
 from setu.core.constants import *
 
@@ -13,6 +15,7 @@ class Config(SetuManagedObject):
         super().__init__()
         self.__setu_config = None
         self.__user_config = None
+        self.__processor = None
 
     @property
     def setu_config(self):
@@ -30,11 +33,52 @@ class Config(SetuManagedObject):
     def user_config(self, conf):
         self.__user_config = conf
 
+    @property
+    def processor(self):
+        return self.__processor
+
+    @processor.setter
+    def processor(self, processor):
+        self.__processor = processor
+
     def as_json_dict(self):
         return {
             "setuOptions" : self.__setu_config.as_json_dict(),
             "userOptions" : self.__user_config.as_json_dict()
         }
+
+    def __modify_bin_name_for_windows(self, name):
+        if platform.system().lower() == "windows":
+            return "name" + ".exe"
+        else:
+            return name
+
+    def __get_driver_path(self, name):
+        return os.path.join(self.setu_config.value(SetuConfigOption.SELENIUM_DRIVERS_DIR), self.__modify_bin_name_for_windows(name))
+
+    def process_setu_options(self):
+        for_browser = {
+            Browser.CHROME : {
+                SetuConfigOption.SELENIUM_DRIVER_PROP : "webdriver.chrome.driver",
+                SetuConfigOption.SELENIUM_DRIVER_PATH : self.__get_driver_path("chromedriver")
+            },
+
+            Browser.FIREFOX : {
+                SetuConfigOption.SELENIUM_DRIVER_PROP : "webdriver.gecko.driver",
+                SetuConfigOption.SELENIUM_DRIVER_PATH : self.__get_driver_path("geckodriver")
+            },
+
+            Browser.SAFARI : {
+                SetuConfigOption.SELENIUM_DRIVER_PROP : "webdriver.safari.driver",
+                SetuConfigOption.SELENIUM_DRIVER_PATH : self.__get_driver_path("safaridriver")
+            }
+        }
+
+        browser = self.setu_config.value(SetuConfigOption.BROWSER_NAME)
+        for opt, opt_value in for_browser[browser].items():
+            self.setu_config._config_dict[opt] = opt_value
+
+
 
 class AbstractConfig:
 

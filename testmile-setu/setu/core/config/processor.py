@@ -62,26 +62,27 @@ class ConfigCreator:
         return out_map
 
     @classmethod
-    def create_conf(cls, setu_conf, user_conf):
+    def create_conf(cls, processor, setu_conf, user_conf):
         config = Config()
         config.setu_config = SetuConfig(setu_conf)
         config.user_config = UserConfig(user_conf)
+        config.processor = processor
         return config
 
     @classmethod
-    def __create_new_conf(cls, source, setu_dict=None, user_dict=None):
+    def __create_new_conf(cls, processor, source, setu_dict=None, user_dict=None):
         out_setu = copy.deepcopy(source.setu_config.as_map())
         out_user = copy.deepcopy(source.user_config.as_map())
         if setu_dict:
             out_setu.update(setu_dict)
         if user_dict:
             out_user.update(user_dict)
-        return cls.create_conf(out_setu, out_user)
+        return cls.create_conf(processor, out_setu, out_user)
 
     @classmethod
     def create_new_conf(cls, processor, source, cdict):
         if not cdict:
-            return cls.__create_new_conf(source)
+            return cls.__create_new_conf(processor, source)
 
         custom_setu_conf = None
         if "setuOptions" in cdict:
@@ -100,7 +101,7 @@ class ConfigCreator:
                 project_raw_user_config_map, 
                 processor.get_user_option_validator
             )
-        return cls.__create_new_conf(source, custom_setu_conf, custom_user_conf) 
+        return cls.__create_new_conf(processor, source, custom_setu_conf, custom_user_conf) 
 
 class BaseConfigProcessor:
 
@@ -144,6 +145,7 @@ class CentralConfigLoader(BaseConfigProcessor):
             HoconStringReader(contents)
         )
         self._config = ConfigCreator.create_conf(
+            self,
             ConfigCreator.create_config_for_raw_map(raw_config_map, self.get_setu_option_validator), 
             {}
         )
