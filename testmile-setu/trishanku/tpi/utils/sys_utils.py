@@ -38,14 +38,6 @@ def fexit():
 	time.sleep(0.5)
 	sys.exit(1)
 
-# public static Runtime get_run_time() {
-#     return Runtime.get_runtime();
-# }
-
-# public static String getOSName() {
-#     return System.get_property("os.name");
-# }
-
 def get_line_separator():
     return os.linesep
 
