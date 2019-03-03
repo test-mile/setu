@@ -1,6 +1,8 @@
 from setu.core.test.testsession import TestSession
 from .guiautomator_handler import GuiAutomatorHandler
 from .conf_handler import TestSessionConfHandler
+from .databroker_handler import TestSessionDataBrokerHandler
+from setu.core.constants import SetuConfigOption
 
 class TestSessionHandler:
 
@@ -8,6 +10,7 @@ class TestSessionHandler:
         self.__testsession = None
         self.__automator_handlers = {}
         self.__conf_handler = None
+        self.__databroker_handler = None
 
 
     def __register_gui_automator_handler(self, handler):
@@ -27,6 +30,7 @@ class TestSessionHandler:
         self.__testsession = TestSession()
         conf = self.__testsession.init(root_dir)
         self.__conf_handler = TestSessionConfHandler(self.__testsession.configurator)
+        self.__databroker_handler = TestSessionDataBrokerHandler(self.__testsession.data_broker)
         return conf
 
     def get_automator_handler(self, json_dict):
@@ -95,5 +99,17 @@ class TestSessionHandler:
         return handler.take_alert_action(json_dict["action"].lower(), elem_setu_id, json_dict["args"])
 
     def take_conf_action(self, json_dict):
-        return getattr(self.__conf_handler, json_dict["action"].lower())(**json_dict["args"])     
+        return getattr(self.__conf_handler, json_dict["action"].lower())(**json_dict["args"])    
 
+    def take_datasource_action(self, json_dict):
+        return getattr(self.__databroker_handler, json_dict["action"].lower())(**json_dict["args"]) 
+
+    def register_config(self, setuOptions, hasParent, userOptions=None, parentConfigId=None):
+        return {"configSetuId" : self.__testsession.configurator.register_config(setuOptions, hasParent, userOptions, parentConfigId)}
+
+    def load_project_conf(self):
+        return {"configSetuId" : self.__testsession.configurator.create_project_conf()}  
+
+    def create_file_data_source(self, fileName, recordType, **kwargs):
+        data_dir = self.__testsession.configurator.get_central_setu_option_value(SetuConfigOption.DATA_SOURCES_DIR.name)
+        return {"dataSourceSetuId" : self.__testsession.data_broker.create_file_data_source(data_dir, fileName, recordType, **kwargs)}  

@@ -13,6 +13,7 @@ api.add_resource(TestSessionInitSvc, '/testsession/init', endpoint='testsession_
 api.add_resource(TestSessionFinishSvc, '/testsession/finish', endpoint='testsession_finish')
 api.add_resource(TestSessionActionSvc, '/testsession/action', endpoint='testsession_action')
 api.add_resource(TestSessionConfActionSvc, '/testsession/conf/action', endpoint='conf_action')
+api.add_resource(TestSessionDataSourceActionSvc, '/testsession/datasource/action', endpoint='datasource_action')
 api.add_resource(AutomatorLauncher, '/testsession/guiauto/automator/launch', endpoint='guiauto_launch')
 api.add_resource(AutomatorQuitter, '/testsession/guiauto/automator/quit', endpoint='guiauto_quit')
 api.add_resource(AutomatorActionSvc, '/testsession/guiauto/automator/action', endpoint='guiauto_action')

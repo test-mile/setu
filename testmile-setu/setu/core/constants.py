@@ -3,6 +3,9 @@ from enum import Enum, auto
 class SetuConfigOption(Enum):
     ROOT_DIR = auto()
     LOG_DIR = auto()
+    DATA_DIR = auto()
+    DATA_SOURCES_DIR = auto()
+    DATA_REFERENCES_DIR = auto()
     SCREENSHOTS_DIR = auto()
     GUIAUTO_NAMESPACE_DIR = auto()
     PROJECT_CONF_DIR = auto()

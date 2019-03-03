@@ -39,6 +39,7 @@ class IniFile2MapReader:
         if self.sections:
             return self.__get_section_data(self.sections.pop(0))
         else:
+            self.close()
             raise StopIteration()
 
     def read(self):
