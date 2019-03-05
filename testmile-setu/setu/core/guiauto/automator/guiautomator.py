@@ -23,15 +23,15 @@ class GuiAutomator(ElementContainer):
         from .alert_handler import AlertHandler
         from .automator_conditions import GuiAutomatorConditions
         from .viewcontext_handler import ViewContextHandler
-        from .browser_navigator import BrowserNavigator
+        from .browser_handler import BrowserHandler
         self.__alert_handler = AlertHandler(self)
         self.__conditions_handler = GuiAutomatorConditions(self)
         self.__view_handler = ViewContextHandler(self)
-        self.__browser_navigator = BrowserNavigator(self)
+        self.__browser_handler = BrowserHandler(self)
 
     @property
-    def browser_navigator(self):
-        return self.__browser_navigator
+    def browser(self):
+        return self.__browser_handler
 
     @property
     def window_handler(self):

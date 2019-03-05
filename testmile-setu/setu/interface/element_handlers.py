@@ -132,3 +132,21 @@ class AlertHandler:
     @classmethod
     def send_text(cls, alert, text):
         alert.send_text(text)
+
+class BrowserHandler:
+
+    @classmethod
+    def go_to_url(cls, browser, url):
+       browser.go_to_url(url)
+
+    @classmethod
+    def go_back(cls, browser):
+        browser.go_back()
+
+    @classmethod
+    def go_forward(cls, browser):
+        browser.go_forward()
+
+    @classmethod
+    def refersh(cls, alert, browser):
+        browser.refersh()

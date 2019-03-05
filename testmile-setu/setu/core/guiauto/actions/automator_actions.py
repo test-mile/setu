@@ -10,8 +10,20 @@ class TestAutomatorActionBodyCreator:
         }
 
     @classmethod
-    def go_to(cls, **kwargs):
+    def go_to_url(cls, **kwargs):
         return cls._create_json_dict("GO_TO_URL", **kwargs)
+
+    @classmethod
+    def go_back(cls, **kwargs):
+        return cls._create_json_dict("GO_BACK", **kwargs)
+
+    @classmethod
+    def go_forwarc(cls, **kwargs):
+        return cls._create_json_dict("GO_FORWARD", **kwargs)
+
+    @classmethod
+    def refresh(cls, **kwargs):
+        return cls._create_json_dict("REFRESH", **kwargs)
 
     @classmethod
     def jump_to_parent_frame(cls):
