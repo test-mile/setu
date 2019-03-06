@@ -17,8 +17,10 @@ class GuiAutomator(ElementContainer):
         super().__init__(config, SetuAgentRequester(agent_base_url))
         self.__automator_uri = "/guiauto/automator/{}".format(self.get_setu_id())
         self.__create_screenshots_dir()
-        self.__window_handler = None
+        self.__main_window = None
         self.__frame_context = "root"
+        self.__in_slomo = config.setu_config.value(SetuConfigOption.GUIAUTO_SLOMO_ON)
+        self.__slomo_interval = config.setu_config.value(SetuConfigOption.GUIAUTO_SLOMO_INTERVAL)
 
         from .alert_handler import AlertHandler
         from .automator_conditions import GuiAutomatorConditions
@@ -29,13 +31,22 @@ class GuiAutomator(ElementContainer):
         self.__view_handler = ViewContextHandler(self)
         self.__browser_handler = BrowserHandler(self)
 
+    def slomo(self):
+        if self.__in_slomo:
+            time.sleep(self.__slomo_interval)
+
+    def set_slomo(self, on, interval=None):
+        self.__in_slomo = on
+        if interval is not None:
+            self.__slomo_interval = interval
+
     @property
     def browser(self):
         return self.__browser_handler
 
     @property
-    def window_handler(self):
-        return self.__window_handler
+    def main_window(self):
+        return self.__main_window
 
     @property
     def alert_handler(self):
@@ -64,8 +75,8 @@ class GuiAutomator(ElementContainer):
     def launch(self):
         self._post("/launch", self.config.as_json_dict())
 
-        from .window_handler import WindowHandler
-        self.__window_handler = WindowHandler(self)
+        from setu.core.guiauto.element.window import MainWindow
+        self.__main_window = MainWindow(self)
 
     def quit(self):
         self._get("/quit")
@@ -93,9 +104,6 @@ class GuiAutomator(ElementContainer):
         f.write(image)
         f.close()
 
-    def execute_javascript(self, js):
-        self._act(TestAutomatorActionBodyCreator.execute_javascript(js))
-
     def __set_frame_context_str(self, name):
         self.__frame_context = name
         print("Automator is in {} frame".format(self.__frame_context))
@@ -111,3 +119,6 @@ class GuiAutomator(ElementContainer):
         frame = IFrame(self, locator_name, locator_value)
         self._add_element(frame.get_setu_id(), frame)
         return frame
+
+    def focus_on_main_window(self):
+        self.main_window.focus()

@@ -21,3 +21,6 @@ class BrowserHandler(Handler):
 
     def refresh(self, url):
         self._act(TestAutomatorActionBodyCreator.go_to_url(url=url))
+
+    def execute_javascript(self, js):
+        self._act(TestAutomatorActionBodyCreator.execute_javascript(js))

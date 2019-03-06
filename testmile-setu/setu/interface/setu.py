@@ -59,13 +59,14 @@ class SetuSvc(Resource):
             handler.take_conf_action : "CONFIGURATOR_",
             handler.take_datasource_action : "DATASOURCE_",
             handler.take_browser_action : "GUIAUTO_BROWSER_",
+            handler.take_domroot_action : "GUIAUTO_DOMROOT_",
             handler.take_automator_action : "GUIAUTO_",
             handler.take_alert_action : "GUIAUTO_ALERT_",
             handler.take_element_action : "GUIAUTO_ELEMENT_",
             handler.take_dropdown_action : "GUIAUTO_DROPDOWN_",
             handler.take_radiogroup_action : "GUIAUTO_RADIOGROUP_",
             handler.take_frame_action : "GUIAUTO_FRAME_",
-            handler.take_window_action : "GUIAUTO_FRAME_",
+            handler.take_window_action : "GUIAUTO_WINDOW_",
             handler.take_main_window_action : "GUIAUTO_MAIN_WINDOW_",
             handler.take_child_window_action : "GUIAUTO_CHILD_WINDOW_",
         }
@@ -100,13 +101,14 @@ class SetuSvc(Resource):
             SetuActionType.GUIAUTO_CREATE_FRAME: handler.take_automator_action,
             SetuActionType.GUIAUTO_CREATE_ALERT: handler.take_automator_action,
             
+            SetuActionType.GUIAUTO_GET_MAIN_WINDOW : handler.take_automator_action,
+            SetuActionType.GUIAUTO_SET_SLOMO : handler.take_automator_action,
+            SetuActionType.GUIAUTO_DOMROOT_FOCUS : handler.take_domroot_action,
+
             SetuActionType.GUIAUTO_ALERT_CONFIRM : handler.take_alert_action,
             SetuActionType.GUIAUTO_ALERT_DISMISS : handler.take_alert_action,
             SetuActionType.GUIAUTO_ALERT_GET_TEXT : handler.take_alert_action,
             SetuActionType.GUIAUTO_ALERT_SEND_TEXT : handler.take_alert_action,
-
-            SetuActionType.GUIAUTO_GET_MAIN_WINDOW : handler.take_automator_action,
-            SetuActionType.GUIAUTO_GET_DOM_ROOT : handler.take_automator_action,
             
             SetuActionType.GUIAUTO_GUIMGR_CREATE_GUI : None,
             SetuActionType.GUIAUTO_GUI_CREATE_GUI : None,
@@ -137,8 +139,8 @@ class SetuSvc(Resource):
             SetuActionType.GUIAUTO_RADIOGROUP_SELECT_BY_INDEX : handler.take_radiogroup_action,
             SetuActionType.GUIAUTO_RADIOGROUP_GET_FIRST_SELECTED_OPTION_VALUE  : handler.take_radiogroup_action,
 
-            SetuActionType.GUIAUTO_DOMROOT_FOCUS : None,
-            SetuActionType.GUIAUTO_DOMROOT_CREATE_FRAME : None,
+            SetuActionType.GUIAUTO_DOMROOT_FOCUS : handler.take_domroot_action,
+            SetuActionType.GUIAUTO_DOMROOT_CREATE_FRAME : handler.take_domroot_action,
             
             SetuActionType.GUIAUTO_FRAME_FOCUS : handler.take_frame_action,
             SetuActionType.GUIAUTO_FRAME_CREATE_FRAME : handler.take_frame_action,
@@ -149,11 +151,12 @@ class SetuSvc(Resource):
             
             SetuActionType.GUIAUTO_MAIN_WINDOW_MAXIMIZE : handler.take_main_window_action,
             SetuActionType.GUIAUTO_MAIN_WINDOW_CREATE_CHILD_WINDOW : handler.take_main_window_action,
-            SetuActionType.GUIAUTO_MAIN_WINDOW_GET_NEWLY_LAUNCHED_CHILD_WINDOW : handler.take_main_window_action,
+            SetuActionType.GUIAUTO_MAIN_WINDOW_GET_LATEST_CHILD_WINDOW : handler.take_main_window_action,
             SetuActionType.GUIAUTO_MAIN_WINDOW_CLOSE_ALL_CHILD_WINDOWS : handler.take_main_window_action,
             
             SetuActionType.GUIAUTO_CHILD_WINDOW_CLOSE : handler.take_child_window_action,
         }
 
         method = action_method_map[action_type]
-        return method(action_type.name.replace(handler_remove_prefix[method], "").lower(), json_dict)
+        del json_dict["action"]
+        return method(action_type.name.replace(handler_remove_prefix[method], "").lower(), json_dict["args"])
