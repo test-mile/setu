@@ -1,5 +1,4 @@
 from setu.core.guiauto.base.conditions import DynamicCaller, CommandCondition
-from setu.core.guiauto.actions.finder_actions import FinderActions
 
 class GuiElementContainerConditions:
 

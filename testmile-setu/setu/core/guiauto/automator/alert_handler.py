@@ -1,4 +1,3 @@
-from setu.core.guiauto.actions.automator_actions import TestAutomatorActionBodyCreator
 from .handler import Handler
 
 class AlertHandler(Handler):

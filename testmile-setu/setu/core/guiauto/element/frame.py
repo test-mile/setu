@@ -1,6 +1,5 @@
 from setu.core.lib.setu_types import SetuManagedObject
 from setu.core.guiauto.element.guielement import GuiElement
-from setu.core.guiauto.actions.automator_actions import TestAutomatorActionBodyCreator
 
 class FrameContainer(SetuManagedObject):
     def __init__(self, automator):
@@ -57,7 +56,7 @@ class DomRoot(FrameContainer):
         self.__set_frame_context_str("root")  
 
     def focus(self):
-        self._act(TestAutomatorActionBodyCreator.jump_to_html_root())
+        self.automator.dispatcher.focus_on_html_root()
         self.set_frame_context_as_root() 
 
 # UUID is for client reference. Agent does not know about this.
@@ -90,10 +89,7 @@ class IFrame(FrameContainer):
 
     def focus(self):
         self.wrapped_element.find()
-        self._act(TestAutomatorActionBodyCreator.jump_to_frame(
-            self.wrapped_element,
-            isInstanceAction = False,
-        ))
+        self.automator.dispatcher.focus_on_frame(self.wrapped_element.setu_id)
         self.dom_root.set_frame_context(self)
 
     # def focus_on_parent(self):

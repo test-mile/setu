@@ -9,7 +9,8 @@ class SetuAgentRequester:
 
     def __raise_exception_if_error(self, response_dict):
         if (response_dict["result"].lower() == "error"):
-            raise Exception("Agent Error: " + response_dict["emessage"] + os.linesep + "Trace: " + response_dict["etrace"])
+            emessage = response_dict.get("emessage", "")
+            raise Exception("Agent Error: " + emessage + os.linesep + "Trace: " + response_dict["etrace"])
 
     def get(self, url):
         req_url = self.base_url + url

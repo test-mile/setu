@@ -1,6 +1,5 @@
 from setu.core.lib.setu_types import SetuManagedObject
 from setu.core.guiauto.element.guielement import GuiElement
-from setu.core.guiauto.actions.automator_actions import TestAutomatorActionBodyCreator
 from setu.core.constants import SetuConfigOption
 
 class BasicWindow(SetuManagedObject):
@@ -30,25 +29,22 @@ class BasicWindow(SetuManagedObject):
         return self.__automator.actor_callable(json_dict)
 
     def focus(self):
-        self._act(TestAutomatorActionBodyCreator.switch_to_window(self.handle))
+        self.automator.dispatcher.switch_to_window(self.handle)
 
     def is_main_window(self):
         return False
 
     def set_window_size(self, width, height):
-        self._act(TestAutomatorActionBodyCreator.set_window_size(width, height))
+        self.automator.dispatcher.set_current_window_size(width, height)
 
     def maximize(self):
-        self._act(TestAutomatorActionBodyCreator.maximize_window())
+        self.automator.dispatcher.maximize_current_window()
 
     def get_title(self):
-        response = self._act(TestAutomatorActionBodyCreator.get_window_title())
-        return response["data"]["title"]
+        return self.automator.dispatcher.get_current_window_title()
 
     def get_size(self):
-        response = self._act(TestAutomatorActionBodyCreator.get_current_window_size())
-        size = response["data"]["size"]
-        return size["width"], size["height"]
+        return self.automator.dispatcher.get_current_window_size()
 
 class MainWindow(BasicWindow):
 
@@ -101,8 +97,7 @@ class MainWindow(BasicWindow):
         self.focus()
 
     def get_current_window_handle(self):
-        response = self._act(TestAutomatorActionBodyCreator.get_current_window_handle())
-        return response["data"]["handle"]
+        return self.automator.dispatcher.get_current_window_handle()
 
     def get_window_for_setu_id(self, setu_id):
         if self.setu_id == setu_id:

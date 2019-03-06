@@ -1,15 +1,14 @@
 import abc
 
-from setu.core.lib.setu_types import SetuAgentProxy
+from setu.core.lib.setu_types import SetuConfiguredObject
 
 from setu.core.guiauto.locator.emd import SimpleGuiElementMetaData
-from setu.core.guiauto.actions.finder_actions import FinderActions
 
 from .container_conditions import GuiElementContainerConditions
 
-class ElementContainer(SetuAgentProxy, metaclass=abc.ABCMeta):
-    def __init__(self, config, agent_requester):
-        super().__init__(config, agent_requester)
+class ElementContainer(SetuConfiguredObject, metaclass=abc.ABCMeta):
+    def __init__(self, config):
+        super().__init__(config)
         self.element_map = {}
         self.melement_map = {}
         self.__container_conditions = GuiElementContainerConditions(self)

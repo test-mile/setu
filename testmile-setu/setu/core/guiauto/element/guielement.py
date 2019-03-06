@@ -1,4 +1,3 @@
-from setu.core.guiauto.actions.element_actions import ElementActionBodyCreator
 from .base_element import BaseElement
 
 class GuiElement(BaseElement):

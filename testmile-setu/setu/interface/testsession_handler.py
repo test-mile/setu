@@ -1,6 +1,7 @@
 from setu.core.test.testsession import TestSession
 from .guiautomator_handler import GuiAutomatorHandler
 from setu.core.constants import SetuConfigOption
+from setu.dispatcher.testsession import TestSessionDispatcher
 
 class TestSessionHandler:
 
@@ -9,6 +10,7 @@ class TestSessionHandler:
         self.__automator_handlers = {}
         self.__conf_handler = None
         self.__databroker_handler = None
+        self.__dispatcher = TestSessionDispatcher()
 
 
     def __register_gui_automator_handler(self, handler):
@@ -60,7 +62,7 @@ class TestSessionHandler:
         print(json_dict)
         config_setu_id = self.get_config_setuid(json_dict)
         config = self.__testsession.configurator.get_config(config_setu_id)
-        handler = GuiAutomatorHandler()
+        handler = GuiAutomatorHandler(self.__dispatcher)
         handler.launch_automator(config)
         self.__register_gui_automator_handler(handler)
         return {'automatorSetuId' : handler.setu_id}

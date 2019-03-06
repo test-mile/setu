@@ -1,6 +1,5 @@
 from setu.core.guiauto.element.base_element import BaseElement
 from setu.core.guiauto.element.guielement import GuiElement  
-from setu.core.guiauto.actions.element_actions import ElementActionBodyCreator
 
 class GuiMultiElement(BaseElement):
     

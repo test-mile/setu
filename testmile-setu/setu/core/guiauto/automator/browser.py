@@ -1,5 +1,3 @@
-from setu.core.guiauto.actions.automator_actions import \
-    TestAutomatorActionBodyCreator
 from setu.core.constants import SetuConfigOption
 
 from .guiautomator import GuiAutomator
@@ -17,16 +15,16 @@ class Browser(Handler):
         return self.__dom_root
 
     def go_to_url(self, url):
-        self._act(TestAutomatorActionBodyCreator.go_to_url(url=url))
+        self.automator.dispatcher.go_to_url(url=url)
 
     def go_back(self, url):
-        self._act(TestAutomatorActionBodyCreator.go_to_url(url=url))
+        self.automator.dispatcher.go_back()
 
     def go_forward(self, url):
-        self._act(TestAutomatorActionBodyCreator.go_to_url(url=url))
+        self.automator.dispatcher.go_forward()
 
     def refresh(self, url):
-        self._act(TestAutomatorActionBodyCreator.go_to_url(url=url))
+        self.automator.dispatcher.refresh()
 
     def execute_javascript(self, js):
-        self._act(TestAutomatorActionBodyCreator.execute_javascript(js))
+        self.automator.dispatcher.execute_javascript(script=js)

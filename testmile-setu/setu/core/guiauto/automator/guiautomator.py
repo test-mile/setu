@@ -3,7 +3,6 @@ import os
 import time
 
 from setu.core.constants import SetuConfigOption
-from setu.core.guiauto.actions.automator_actions import *
 from setu.core.guiauto.base.element_container import ElementContainer
 from setu.core.guiauto.element.guielement import GuiElement
 from setu.core.guiauto.element.multielement import GuiMultiElement
@@ -13,8 +12,8 @@ from setu.core.webclient.requester import SetuAgentRequester
 
 class GuiAutomator(ElementContainer):
 
-    def __init__(self, agent_base_url, config):
-        super().__init__(config, SetuAgentRequester(agent_base_url))
+    def __init__(self, config):
+        super().__init__(config)
         self.__automator_uri = "/guiauto/automator/{}".format(self.get_setu_id())
         self.__create_screenshots_dir()
         self.__main_window = None
@@ -68,7 +67,7 @@ class GuiAutomator(ElementContainer):
         return self.__automator_uri
 
     def launch(self):
-        self._post("/launch", self.config.as_json_dict())
+        self.dispatcher.launch(self.config.as_json_dict())
 
         from setu.core.guiauto.element.window import MainWindow
         self.__main_window = MainWindow(self)
@@ -77,7 +76,7 @@ class GuiAutomator(ElementContainer):
         self.__browser = Browser(self)
 
     def quit(self):
-        self._get("/quit")
+        self.dispatcher.quit()
 
     def __screenshot(self):
         switch_view_context = None
@@ -87,7 +86,7 @@ class GuiAutomator(ElementContainer):
                 self.view_handler.switch_to_native_view() 
                 switch_view_context = view_name
 
-        response = self._get("/screenshot")
+        response = self.dispatcher.take_screenshot()
 
         if switch_view_context:
             self.view_handler.switch_to_view_context(switch_view_context)

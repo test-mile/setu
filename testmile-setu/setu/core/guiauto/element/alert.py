@@ -1,6 +1,5 @@
 from setu.core.lib.setu_types import SetuManagedObject
 from setu.core.guiauto.element.guielement import GuiElement
-from setu.core.guiauto.actions.automator_actions import TestAutomatorActionBodyCreator
 from setu.core.constants import SetuConfigOption
 
 class Alert(SetuManagedObject):

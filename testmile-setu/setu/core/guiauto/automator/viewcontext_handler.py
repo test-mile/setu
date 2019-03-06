@@ -1,5 +1,3 @@
-from setu.core.guiauto.actions.automator_actions import \
-    TestAutomatorActionBodyCreator
 from setu.core.constants import SetuConfigOption
 
 from .guiautomator import GuiAutomator
