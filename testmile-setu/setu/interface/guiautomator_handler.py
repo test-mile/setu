@@ -102,17 +102,17 @@ class GuiAutomatorHandler:
         radiogroup =  self.automator.get_element_for_setu_id(elem_setu_id)
         return getattr(RadioGroupHandler, action)(radiogroup, **json_dict)
 
-    def take_frame_action(self, action, elem_setu_id, json_dict):
-        frame =  self.automator.get_element_for_setu_id(elem_setu_id)
-        return getattr(FrameHandler, action)(frame, **json_dict)
-
     def take_alert_action(self, action, elem_setu_id, json_dict):
         self.automator.slomo()
         alert =  self.automator.alert_handler.get_alert_for_setu_id(elem_setu_id)
         return getattr(AlertHandler, action)(alert, **json_dict)
 
     def take_domroot_action(self, action, json_dict):
-        return getattr(DomRootHandler, action)(self.automator, **json_dict) 
+        return getattr(DomRootHandler, action)(self.automator.browser.dom_root, **json_dict) 
+
+    def take_frame_action(self, action, elem_setu_id, json_dict):
+        frame =  self.automator.get_element_for_setu_id(elem_setu_id)
+        return getattr(FrameHandler, action)(frame, **json_dict)
 
 # Separates the underlying structure and names
 # Also builds json response data where applicable
@@ -197,20 +197,6 @@ class RadioGroupHandler:
     def select_by_index(cls, radiogroup, index):
         return radiogroup.select_by_index(index)
 
-class FrameHandler:
-
-    @classmethod
-    def jump(cls, frame):
-        return frame.jump()
-
-    @classmethod
-    def jump_to_parent(cls, frame):
-        return frame.jump_to_parent()
-
-    @classmethod
-    def jump_to_root(cls, frame):
-        return frame.jump_to_root()
-
 class WindowHandler:
 
     @classmethod
@@ -284,5 +270,23 @@ class BrowserHandler:
 class DomRootHandler:
 
     @classmethod
-    def focus(cls, automator):
-        return automator.focus_on_dom_root()
+    def focus(cls, dom_root):
+        return dom_root.focus()
+
+    @classmethod
+    def create_frame(cls, dom_root, withType, withValue):
+        return {"elementSetuId" : dom_root.create_frame_with_locator(withType, withValue).setu_id}
+
+class FrameHandler:
+
+    @classmethod
+    def focus(cls, frame):
+        return frame.focus()
+
+    @classmethod
+    def get_parent(cls, frame):
+        return {"elementSetuId" : frame.get_parent().setu_id}
+
+    @classmethod
+    def create_frame(cls, frame, withType, withValue):
+        return {"elementSetuId" : frame.create_frame_with_locator(withType, withValue).setu_id}

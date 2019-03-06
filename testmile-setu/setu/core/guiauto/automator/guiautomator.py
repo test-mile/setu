@@ -18,18 +18,16 @@ class GuiAutomator(ElementContainer):
         self.__automator_uri = "/guiauto/automator/{}".format(self.get_setu_id())
         self.__create_screenshots_dir()
         self.__main_window = None
-        self.__frame_context = "root"
         self.__in_slomo = config.setu_config.value(SetuConfigOption.GUIAUTO_SLOMO_ON)
         self.__slomo_interval = config.setu_config.value(SetuConfigOption.GUIAUTO_SLOMO_INTERVAL)
 
         from .alert_handler import AlertHandler
         from .automator_conditions import GuiAutomatorConditions
         from .viewcontext_handler import ViewContextHandler
-        from .browser_handler import BrowserHandler
         self.__alert_handler = AlertHandler(self)
         self.__conditions_handler = GuiAutomatorConditions(self)
         self.__view_handler = ViewContextHandler(self)
-        self.__browser_handler = BrowserHandler(self)
+        self.__browser = None
 
     def slomo(self):
         if self.__in_slomo:
@@ -42,7 +40,7 @@ class GuiAutomator(ElementContainer):
 
     @property
     def browser(self):
-        return self.__browser_handler
+        return self.__browser
 
     @property
     def main_window(self):
@@ -60,9 +58,6 @@ class GuiAutomator(ElementContainer):
     def conditions(self):
         return self.__conditions_handler
 
-    def get_frame_context(self):
-        return self.__frame_context
-
     def __create_screenshots_dir(self):
         sdir = self.config.setu_config.value(SetuConfigOption.SCREENSHOTS_DIR)
         if not os.path.isdir(sdir):
@@ -77,6 +72,9 @@ class GuiAutomator(ElementContainer):
 
         from setu.core.guiauto.element.window import MainWindow
         self.__main_window = MainWindow(self)
+
+        from .browser import Browser
+        self.__browser = Browser(self)
 
     def quit(self):
         self._get("/quit")
@@ -104,21 +102,8 @@ class GuiAutomator(ElementContainer):
         f.write(image)
         f.close()
 
-    def __set_frame_context_str(self, name):
-        self.__frame_context = name
-        print("Automator is in {} frame".format(self.__frame_context))
-
-    def set_frame_context(self, frame):
-        self.__set_frame_context_str(frame.get_setu_id())
-
-    def set_frame_context_as_root(self):
-        self.__set_frame_context_str("root")
-
-    def create_frame_with_locator(self, locator_name, locator_value):
-        from setu.core.guiauto.element.frame import IFrame
-        frame = IFrame(self, locator_name, locator_value)
-        self._add_element(frame.get_setu_id(), frame)
-        return frame
-
     def focus_on_main_window(self):
         self.main_window.focus()
+
+    def add_frame(self, frame):
+        self._add_element(frame.setu_id, frame)

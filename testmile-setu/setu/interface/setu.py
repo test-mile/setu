@@ -103,7 +103,6 @@ class SetuSvc(Resource):
             
             SetuActionType.GUIAUTO_GET_MAIN_WINDOW : handler.take_automator_action,
             SetuActionType.GUIAUTO_SET_SLOMO : handler.take_automator_action,
-            SetuActionType.GUIAUTO_DOMROOT_FOCUS : handler.take_domroot_action,
 
             SetuActionType.GUIAUTO_ALERT_CONFIRM : handler.take_alert_action,
             SetuActionType.GUIAUTO_ALERT_DISMISS : handler.take_alert_action,

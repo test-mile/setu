@@ -30,7 +30,6 @@ class ElementContainer(SetuAgentProxy, metaclass=abc.ABCMeta):
         from setu.core.guiauto.element.guielement import GuiElement
         elem = GuiElement(self, locator_meta_data)
         self._add_element(elem.get_setu_id(), elem)
-        print(elem.get_setu_id())
         return elem
 
     def create_element_with_locator(self, locator_name, locator_value):

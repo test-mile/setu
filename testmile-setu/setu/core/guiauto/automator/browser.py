@@ -5,10 +5,16 @@ from setu.core.constants import SetuConfigOption
 from .guiautomator import GuiAutomator
 from .handler import Handler
 
-class BrowserHandler(Handler):
+class Browser(Handler):
 
     def __init__(self, automator: GuiAutomator):
         super().__init__(automator)
+        from setu.core.guiauto.element.frame import DomRoot
+        self.__dom_root = DomRoot(automator)
+
+    @property
+    def dom_root(self):
+        return self.__dom_root
 
     def go_to_url(self, url):
         self._act(TestAutomatorActionBodyCreator.go_to_url(url=url))

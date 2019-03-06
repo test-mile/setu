@@ -2,73 +2,125 @@ from setu.core.lib.setu_types import SetuManagedObject
 from setu.core.guiauto.element.guielement import GuiElement
 from setu.core.guiauto.actions.automator_actions import TestAutomatorActionBodyCreator
 
-# UUID is for client reference. Agent does not know about this.
-class IFrame(SetuManagedObject):
-
-    def __init__(self, automator, locator_name, locator_value):
+class FrameContainer(SetuManagedObject):
+    def __init__(self, automator):
         super().__init__()
-        self._multi_element = None
-        if locator_name.lower() == "index":
-            index = int(locator_value)
-            self._multi_element = automator.create_multielement_with_locator("xpath", "//iframe")
-            self._multi_element.find()
-            self._wrapped_main_element = self._multi_element.get_instance_at_index(index)
-        else:
-            self._wrapped_main_element = automator.create_element_with_locator(locator_name, locator_value)
-        tag = self._wrapped_main_element.get_tag_name()
+        self.__automator = automator
+
+    @property
+    def automator(self):
+        return self.__automator
+
+    def _act(self, json_dict):
+        return self.__automator.actor_callable(json_dict)
+
+    def __check_tag(self, wrapped_element):
+        tag = wrapped_element.get_tag_name()
         if tag.lower() != "iframe":
             raise Exception("The element should have a 'iframe' tag for IFrame element. Found: " + tag)
+
+    def create_frame_with_locator(self, locator_name, locator_value):
+        if locator_name.lower() == "index":
+            index = int(locator_value)
+            multi_element = self.automator.create_multielement_with_locator("xpath", "//iframe")
+            multi_element.find()
+            wrapped_element = multi_element.get_instance_at_index(index)
+            self.__check_tag(wrapped_element)
+            frame = IPartialFrame(self.automator, self, multi_element, wrapped_element)
+        else:
+            wrapped_element = self.automator.create_element_with_locator(locator_name, locator_value)
+            self.__check_tag(wrapped_element)
+            frame = IFrame(self.automator, self, wrapped_element)
+
+        self.automator.add_frame(frame)
+        return frame
+
+class DomRoot(FrameContainer):
+
+    def __init__(self, automator):
+        super().__init__(automator)
+        self.__frame_context = "root"
+        self.automator.add_frame(self)
+
+    @property
+    def frame_context(self):
+        return self.__frame_context
+
+    def __set_frame_context_str(self, name):
+        self.__frame_context = name
+        print("Automator is in {} frame".format(self.__frame_context))
+
+    def set_frame_context(self, frame):
+        self.__set_frame_context_str(frame.get_setu_id())
+
+    def set_frame_context_as_root(self):
+        self.__set_frame_context_str("root")  
+
+    def focus(self):
+        self._act(TestAutomatorActionBodyCreator.jump_to_html_root())
+        self.set_frame_context_as_root() 
+
+# UUID is for client reference. Agent does not know about this.
+class IFrame(FrameContainer):
+
+    def __init__(self, automator, dom_root, wrapped_element):
+        super().__init__(automator)
+        self.__dom_root = dom_root
         self.__parent_frames = []
-        self.__automator = automator
+        self.__wrapped_element = wrapped_element
+
+    @property
+    def dom_root(self):
+        return self.__dom_root
+
+    @property
+    def wrapped_element(self):
+        return self.__wrapped_element
 
     def set_parents(self, parents):
         self.__parent_frames = parents
 
     def _act(self, json_dict):
-        return self.__automator.actor_callable(json_dict)
+        return self.dom_root._act(json_dict)
 
-    def jump(self):
+    def _focus_on_parents(self):
         if self.__parent_frames:
             for parent in self.__parent_frames:
-                parent.switch()
+                parent.focus()
 
-        # Handle frame by index
-        if self._multi_element:
-            self._multi_element.find()
-            self._act(TestAutomatorActionBodyCreator.jump_to_frame(
-                self._multi_element,
-                **self.get_instance_dict())
-        )
-        else:
-            self._wrapped_main_element.find()
-            self._act(TestAutomatorActionBodyCreator.jump_to_frame(
-                self._wrapped_main_element,
-                **self.get_instance_dict())
-            )
-        self.__automator.set_frame_context(self)
+    def focus(self):
+        self.wrapped_element.find()
+        self._act(TestAutomatorActionBodyCreator.jump_to_frame(
+            self.wrapped_element,
+            isInstanceAction = False,
+        ))
+        self.dom_root.set_frame_context(self)
 
-    def jump_to_child(self, locator_name, locator_value):
-        frame = IFrame(self.__automator, locator_name, locator_value)
-        frame.set_parents(self.__parent_frames + [self])
-        frame.jump()
-        self.__automator.set_frame_context(frame)
+    # def focus_on_parent(self):
+    #     self._act(TestAutomatorActionBodyCreator.jump_to_parent_frame())
+    #     if self.__parent_frames:
+    #         self.dom_root.set_frame_context(self.__parent_frames[-1])
+    #     else:
+    #         self.dom_root.set_frame_context_as_root()
 
-    def jump_to_parent(self):
-        self._act(TestAutomatorActionBodyCreator.jump_to_parent_frame())
+    def get_parent(self):
         if self.__parent_frames:
-            self.__automator.set_frame_context(self.__parent_frames[-1])
+            return self.__parent_frames[-1]
         else:
-            self.__automator.set_frame_context_as_root()
+            return self.dom_root
 
-    def jump_to_root(self):
-        self._act(TestAutomatorActionBodyCreator.jump_to_html_root())
-        self.__automator.set_frame_context_as_root()
 
-    def get_instance_dict(self):
-        d = {}
-        if self._multi_element:
-            d["isInstanceAction"] = True
-            d["instanceIndex"] = self._wrapped_main_element._get_instance_number()
-        else:
-            d["isInstanceAction"] = False
-        return d
+class IPartialFrame(IFrame):
+
+    def __init__(self, automator, dom_root, melement, wrapped_element):
+        super().__init__(automator, dom_root, wrapped_element)
+        self.__melement = melement
+
+    def focus(self):
+        self.__melement.find()
+        self._act(TestAutomatorActionBodyCreator.jump_to_frame(
+            self.__melement,
+            isInstanceAction = True,
+            instanceIndex = self.wrapped_element._get_instance_number()
+        ))
+        self.dom_root.set_frame_context(self)

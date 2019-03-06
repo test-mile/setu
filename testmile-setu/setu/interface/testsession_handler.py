@@ -130,7 +130,7 @@ class TestSessionHandler:
         return self.__take_automator_element_action("take_radiogroup_action", action, json_dict)
 
     def take_frame_action(self, action, json_dict):
-        return self.__take_automator_element_action("take_radiogroup_action", action, json_dict)
+        return self.__take_automator_element_action("take_frame_action", action, json_dict)
 
     def take_window_action(self, action, json_dict):
         return self.__take_automator_element_action("take_window_action", action, json_dict)
