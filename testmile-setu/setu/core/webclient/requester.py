@@ -8,6 +8,8 @@ class SetuAgentRequester:
         self.base_url = base_url
 
     def __raise_exception_if_error(self, response_dict):
+        if response_dict is None:
+            raise Exception("Setu Actor's JSON response is null.")
         if (response_dict["result"].lower() == "error"):
             emessage = response_dict.get("emessage", "")
             raise Exception("Agent Error: " + emessage + os.linesep + "Trace: " + response_dict["etrace"])

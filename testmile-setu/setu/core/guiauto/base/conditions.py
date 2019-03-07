@@ -40,7 +40,7 @@ class Condition:
                 if self.is_met():
                     return self.get_call_result()
             except ConditionException as ce:
-                break
+                raise ce
             except:
                 pass
             time.sleep(poll_interval)
@@ -73,4 +73,7 @@ class BooleanCondition(Condition):
             self.execute()
             return self.__expectation_type == self.get_call_result()
         except Exception as e:
+            print(e)
+            import traceback
+            traceback.print_exc()
             raise ConditionException("Unexpected exception in boolean condition checking: " + str(e))

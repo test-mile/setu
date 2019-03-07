@@ -44,11 +44,21 @@ class GuiAutomator:
     def take_screenshot(self):
         self.post()
 
-    def find_element(self):
-        self.post()
+    def find_element(self, child_gui_element_set_id, with_type, with_value):
+        self.post(
+            elementSetuId = child_gui_element_set_id,
+            withType = with_type,
+            withValue = with_value
+        )
 
-    def find_multielement(self):
-        self.post()
+    def find_multielement(self, child_gui_element_set_id, with_type, with_value):
+        response = self.post(
+            elementSetuId = child_gui_element_set_id,
+            withType = with_type,
+            withValue = with_value
+        )
+
+        return response["data"]["instanceCount"]
 
     def get_current_window_handle(self):
         response = self.post()

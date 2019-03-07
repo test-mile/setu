@@ -4,8 +4,8 @@ from setu.core.guiauto.automator.guiautomator import GuiAutomator
 # Arg names of methods show JSON names, so don't follow Python conventions.
 class GuiAutomatorHandler:
 
-    def __init__(self, dispatcher):
-        self.__dispatcher = dispatcher
+    def __init__(self, dispatcher_creator):
+        self.__dispatcher_creator = dispatcher_creator
         self.__automator = None
 
     @property
@@ -18,7 +18,7 @@ class GuiAutomatorHandler:
 
     def launch_automator(self, config):
         self.__automator = GuiAutomator(config)
-        self.__automator.set_dispatcher(self.__dispatcher.guiAutomatorRemoteDispatcher(self.setu_id))
+        self.__automator.dispatcher_creator = self.__dispatcher_creator
         self.__automator.launch()
 
     def quit(self):

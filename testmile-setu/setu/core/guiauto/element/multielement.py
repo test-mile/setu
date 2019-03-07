@@ -6,12 +6,7 @@ class GuiMultiElement(BaseElement):
     def __init__(self, automator, emd):
         super().__init__(automator, emd)
         self.instance_count = 0
-        self.__uri = "/guiauto/multielement/{}".format(self.get_setu_id())
         self.__instances = None
-
-    #Override
-    def _get_object_uri(self):
-        return self.__uri
 
     def find(self):
         self.get_automator().find_multielement(self)
@@ -48,7 +43,7 @@ class GuiMultiElement(BaseElement):
 
     def wait_until_visible(self):
         self.find_if_not_found()
-        self._act(ElementActionBodyCreator.wait_until_visible())
+        # Should the logic be keptin Setu itself for this????
 
     def __return_attr_values(self, response):
         if "data" in response and "attrValues" in response["data"]:
@@ -132,12 +127,16 @@ class _GuiPartialElement(GuiElement):
 
     def __init__(self, automator, multi_element: GuiMultiElement, instance_number: int):
         super().__init__(automator, multi_element.get_locator_meta_data())
-        self.__uri = "/guiauto/multielement/{}".format(multi_element.get_setu_id())
+        self.__multi_element = multi_element
         self.__instance_number = instance_number
+        dispatcher = self.__multi_element.dispatcher_creator.guiElementRemoteDispatcher(
+            automator.setu_id, self.__multi_element.setu_id
+        )
+        dispatcher.set_partial(self.__instance_number)
+        self._set_dispatcher(dispatcher)
 
-    #Override
-    def _get_object_uri(self):
-        return self.__uri
+    def create_dispatcher(self):
+        pass
 
     #Override
     def find_if_not_found(self):

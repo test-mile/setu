@@ -28,6 +28,7 @@ class ElementContainer(SetuConfiguredObject, metaclass=abc.ABCMeta):
     def create_element(self, locator_meta_data):
         from setu.core.guiauto.element.guielement import GuiElement
         elem = GuiElement(self, locator_meta_data)
+        elem.dispatcher_creator = self.dispatcher_creator
         self._add_element(elem.get_setu_id(), elem)
         return elem
 
@@ -37,6 +38,7 @@ class ElementContainer(SetuConfiguredObject, metaclass=abc.ABCMeta):
     def create_multielement(self, locator_meta_data):
         from setu.core.guiauto.element.multielement import GuiMultiElement
         element = GuiMultiElement(self, locator_meta_data)
+        element.dispatcher_creator = self.dispatcher_creator
         self._add_multielement(element.get_setu_id(), element)
         return element
 
@@ -46,26 +48,27 @@ class ElementContainer(SetuConfiguredObject, metaclass=abc.ABCMeta):
     def create_dropdown_with_locator(self, locator_name, locator_value):
         from setu.core.guiauto.element.dropdown import GuiWebSelect
         select = GuiWebSelect(self, locator_name, locator_value)
+        select.dispatcher_creator = self.dispatcher_creator
         self._add_element(select.get_setu_id(), select)
         return select
 
     def create_radiogroup_with_locator(self, locator_name, locator_value):
         from setu.core.guiauto.element.radio_group import GuiWebRadioGroup
         rg = GuiWebRadioGroup(self, locator_name, locator_value)
+        rg.dispatcher_creator = self.dispatcher_creator
         self._add_element(rg.get_setu_id(), rg)
         return rg
 
-    def _find(self, json_creator, gui_element):
+    def _find(self, dispatcher_call, gui_element):
+        print (dispatcher_call)
+        print (gui_element.get_locator_meta_data().get_locators())
         found = False
         for locator_type, locator_value in gui_element.get_locator_meta_data().get_locators(): 
             try:
-                body = self._act(json_creator(
-                    uuid=gui_element.get_setu_id(),
-                    byType=locator_type,
-                    byValue=locator_value
-                ))
-                return locator_type, locator_value, body
+                instance_count = dispatcher_call(gui_element.get_setu_id(), locator_type, locator_value)
+                return locator_type, locator_value, instance_count
             except Exception as e:
+                print(e)
                 continue
         if not found:
             raise Exception("Could not locate elements with locator(s): {}".format(gui_element.get_locator_meta_data().get_locators()))
@@ -77,9 +80,9 @@ class ElementContainer(SetuConfiguredObject, metaclass=abc.ABCMeta):
         return self.__container_conditions.PresenceOfMultiElement(gui_element).wait()
 
     def find_multielement(self, gui_element):
-        locator_type, locator_value, body = self.wait_until_multielement_found(gui_element)
+        locator_type, locator_value, instance_count = self.wait_until_multielement_found(gui_element)
         gui_element.set_found_with(locator_type, locator_value)
-        gui_element.set_instance_count(body["data"]["instanceCount"])
+        gui_element.set_instance_count(instance_count)
 
     def find_element(self, gui_element):
         locator_type, locator_value, __ = self.wait_until_element_found(gui_element)

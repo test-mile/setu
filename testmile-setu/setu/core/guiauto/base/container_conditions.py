@@ -5,10 +5,18 @@ class GuiElementContainerConditions:
     def __init__(self, container):
         self.__container = container
 
-    def PresenceOfElement(self, element):
-        caller = DynamicCaller(self.__container._find, FinderActions.find_element, element)
+    def PresenceOfElement(self, gui_element):
+        caller = DynamicCaller(
+            self.__container._find,  
+            self.__container.dispatcher.find_element,
+            gui_element
+        )
         return CommandCondition(caller)   
 
-    def PresenceOfMultiElement(self, element):
-        caller = DynamicCaller(self.__container._find, FinderActions.find_multielement, element)
+    def PresenceOfMultiElement(self, gui_element):
+        caller = DynamicCaller(
+            self.__container._find, 
+            self.__container.dispatcher.find_multielement,
+            gui_element
+        )
         return CommandCondition(caller)  

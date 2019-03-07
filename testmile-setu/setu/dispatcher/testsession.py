@@ -10,5 +10,5 @@ class TestSessionDispatcher:
     def guiAutomatorRemoteDispatcher(self, setu_id):
         return GuiAutomator(setu_id, SetuActorRequester(self.__java_actor_url))
 
-    def guiElementRemoteDispatcher(self, automator_setu_id, config):
-        return GuiElement(automator_setu_id, self.__java_actor_url)
+    def guiElementRemoteDispatcher(self, automator_setu_id, element_setu_id):
+        return GuiElement(automator_setu_id, element_setu_id, SetuActorRequester(self.__java_actor_url))

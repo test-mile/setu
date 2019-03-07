@@ -6,11 +6,6 @@ class GuiElement(BaseElement):
         super().__init__(automator, emd)
         from .element_conditions import GuiElementConditions
         self.__conditions_handler = GuiElementConditions(self)
-        self.__element_uri = "/guiauto/element/{}".format(self.get_setu_id())  
-
-    #Override
-    def _get_object_uri(self):
-        return self.__element_uri
 
     def find(self):
         self.get_automator().find_element(self)
@@ -39,31 +34,25 @@ class GuiElement(BaseElement):
         return self.__append_instance_number({})
 
     def _only_send_text(self, text):
-        self._act(ElementActionBodyCreator.send_text(**self._kwargs(text=text)))
+        self.dispatcher.send_text(text)
 
     def _only_click(self):
-        self._act(ElementActionBodyCreator.click(**self._noargs()))
+        self.dispatcher.click()
 
-    def __return_attr_value(self, response):
-        if "data" in response and "attrValue" in response["data"]:
-            return response["data"]["attrValue"]
-        else:
-            return None
+    def __return_attr_value(self, result):
+        return result and result or None
 
     def get_tag_name(self):
         self.find_if_not_found()
-        response = self._act(ElementActionBodyCreator.get_tag_name(**self._noargs()))
-        return self.__return_attr_value(response)
+        return self.__return_attr_value(self.dispatcher.get_tag_name())
 
     def get_attr_value(self, attr):
         self.find_if_not_found()
-        response = self._act(ElementActionBodyCreator.get_attr_value(**self._kwargs(attr=attr)))
-        return self.__return_attr_value(response)
+        return self.__return_attr_value(self.dispatcher.get_attr_value())
 
     def get_text_content(self):
         self.find_if_not_found()
-        response = self._act(ElementActionBodyCreator.get_text_content(**self._noargs()))
-        return self.__return_attr_value(response)
+        return self.__return_attr_value(self.dispatcher.get_text_content())
 
     def click(self):
         self.find_if_not_found()
@@ -72,7 +61,8 @@ class GuiElement(BaseElement):
 
     def __conditional_selected_state_click(self, condition_state):
         self.find_if_not_found()
-        if self.is_selected() == condition_state:
+        selected = self.is_selected()
+        if selected == condition_state:
             self.wait_until_clickable()
             self._only_click()
 
@@ -99,25 +89,23 @@ class GuiElement(BaseElement):
     #################################
     def is_selected(self):
         self.find_if_not_found()
-        response = self._act(ElementActionBodyCreator.is_selected(**self._noargs()))
-        return response["data"]["checkResult"]
+        return self.dispatcher.is_selected()
 
     def is_visible(self):
         self.find_if_not_found()
-        response = self._act(ElementActionBodyCreator.is_visible(**self._noargs()))
-        return response["data"]["checkResult"]
+        return self.dispatcher.is_visible()
 
     def is_clickable(self):
+        print("isclickable")
         self.find_if_not_found()
-        response = self._act(ElementActionBodyCreator.is_clickable(**self._noargs()))
-        return response["data"]["checkResult"]
+        return self.dispatcher.is_clickable()
 
     @property
     def conditions(self):
         return self.__conditions_handler
 
     def _only_clear_text(self):
-        self._act(ElementActionBodyCreator.clearText(**self._noargs()))
+        self.dispatcher.clear_text()
 
     def _only_enter_text(self, text):
         self._only_send_text(text)

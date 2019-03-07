@@ -28,6 +28,9 @@ class GuiAutomator(ElementContainer):
         self.__view_handler = ViewContextHandler(self)
         self.__browser = None
 
+    def create_dispatcher(self):
+        self._set_dispatcher(self.dispatcher_creator.guiAutomatorRemoteDispatcher(self.setu_id))
+
     def slomo(self):
         if self.__in_slomo:
             time.sleep(self.__slomo_interval)
