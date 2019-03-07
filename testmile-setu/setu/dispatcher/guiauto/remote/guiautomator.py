@@ -38,7 +38,7 @@ class GuiAutomator:
     def refersh_browser(self):
         self.post()
 
-    def excute_javascript(self, script):
+    def execute_javascript(self, script):
         self.post(script=script)
 
     def take_screenshot(self):
@@ -60,25 +60,36 @@ class GuiAutomator:
 
         return response["data"]["instanceCount"]
 
+    def __get_value_from_response(self, response, key):
+        if "data" not in response:
+            raise Exception("Setu actor json response: {} does not contain 'data' key.")
+        elif key not in response:
+            raise Exception("Setu actor json response: {} does not contain key <{}> in data section.")
+        else:
+            return response["data"][key]
+
+    def __get_result(self, response):
+        return self.__get_value_from_response(response, "result")
+
     def get_current_window_handle(self):
         response = self.post()
-        print(response)
-        return response["data"]["handle"]
+        return self.__get_result(response)
 
     def get_current_window_title(self):
         response = self.post()
-        return response["data"]["title"]
+        return self.__get_result(response)
 
     def maximize_current_window(self):
         self.post()
 
     def get_current_window_size(self):
         response = self.post()
-        size = response["data"]["size"]
+        size = self.__get_result(response)
         return size["width"], size["height"]
 
     def get_all_window_handles(self):
-        self.post()
+        response = self.post()
+        return self.__get_result(response)
 
     def switch_to_window(self):
         self.post()
@@ -87,7 +98,8 @@ class GuiAutomator:
         self.post()
 
     def is_alert_present(self):
-        self.post()
+        response = self.post()
+        return self.__get_result(response)
 
     def confirm_alert(self):
         self.post()
@@ -96,19 +108,22 @@ class GuiAutomator:
         self.post()
 
     def get_text_from_alert(self):
-        self.post()
+        response = self.post()
+        return self.__get_result(response)
 
-    def send_text_to_alert(self):
-        self.post()
+    def send_text_to_alert(self,text):
+        self.post(text=text)
 
     def get_current_view_context(self):
-        self.post()
+        response = self.post()
+        return self.__get_result(response)
 
     def get_all_view_contexts(self):
-        self.post()
+        response = self.post()
+        return self.__get_result(response)
 
-    def switch_to_view_context(self):
-        self.post()
+    def switch_to_view_context(self, view_context):
+        self.post(viewContext=view_context)
 
     def focus_on_frame(self, elem_setu_id, is_instance_action=False):
         self.post(elementSetuId=elem_setu_id, instanceAction=is_instance_action)

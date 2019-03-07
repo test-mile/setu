@@ -12,20 +12,16 @@ class Alert(SetuManagedObject):
     def automator(self):
         return self.__automator
 
-    def _act(self, json_dict):
-        return self.__automator.actor_callable(json_dict)
-
     def confirm(self):
-        self._act(TestAutomatorActionBodyCreator.confirm_alert())
+        self.automator.dispatcher.confirm_alert()
         self.automator.alert_handler.delete_alert()
 
     def dismiss(self):
-        self._act(TestAutomatorActionBodyCreator.dismiss_alert())
+        self.automator.dispatcher.dismiss_alert()
         self.automator.alert_handler.delete_alert()
 
     def send_text(self, text):
-        self._act(TestAutomatorActionBodyCreator.send_text_to_alert(text))
+        self.automator.dispatcher.send_text_to_alert(text)
 
     def get_text(self):
-        response = self._act(TestAutomatorActionBodyCreator.get_text_from_alert())
-        return response["data"]["text"]
+        return self.automator.dispatcher.get_text_from_alert()

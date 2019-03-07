@@ -38,8 +38,7 @@ class AlertHandler(Handler):
         self.automator.conditions.AlertIsPresent().wait()
 
     def is_alert_present(self):
-        response = self._act(TestAutomatorActionBodyCreator.is_alert_present())
-        return response["data"]["checkResult"]
+        return self.automator.dispatcher.is_alert_present()
 
 
 
