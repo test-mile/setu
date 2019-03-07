@@ -73,6 +73,7 @@ class GuiAutomator:
 
     def get_current_window_handle(self):
         response = self.post()
+        print(response)
         return self.__get_result(response)
 
     def get_current_window_title(self):
@@ -91,8 +92,8 @@ class GuiAutomator:
         response = self.post()
         return self.__get_result(response)
 
-    def switch_to_window(self):
-        self.post()
+    def focus_on_window(self, handle):
+        self.post(handle=handle)
 
     def close_current_window(self):
         self.post()
@@ -122,7 +123,7 @@ class GuiAutomator:
         response = self.post()
         return self.__get_result(response)
 
-    def switch_to_view_context(self, view_context):
+    def focus_on_view_context(self, view_context):
         self.post(viewContext=view_context)
 
     def focus_on_frame(self, elem_setu_id, is_instance_action=False):

@@ -25,11 +25,8 @@ class BasicWindow(SetuManagedObject):
     def _set_handle(self, handle):
         self.__window_handle = handle
 
-    def _act(self, json_dict):
-        return self.__automator.actor_callable(json_dict)
-
     def focus(self):
-        self.automator.dispatcher.switch_to_window(self.handle)
+        self.automator.dispatcher.focus_on_window(self.handle)
 
     def is_main_window(self):
         return False
@@ -57,8 +54,7 @@ class MainWindow(BasicWindow):
 
     def get_all_child_window_handles(self):
         from setu.core.guiauto.element.window import ChildWindow
-        response = self._act(TestAutomatorActionBodyCreator.get_all_window_handles())
-        handles = response["data"]["handles"]
+        handles = self.automator.dispatcher.get_all_window_handles()
         handles = [handle for handle in handles if handle != self.handle]
         new_handles = []
         for handle in handles:
@@ -154,6 +150,6 @@ class ChildWindow(BasicWindow):
 
     def close(self):
         self.focus()
-        self._act(TestAutomatorActionBodyCreator.close_current_window())
+        self.automator.dispatcher.close_current_window()
         self.__main_window.delete_window(self.setu_id, self.handle)
         self.__main_window.focus()
