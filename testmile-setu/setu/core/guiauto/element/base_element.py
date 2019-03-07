@@ -3,13 +3,26 @@ import abc
 from setu.core.guiauto.base.element_container import ElementContainer
 
 class BaseElement(ElementContainer, metaclass=abc.ABCMeta):
-    def __init__(self, automator, emd):
+    def __init__(self, automator, emd, parent=None):
         super().__init__(automator.config)
         self.__automator = automator
+        self.__parent = parent
         self.__emd = emd
         self.__found = False
         self.__located_by = None 
         self.dispatcher_creator = automator.dispatcher_creator
+
+    @property
+    def parent_container(self):
+        return self.__parent and self.__parent or self.__automator
+
+    def _create_element_flat_or_nested(self, locator_meta_data):
+        from setu.core.guiauto.element.guielement import GuiElement
+        return GuiElement(self.__automator, locator_meta_data, parent=self) 
+
+    def _create_multielement_flat_or_nested(self, locator_meta_data):
+        from setu.core.guiauto.element.multielement import GuiMultiElement
+        return GuiMultiElement(self.__automator, locator_meta_data, parent=self) 
 
     def create_dispatcher(self):
         self._set_dispatcher(self.dispatcher_creator.guiElementRemoteDispatcher(self.__automator.setu_id, self.setu_id))

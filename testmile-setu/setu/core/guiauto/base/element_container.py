@@ -25,9 +25,16 @@ class ElementContainer(SetuConfiguredObject, metaclass=abc.ABCMeta):
     def get_multielement_for_setu_id(self,id):
         return self.melement_map[id]
 
+    @abc.abstractmethod
+    def _create_element_flat_or_nested(self, locator_meta_data):
+        pass
+
+    @abc.abstractmethod
+    def _create_multielement_flat_or_nested(self, locator_meta_data):
+        pass
+
     def create_element(self, locator_meta_data):
-        from setu.core.guiauto.element.guielement import GuiElement
-        elem = GuiElement(self, locator_meta_data)
+        elem = self._create_element_flat_or_nested(locator_meta_data)
         elem.dispatcher_creator = self.dispatcher_creator
         self._add_element(elem.get_setu_id(), elem)
         return elem
@@ -36,8 +43,7 @@ class ElementContainer(SetuConfiguredObject, metaclass=abc.ABCMeta):
         return self.create_element(SimpleGuiElementMetaData(locator_name, locator_value))
 
     def create_multielement(self, locator_meta_data):
-        from setu.core.guiauto.element.multielement import GuiMultiElement
-        element = GuiMultiElement(self, locator_meta_data)
+        element = self._create_multielement_flat_or_nested(locator_meta_data)
         element.dispatcher_creator = self.dispatcher_creator
         self._add_multielement(element.get_setu_id(), element)
         return element
@@ -48,7 +54,6 @@ class ElementContainer(SetuConfiguredObject, metaclass=abc.ABCMeta):
     def create_dropdown_with_locator(self, locator_name, locator_value):
         from setu.core.guiauto.element.dropdown import GuiWebSelect
         select = GuiWebSelect(self, locator_name, locator_value)
-        select.dispatcher_creator = self.dispatcher_creator
         self._add_element(select.get_setu_id(), select)
         return select
 

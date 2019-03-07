@@ -2,13 +2,13 @@ from .base_element import BaseElement
 
 class GuiElement(BaseElement):
     
-    def __init__(self, automator, emd):
-        super().__init__(automator, emd)
+    def __init__(self, automator, emd, parent=None):
+        super().__init__(automator, emd, parent)
         from .element_conditions import GuiElementConditions
         self.__conditions_handler = GuiElementConditions(self)
 
     def find(self):
-        self.get_automator().find_element(self)
+        self.parent_container.find_element(self)
 
     #Override
     def find_if_not_found(self):
@@ -46,9 +46,9 @@ class GuiElement(BaseElement):
         self.find_if_not_found()
         return self.__return_attr_value(self.dispatcher.get_tag_name())
 
-    def get_attr_value(self, attr):
+    def get_attr_value(self, attr, optional=False):
         self.find_if_not_found()
-        return self.__return_attr_value(self.dispatcher.get_attr_value())
+        return self.__return_attr_value(self.dispatcher.get_attr_value(attr, optional))
 
     def get_text_content(self):
         self.find_if_not_found()

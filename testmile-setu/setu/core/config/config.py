@@ -146,5 +146,4 @@ class SetuConfig(AbstractConfig):
 
     def as_json_dict(self):
         out = {k.name: v for k,v in super().as_json_dict().items()}
-        print(out)
         return out

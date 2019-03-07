@@ -28,6 +28,14 @@ class GuiAutomator(ElementContainer):
         self.__view_handler = ViewContextHandler(self)
         self.__browser = None
 
+    def _create_element_flat_or_nested(self, locator_meta_data):
+        from setu.core.guiauto.element.guielement import GuiElement
+        return GuiElement(self, locator_meta_data) 
+
+    def _create_multielement_flat_or_nested(self, locator_meta_data):
+        from setu.core.guiauto.element.multielement import GuiMultiElement
+        return GuiMultiElement(self, locator_meta_data) 
+
     def create_dispatcher(self):
         self._set_dispatcher(self.dispatcher_creator.guiAutomatorRemoteDispatcher(self.setu_id))
 

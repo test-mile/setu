@@ -43,11 +43,38 @@ class GuiElement:
         }
         return self.__requester.post("/guielement", json_dict)
 
-    def find_element(self):
-        self.post()
+    def __get_value_from_response(self, response, key, optional=False):
+        if "data" not in response:
+            if not optional:
+                raise Exception("Setu actor json response: {} does not contain 'data' key.".format(response))
+            else:
+                return None
+        elif key not in response["data"]:
+            if not optional:
+                raise Exception("Setu actor json response: {} does not contain key <{}> in data section.".format(response, key))
+            else:
+                return None
+        else:
+            return response["data"][key]
 
-    def find_multielement(self):
-        self.post()
+    def __get_result(self, response, optional=False):
+        return self.__get_value_from_response(response, "result", optional)
+
+    def find_element(self, child_gui_element_set_id, with_type, with_value):
+        self.post(
+            childElementSetuId = child_gui_element_set_id,
+            withType = with_type,
+            withValue = with_value
+        )
+
+    def find_multielement(self, child_gui_element_set_id, with_type, with_value):
+        response = self.post(
+            childElementSetuId = child_gui_element_set_id,
+            withType = with_type,
+            withValue = with_value
+        )
+
+        return response["data"]["instanceCount"]
 
     def click(self):
         self.post()
@@ -60,24 +87,24 @@ class GuiElement:
 
     def is_selected(self):
         response = self.post()
-        return response["data"]["result"]
+        return self.__get_result(response)
 
     def is_visible(self):
         response = self.post()
-        return response["data"]["result"]
+        return self.__get_result(response)
 
     def is_clickable(self):
         response = self.post()
-        return response["data"]["result"]
+        return self.__get_result(response)
 
     def get_tag_name(self):
         response = self.post()
-        return response["data"]["result"]
+        return self.__get_result(response)
 
-    def get_attr_value(self, attr_name):
+    def get_attr_value(self, attr_name, optional=False):
         response = self.post(attr=attr_name)
-        return response["data"]["result"]
+        return self.__get_result(response, optional)
 
     def get_text_content(self):
         response = self.post()
-        return response["data"]["result"]
+        return self.__get_result(response)

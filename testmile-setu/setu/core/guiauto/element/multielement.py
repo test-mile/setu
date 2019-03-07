@@ -3,13 +3,13 @@ from setu.core.guiauto.element.guielement import GuiElement
 
 class GuiMultiElement(BaseElement):
     
-    def __init__(self, automator, emd):
-        super().__init__(automator, emd)
+    def __init__(self, automator, emd, parent=None):
+        super().__init__(automator, emd, parent)
         self.instance_count = 0
         self.__instances = None
 
     def find(self):
-        self.get_automator().find_multielement(self)
+        self.parent_container.find_multielement(self)
 
     #Override
     def find_if_not_found(self):
@@ -90,7 +90,6 @@ class GuiMultiElement(BaseElement):
     def __get_all_texts(self):
         self.find_if_not_found()
         texts = self.get_text_contents()
-        print(texts)
         return texts
 
     def __find_first_text_index(self, texts, text):
@@ -102,7 +101,6 @@ class GuiMultiElement(BaseElement):
     def __get_all_values(self):
         self.find_if_not_found()
         values = self.get_values()
-        print(values)
         return values
 
     def __find_first_value_index(self, values, value):
@@ -114,7 +112,6 @@ class GuiMultiElement(BaseElement):
     def get_first_selected_instance(self):
         self.find_if_not_found()
         booleans = self.are_selected()
-        print(booleans)
         first_index = None
         try:
             first_index = booleans.index(True)
