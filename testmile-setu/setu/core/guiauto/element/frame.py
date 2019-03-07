@@ -56,7 +56,7 @@ class DomRoot(FrameContainer):
         self.__set_frame_context_str("root")  
 
     def focus(self):
-        self.automator.dispatcher.focus_on_html_root()
+        self.automator.dispatcher.focus_on_dom_root()
         self.set_frame_context_as_root() 
 
 # UUID is for client reference. Agent does not know about this.
@@ -114,9 +114,5 @@ class IPartialFrame(IFrame):
 
     def focus(self):
         self.__melement.find()
-        self._act(TestAutomatorActionBodyCreator.jump_to_frame(
-            self.__melement,
-            isInstanceAction = True,
-            instanceIndex = self.wrapped_element._get_instance_number()
-        ))
+        self.automator.dispatcher.focus_on_frame(self.__melement.setu_id, True, self.wrapped_element._get_instance_number())
         self.dom_root.set_frame_context(self)

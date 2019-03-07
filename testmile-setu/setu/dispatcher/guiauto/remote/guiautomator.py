@@ -126,8 +126,11 @@ class GuiAutomator:
     def focus_on_view_context(self, view_context):
         self.post(viewContext=view_context)
 
-    def focus_on_frame(self, elem_setu_id, is_instance_action=False):
-        self.post(elementSetuId=elem_setu_id, instanceAction=is_instance_action)
+    def focus_on_frame(self, elem_setu_id, is_instance_action=False, instance_index=0):
+        if is_instance_action:
+            self.post(elementSetuId=elem_setu_id, isInstanceAction=is_instance_action, instanceIndex=instance_index)
+        else:
+            self.post(elementSetuId=elem_setu_id)
 
     def focus_on_parent_frame(self):
         self.post()
