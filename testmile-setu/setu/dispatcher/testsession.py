@@ -8,7 +8,7 @@ class TestSessionDispatcher:
         self.__java_actor_url = "http://localhost:9898/setuactor"
 
     def guiAutomatorRemoteDispatcher(self, setu_id):
-        return GuiAutomator(setu_id, SetuActorRequester(self.__java_actor_url))
+        return GuiAutomator(setu_id, SetuActorRequester(self.__java_actor_url + "/guiauto"))
 
     def guiElementRemoteDispatcher(self, automator_setu_id, element_setu_id):
-        return GuiElement(automator_setu_id, element_setu_id, SetuActorRequester(self.__java_actor_url))
+        return GuiElement(automator_setu_id, element_setu_id, SetuActorRequester(self.__java_actor_url + "/guiauto"))

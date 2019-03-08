@@ -86,7 +86,7 @@ class TestSessionHandler:
         file_name = self.__return_and_remove_arg(json_dict, 'fileName')
         record_type = self.__return_and_remove_arg(json_dict, 'recordType')
         data_dir = self.__testsession.configurator.get_central_setu_option_value(SetuConfigOption.DATA_SOURCES_DIR.name)
-        return {"dataSourceSetuId" : self.__testsession.data_broker.create_file_data_source(data_dir, file_name, record_type, **json_dict['args'])}  
+        return {"dataSourceSetuId" : self.__testsession.data_broker.create_file_data_source(data_dir, file_name, record_type, **json_dict)}  
 
     '''
         Delegating calls to its handlers.

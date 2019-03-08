@@ -41,7 +41,7 @@ class GuiElement:
             "action" : inspect.stack()[1].function,
             "args" : input_dict
         }
-        return self.__requester.post("/guielement", json_dict)
+        return self.__requester.post("/element/action", json_dict)
 
     def __get_value_from_response(self, response, key, optional=False):
         if "data" not in response:
