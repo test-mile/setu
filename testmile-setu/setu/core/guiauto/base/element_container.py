@@ -65,18 +65,16 @@ class ElementContainer(SetuConfiguredObject, metaclass=abc.ABCMeta):
         return rg
 
     def _find(self, dispatcher_call, gui_element):
-        print (dispatcher_call)
-        print (gui_element.get_locator_meta_data().get_locators())
         found = False
-        for locator_type, locator_value in gui_element.get_locator_meta_data().get_locators(): 
+        for locator in gui_element.get_locator_meta_data().locators: 
             try:
-                instance_count = dispatcher_call(gui_element.get_setu_id(), locator_type, locator_value)
-                return locator_type, locator_value, instance_count
+                instance_count = dispatcher_call(gui_element.get_setu_id(), locator.ltype.name, locator.lvalue)
+                return locator.ltype.name, locator.lvalue, instance_count
             except Exception as e:
                 print(e)
                 continue
         if not found:
-            raise Exception("Could not locate elements with locator(s): {}".format(gui_element.get_locator_meta_data().get_locators()))
+            raise Exception("Could not locate elements with locator(s): {}".format(gui_element.get_locator_meta_data().locators))
 
     def wait_until_element_found(self, gui_element):
         return self.__container_conditions.PresenceOfElement(gui_element).wait()

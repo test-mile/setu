@@ -1,8 +1,5 @@
-from setu.core.config.processor import *
+from setu.core.guiauto.gui.nsloader import NamespaceFileLoader
 
-root_dir = "/Users/rahulverma/Documents/github_tm/daksha/daksha-examples/"
-p = "/Users/rahulverma/Documents/github_tm/setu/testmile-setu/setu/core/config/"
-cprocessor = ProjectConfigProcessor()
-config = cprocessor.process_project_conf(root_dir)
-print(config.setu_config.value(SetuConfigOption.BROWSER_NAME))
-print(config.user_config.value("HELLO_THERE"))
+f = NamespaceFileLoader("/Users/rahulverma/Documents/github_tm/daksha/daksha-examples/gui_namespace/simpleapp/WordPress.gns")
+
+f.load()

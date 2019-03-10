@@ -28,6 +28,10 @@ class GuiAutomatorHandler:
         elem = self.automator.create_element_with_locator(withType, withValue)
         return {"elementSetuId" : elem.setu_id}
 
+    def create_element_with_emd(self, emd):
+        elem = self.automator.create_element(emd)
+        return {"elementSetuId" : elem.setu_id}
+
     def create_multielement(self, withType, withValue):
         elem = self.automator.create_multielement_with_locator(withType, withValue)
         return {"elementSetuId" : elem.setu_id}

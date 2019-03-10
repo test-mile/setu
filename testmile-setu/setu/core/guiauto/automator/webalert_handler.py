@@ -1,6 +1,6 @@
 from .handler import Handler
 
-class AlertHandler(Handler):
+class WebAlertHandler(Handler):
 
     def __init__(self, automator):
         super().__init__(automator)
@@ -13,9 +13,9 @@ class AlertHandler(Handler):
             return self.__alert
         else:
             self.wait()
-            from setu.core.guiauto.element.alert import Alert
+            from setu.core.guiauto.element.webalert import WebAlert
             self.__alert_present = True
-            alert = Alert(self.automator)
+            alert = WebAlert(self.automator)
             self.__alert_setu_id = alert.setu_id
             self.__alert = alert
             return alert
@@ -38,7 +38,7 @@ class AlertHandler(Handler):
         self.automator.conditions.AlertIsPresent().wait()
 
     def is_alert_present(self):
-        return self.automator.dispatcher.is_alert_present()
+        return self.automator.dispatcher.is_web_alert_present()
 
 
 

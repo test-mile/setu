@@ -56,6 +56,7 @@ class GuiAutomator:
         self.post_action()
 
     def find_element(self, child_gui_element_set_id, with_type, with_value):
+        print(child_gui_element_set_id, with_type, with_value)
         self.post_action(
             elementSetuId = child_gui_element_set_id,
             withType = with_type,
@@ -109,32 +110,32 @@ class GuiAutomator:
     def close_current_window(self):
         self.post_action()
 
-    def is_alert_present(self):
+    def is_web_alert_present(self):
         response = self.post_action()
         return self.__get_result(response)
 
-    def confirm_alert(self):
+    def confirm_web_alert(self):
         self.post_action()
 
-    def dismiss_alert(self):
+    def dismiss_web_alert(self):
         self.post_action()
 
-    def get_text_from_alert(self):
+    def get_text_from_web_alert(self):
         response = self.post_action()
         return self.__get_result(response)
 
-    def send_text_to_alert(self,text):
+    def send_text_to_web_alert(self,text):
         self.post_action(text=text)
 
-    def get_current_view_context(self):
+    def get_current_mobile_view_context(self):
         response = self.post_action()
         return self.__get_result(response)
 
-    def get_all_view_contexts(self):
+    def get_all_mobile_view_contexts(self):
         response = self.post_action()
         return self.__get_result(response)
 
-    def focus_on_view_context(self, view_context):
+    def focus_on_mobile_view_context(self, view_context):
         self.post_action(viewContext=view_context)
 
     def focus_on_frame(self, elem_setu_id, is_instance_action=False, instance_index=0):

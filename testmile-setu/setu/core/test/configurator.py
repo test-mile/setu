@@ -21,6 +21,9 @@ class TestConfigurator:
         self.__config_map[self.__default_ref_config.setu_id] = self.__default_ref_config
         return self.__default_ref_config.setu_id
 
+    def get_central_config(self):
+        return self.__default_ref_config
+
     def get_config(self, setu_id):
         return self.__config_map[setu_id]
 

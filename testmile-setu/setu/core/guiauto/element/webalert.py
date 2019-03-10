@@ -2,7 +2,7 @@ from setu.core.lib.setu_types import SetuManagedObject
 from setu.core.guiauto.element.guielement import GuiElement
 from setu.core.constants import SetuConfigOption
 
-class Alert(SetuManagedObject):
+class WebAlert(SetuManagedObject):
 
     def __init__(self, automator):
         super().__init__()
@@ -13,15 +13,15 @@ class Alert(SetuManagedObject):
         return self.__automator
 
     def confirm(self):
-        self.automator.dispatcher.confirm_alert()
+        self.automator.dispatcher.confirm_web_alert()
         self.automator.alert_handler.delete_alert()
 
     def dismiss(self):
-        self.automator.dispatcher.dismiss_alert()
+        self.automator.dispatcher.dismiss_web_alert()
         self.automator.alert_handler.delete_alert()
 
     def send_text(self, text):
-        self.automator.dispatcher.send_text_to_alert(text)
+        self.automator.dispatcher.send_text_to_web_alert(text)
 
     def get_text(self):
-        return self.automator.dispatcher.get_text_from_alert()
+        return self.automator.dispatcher.get_text_from_web_alert()

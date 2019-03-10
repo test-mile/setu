@@ -41,7 +41,10 @@ class Condition:
                     return self.get_call_result()
             except ConditionException as ce:
                 raise ce
-            except:
+            except Exception as f:
+                print(f)
+                import traceback
+                traceback.print_exc()
                 pass
             time.sleep(poll_interval)
             if(time.time() > end_time):

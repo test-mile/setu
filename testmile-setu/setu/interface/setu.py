@@ -8,15 +8,18 @@ class SetuSvc(Resource):
 
     def post(self):
         json_dict = request.get_json(force=True)
+        print("From Actor: {}".format(json_dict))
         json_action = json_dict["action"]
         try:
             action_type = SetuActionType[json_action.upper().strip()]
+            print(action_type)
         except:
-            return {'result' : 'error', 'emessage' : 'Invalid Setu action: {}'.format(json_action)}, 500
+            return {'result' : 'error', 'emessage' : 'Invalid Setu action: {}'.format(json_action), 'etrace' : 'NA'}, 500
         else:
             if action_type == SetuActionType.TESTSESSION_INIT:
                 root_dir = json_dict["args"]["rootDir"]
                 res = self.__register_test_session(root_dir)
+                print(res)
                 return {'result' : 'success', 'responseData': res}, 200
             elif action_type == SetuActionType.TESTSESSION_FINISH:
                 pass
@@ -61,7 +64,7 @@ class SetuSvc(Resource):
             handler.take_browser_action : "GUIAUTO_BROWSER_",
             handler.take_domroot_action : "GUIAUTO_DOMROOT_",
             handler.take_automator_action : "GUIAUTO_",
-            handler.take_alert_action : "GUIAUTO_ALERT_",
+            handler.take_alert_action : "GUIAUTO_WEB_ALERT_",
             handler.take_element_action : "GUIAUTO_ELEMENT_",
             handler.take_dropdown_action : "GUIAUTO_DROPDOWN_",
             handler.take_radiogroup_action : "GUIAUTO_RADIOGROUP_",
@@ -72,14 +75,14 @@ class SetuSvc(Resource):
         }
 
         action_method_map = {
-            
-            SetuActionType.TESTSESSION_LOAD_PROJECT_CONF : handler.take_session_action,
             SetuActionType.TESTSESSION_REGISTER_CONFIG : handler.take_session_action,
             
             SetuActionType.TESTSESSION_CREATE_FILE_DATA_SOURCE: handler.take_session_action,
             
             SetuActionType.TESTSESSION_LAUNCH_GUIAUTOMATOR: handler.take_session_action,
             SetuActionType.TESTSESSION_QUIT_GUIAUTOMATOR: handler.take_session_action,
+
+            SetuActionType.TESTSESSION_CREATE_GUI : handler.take_session_action,
             
             SetuActionType.CONFIGURATOR_GET_SETU_OPTION_VALUE: handler.take_conf_action,
             SetuActionType.CONFIGURATOR_GET_USER_OPTION_VALUE: handler.take_conf_action,
@@ -104,12 +107,11 @@ class SetuSvc(Resource):
             SetuActionType.GUIAUTO_GET_MAIN_WINDOW : handler.take_automator_action,
             SetuActionType.GUIAUTO_SET_SLOMO : handler.take_automator_action,
 
-            SetuActionType.GUIAUTO_ALERT_CONFIRM : handler.take_alert_action,
-            SetuActionType.GUIAUTO_ALERT_DISMISS : handler.take_alert_action,
-            SetuActionType.GUIAUTO_ALERT_GET_TEXT : handler.take_alert_action,
-            SetuActionType.GUIAUTO_ALERT_SEND_TEXT : handler.take_alert_action,
+            SetuActionType.GUIAUTO_WEB_ALERT_CONFIRM : handler.take_alert_action,
+            SetuActionType.GUIAUTO_WEB_ALERT_DISMISS : handler.take_alert_action,
+            SetuActionType.GUIAUTO_WEB_ALERT_GET_TEXT : handler.take_alert_action,
+            SetuActionType.GUIAUTO_WEB_ALERT_SEND_TEXT : handler.take_alert_action,
             
-            SetuActionType.GUIAUTO_GUIMGR_CREATE_GUI : None,
             SetuActionType.GUIAUTO_GUI_CREATE_GUI : None,
             
             SetuActionType.GUIAUTO_ELEMENT_ENTER_TEXT : handler.take_element_action,

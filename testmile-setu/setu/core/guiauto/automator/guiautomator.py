@@ -20,10 +20,10 @@ class GuiAutomator(ElementContainer):
         self.__in_slomo = config.setu_config.value(SetuConfigOption.GUIAUTO_SLOMO_ON)
         self.__slomo_interval = config.setu_config.value(SetuConfigOption.GUIAUTO_SLOMO_INTERVAL)
 
-        from .alert_handler import AlertHandler
+        from .webalert_handler import WebAlertHandler
         from .automator_conditions import GuiAutomatorConditions
         from .viewcontext_handler import ViewContextHandler
-        self.__alert_handler = AlertHandler(self)
+        self.__alert_handler = WebAlertHandler(self)
         self.__conditions_handler = GuiAutomatorConditions(self)
         self.__view_handler = ViewContextHandler(self)
         self.__browser = None
