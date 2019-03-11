@@ -1,5 +1,6 @@
 from setu.core.lib.setu_types import SetuManagedObject
 from setu.core.guiauto.element.guielement import GuiElement
+from setu.core.guiauto.locator.emd import SimpleGuiElementMetaData
 
 class FrameContainer(SetuManagedObject):
     def __init__(self, automator):
@@ -18,21 +19,35 @@ class FrameContainer(SetuManagedObject):
         if tag.lower() != "iframe":
             raise Exception("The element should have a 'iframe' tag for IFrame element. Found: " + tag)
 
-    def create_frame_with_locator(self, locator_name, locator_value):
-        if locator_name.lower() == "index":
-            index = int(locator_value)
-            multi_element = self.automator.create_multielement_with_locator("xpath", "//iframe")
-            multi_element.find()
-            wrapped_element = multi_element.get_instance_at_index(index)
-            self.__check_tag(wrapped_element)
-            frame = IPartialFrame(self.automator, self, multi_element, wrapped_element)
-        else:
-            wrapped_element = self.automator.create_element_with_locator(locator_name, locator_value)
-            self.__check_tag(wrapped_element)
-            frame = IFrame(self.automator, self, wrapped_element)
+    def create_frame(self, locator_meta_data):
+        found = False
+        frame = None
+        for locator in locator_meta_data.locators: 
+            try:
+                if locator.ltype.name == "INDEX":
+                    index = locator.lvalue
+                    emd = SimpleGuiElementMetaData("xpath", "//iframe")
+                    multi_element = self.automator.create_multielement(emd)
+                    multi_element.find()
+                    wrapped_element = multi_element.get_instance_at_index(index)
+                    self.__check_tag(wrapped_element)
+                    frame = IPartialFrame(self.automator, self, multi_element, wrapped_element)
+                else:
+                    emd = SimpleGuiElementMetaData(locator.ltype.name, locator.lvalue)
+                    wrapped_element = self.automator.create_element(emd)
+                    self.__check_tag(wrapped_element)
+                    frame = IFrame(self.automator, self, wrapped_element)
 
-        self.automator.add_frame(frame)
-        return frame
+                found = True
+            except Exception as e:
+                print(e)
+                continue
+
+        if not found:
+            raise Exception("Could not locate frame with locator(s): {}".format(locator_meta_data.locators))
+        else:
+            self.automator.add_frame(frame)
+            return frame
 
 class DomRoot(FrameContainer):
 

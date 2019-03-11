@@ -9,7 +9,7 @@ class MobileNativeLocateWith(Enum):
     CLASS_NAME = auto() 
     LINK_TEXT = auto() 
     PARTIAL_LINK_TEXT = auto() 
-    TAG = auto()
+    TAG_NAME = auto()
     X_TEXT = auto() 
     X_TITLE = auto() 
     X_PARTIAL_TEXT = auto() 
@@ -21,11 +21,11 @@ class MobileWebLocateWith(Enum):
     ID = auto()
     NAME = auto() 
     XPATH = auto() 
-    CSS = auto()
+    CSS_SELECTOR = auto()
     CLASS_NAME = auto() 
     LINK_TEXT = auto() 
     PARTIAL_LINK_TEXT = auto() 
-    TAG = auto()
+    TAG_NAME = auto()
     X_TEXT = auto() 
     X_TITLE = auto() 
     X_PARTIAL_TEXT = auto() 
@@ -54,11 +54,11 @@ class WebLocateWith(Enum):
     ID = auto()
     NAME = auto() 
     XPATH = auto() 
-    CSS = auto()
+    CSS_SELECTOR = auto()
     CLASS_NAME = auto() 
     LINK_TEXT = auto() 
     PARTIAL_LINK_TEXT = auto() 
-    TAG = auto()
+    TAG_NAME = auto()
     X_TEXT = auto() 
     X_TITLE = auto() 
     X_PARTIAL_TEXT = auto() 
@@ -70,11 +70,11 @@ class GenericLocateWith(Enum):
     ID = auto()
     NAME = auto() 
     XPATH = auto() 
-    CSS = auto()
+    CSS_SELECTOR = auto()
     CLASS_NAME = auto() 
     LINK_TEXT = auto() 
     PARTIAL_LINK_TEXT = auto() 
-    TAG = auto()
+    TAG_NAME = auto()
     X_TEXT = auto() 
     X_TITLE = auto() 
     X_PARTIAL_TEXT = auto() 
@@ -82,6 +82,7 @@ class GenericLocateWith(Enum):
     X_VALUE = auto() 
     X_IMAGE_SRC = auto()
     IMAGE = auto()
+    INDEX = auto()
 
 Locator = namedtuple("Locator", ("ltype", "lvalue"))
 GuiGenericLocator = namedtuple("GuiGenericLocator", ("ltype", "lvalue"))
@@ -105,9 +106,10 @@ class GuiElementMetaData:
         GenericLocateWith.LINK_TEXT,
         GenericLocateWith.PARTIAL_LINK_TEXT,
         GenericLocateWith.XPATH,
-        GenericLocateWith.CSS,
-        GenericLocateWith.TAG,
-        GenericLocateWith.IMAGE
+        GenericLocateWith.CSS_SELECTOR,
+        GenericLocateWith.TAG_NAME,
+        GenericLocateWith.IMAGE,
+        GenericLocateWith.INDEX,
     }
 
     XTYPE_LOCATORS = {

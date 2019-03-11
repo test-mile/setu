@@ -39,27 +39,21 @@ class ElementContainer(SetuConfiguredObject, metaclass=abc.ABCMeta):
         self._add_element(elem.get_setu_id(), elem)
         return elem
 
-    def create_element_with_locator(self, locator_name, locator_value):
-        return self.create_element(SimpleGuiElementMetaData(locator_name, locator_value))
-
     def create_multielement(self, locator_meta_data):
         element = self._create_multielement_flat_or_nested(locator_meta_data)
         element.dispatcher_creator = self.dispatcher_creator
         self._add_multielement(element.get_setu_id(), element)
         return element
 
-    def create_multielement_with_locator(self, locator_name, locator_value):
-        return self.create_multielement(SimpleGuiElementMetaData(locator_name, locator_value))
-
-    def create_dropdown_with_locator(self, locator_name, locator_value):
+    def create_dropdown(self, locator_meta_data):
         from setu.core.guiauto.element.dropdown import GuiWebSelect
-        select = GuiWebSelect(self, locator_name, locator_value)
+        select = GuiWebSelect(self, locator_meta_data)
         self._add_element(select.get_setu_id(), select)
         return select
 
-    def create_radiogroup_with_locator(self, locator_name, locator_value):
+    def create_radiogroup(self, locator_meta_data):
         from setu.core.guiauto.element.radio_group import GuiWebRadioGroup
-        rg = GuiWebRadioGroup(self, locator_name, locator_value)
+        rg = GuiWebRadioGroup(self, locator_meta_data)
         rg.dispatcher_creator = self.dispatcher_creator
         self._add_element(rg.get_setu_id(), rg)
         return rg

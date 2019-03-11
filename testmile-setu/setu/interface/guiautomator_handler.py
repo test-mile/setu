@@ -1,5 +1,6 @@
 import uuid
 from setu.core.guiauto.automator.guiautomator import GuiAutomator
+from setu.core.guiauto.locator.emd import SimpleGuiElementMetaData
 
 # Arg names of methods show JSON names, so don't follow Python conventions.
 class GuiAutomatorHandler:
@@ -25,7 +26,7 @@ class GuiAutomatorHandler:
         self.automator.quit()
 
     def create_element(self, withType, withValue):
-        elem = self.automator.create_element_with_locator(withType, withValue)
+        elem = self.automator.create_element(SimpleGuiElementMetaData(withType, withValue))
         return {"elementSetuId" : elem.setu_id}
 
     def create_element_with_emd(self, emd):
@@ -33,19 +34,35 @@ class GuiAutomatorHandler:
         return {"elementSetuId" : elem.setu_id}
 
     def create_multielement(self, withType, withValue):
-        elem = self.automator.create_multielement_with_locator(withType, withValue)
+        elem = self.automator.create_multielement(SimpleGuiElementMetaData(withType, withValue))
+        return {"elementSetuId" : elem.setu_id}
+
+    def create_multielement_with_emd(self, emd):
+        elem = self.automator.create_multielement(emd)
         return {"elementSetuId" : elem.setu_id}
 
     def create_dropdown(self, withType, withValue):
-        dropdown = self.automator.create_dropdown_with_locator(withType, withValue)
+        dropdown = self.automator.create_dropdown(SimpleGuiElementMetaData(withType, withValue))
+        return {"elementSetuId" : dropdown.setu_id}
+
+    def create_dropdown_with_emd(self, emd):
+        dropdown = self.automator.create_dropdown(emd)
         return {"elementSetuId" : dropdown.setu_id}
 
     def create_radiogroup(self, withType, withValue):
-        radiogroup = self.automator.create_radiogroup_with_locator(withType, withValue)
+        radiogroup = self.automator.create_radiogroup(SimpleGuiElementMetaData(withType, withValue))
+        return {"elementSetuId" : radiogroup.setu_id}
+
+    def create_radiogroup_with_emd(self, emd):
+        radiogroup = self.automator.create_radiogroup(emd)
         return {"elementSetuId" : radiogroup.setu_id}
 
     def create_frame(self, withType, withValue):
-        radiogroup = self.automator.create_frame_with_locator(withType, withValue)
+        radiogroup = self.automator.create_frame(SimpleGuiElementMetaData(withType, withValue))
+        return {"elementSetuId" : radiogroup.setu_id}
+
+    def create_frame_with_emd(self, emd):
+        radiogroup = self.automator.create_frame(SimpleGuiElementMetaData(withType, withValue))
         return {"elementSetuId" : radiogroup.setu_id}
 
     def create_alert(self):
@@ -280,7 +297,7 @@ class DomRootHandler:
 
     @classmethod
     def create_frame(cls, dom_root, withType, withValue):
-        return {"elementSetuId" : dom_root.create_frame_with_locator(withType, withValue).setu_id}
+        return {"elementSetuId" : dom_root.create_frame(SimpleGuiElementMetaData(withType, withValue)).setu_id}
 
 class FrameHandler:
 
