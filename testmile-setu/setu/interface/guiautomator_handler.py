@@ -1,6 +1,6 @@
 import uuid
 from setu.core.guiauto.automator.guiautomator import GuiAutomator
-from setu.core.guiauto.locator.emd import SimpleGuiElementMetaData
+from setu.core.guiauto.locator.emd import GuiElementMetaData
 
 # Arg names of methods show JSON names, so don't follow Python conventions.
 class GuiAutomatorHandler:
@@ -25,44 +25,36 @@ class GuiAutomatorHandler:
     def quit(self):
         self.automator.quit()
 
-    def create_element(self, withType, withValue):
-        elem = self.automator.create_element(SimpleGuiElementMetaData(withType, withValue))
+    def create_element(self, locators):
+        elem = self.automator.create_element(GuiElementMetaData.createEMD(locators))
         return {"elementSetuId" : elem.setu_id}
 
     def create_element_with_emd(self, emd):
         elem = self.automator.create_element(emd)
         return {"elementSetuId" : elem.setu_id}
 
-    def create_multielement(self, withType, withValue):
-        elem = self.automator.create_multielement(SimpleGuiElementMetaData(withType, withValue))
+    def create_multielement(self, locators):
+        elem = self.automator.create_multielement(GuiElementMetaData.createEMD(locators))
         return {"elementSetuId" : elem.setu_id}
 
     def create_multielement_with_emd(self, emd):
         elem = self.automator.create_multielement(emd)
         return {"elementSetuId" : elem.setu_id}
 
-    def create_dropdown(self, withType, withValue):
-        dropdown = self.automator.create_dropdown(SimpleGuiElementMetaData(withType, withValue))
+    def create_dropdown(self, withType, locators):
+        dropdown = self.automator.create_dropdown(GuiElementMetaData.createEMD(locators))
         return {"elementSetuId" : dropdown.setu_id}
 
     def create_dropdown_with_emd(self, emd):
         dropdown = self.automator.create_dropdown(emd)
         return {"elementSetuId" : dropdown.setu_id}
 
-    def create_radiogroup(self, withType, withValue):
-        radiogroup = self.automator.create_radiogroup(SimpleGuiElementMetaData(withType, withValue))
+    def create_radiogroup(self, locators):
+        radiogroup = self.automator.create_radiogroup(GuiElementMetaData.createEMD(locators))
         return {"elementSetuId" : radiogroup.setu_id}
 
     def create_radiogroup_with_emd(self, emd):
         radiogroup = self.automator.create_radiogroup(emd)
-        return {"elementSetuId" : radiogroup.setu_id}
-
-    def create_frame(self, withType, withValue):
-        radiogroup = self.automator.create_frame(SimpleGuiElementMetaData(withType, withValue))
-        return {"elementSetuId" : radiogroup.setu_id}
-
-    def create_frame_with_emd(self, emd):
-        radiogroup = self.automator.create_frame(SimpleGuiElementMetaData(withType, withValue))
         return {"elementSetuId" : radiogroup.setu_id}
 
     def create_alert(self):
@@ -131,6 +123,9 @@ class GuiAutomatorHandler:
 
     def take_domroot_action(self, action, json_dict):
         return getattr(DomRootHandler, action)(self.automator.browser.dom_root, **json_dict) 
+
+    def create_frame_with_emd(self, emd):
+        return self.take_domroot_action("create_frame_with_emd", {'emd':emd})
 
     def take_frame_action(self, action, elem_setu_id, json_dict):
         frame =  self.automator.get_element_for_setu_id(elem_setu_id)
@@ -296,8 +291,12 @@ class DomRootHandler:
         return dom_root.focus()
 
     @classmethod
-    def create_frame(cls, dom_root, withType, withValue):
-        return {"elementSetuId" : dom_root.create_frame(SimpleGuiElementMetaData(withType, withValue)).setu_id}
+    def create_frame(cls, dom_root, locators):
+        return {"elementSetuId" : dom_root.create_frame(GuiElementMetaData.createEMD(locators)).setu_id}
+
+    @classmethod
+    def create_frame_with_emd(self, dom_root, emd):
+        return {"elementSetuId" : dom_root.create_frame(emd).setu_id}
 
 class FrameHandler:
 
@@ -310,5 +309,5 @@ class FrameHandler:
         return {"elementSetuId" : frame.get_parent().setu_id}
 
     @classmethod
-    def create_frame(cls, frame, withType, withValue):
-        return {"elementSetuId" : frame.create_frame_with_locator(withType, withValue).setu_id}
+    def create_frame(cls, frame, locators):
+        return {"elementSetuId" : frame.create_frame(GuiElementMetaData.createEMD(locators)).setu_id}

@@ -167,6 +167,15 @@ class GuiElementMetaData:
     def __add_locator(self, locator_type, locator_value):
         self.locators.append(GuiGenericLocator(locator_type, locator_value))
 
+    @classmethod
+    def createEMD(self, locators):
+        processed_locators = []
+        for locator in locators:
+            processed_locators.append(
+                Locator(ltype=locator["withType"], lvalue=locator["withValue"])
+            )
+        return GuiElementMetaData(processed_locators)
+
 class SimpleGuiElementMetaData(GuiElementMetaData):
 
     def __init__(self, locator_type, locator_value):
