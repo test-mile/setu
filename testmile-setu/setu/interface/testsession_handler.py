@@ -61,14 +61,18 @@ class TestSessionHandler:
     def get_config_setuid(self, json_dict):
         return self.__return_and_remove_arg(json_dict, "configSetuId")
 
+    def get_extended_config(self, json_dict):
+        return self.__return_and_remove_arg(json_dict, "extendedConfig", optional=True)
+
     def take_session_action(self, action, json_dict):
         return getattr(self, action)(json_dict)
 
     def launch_guiautomator(self, json_dict):
         config_setu_id = self.get_config_setuid(json_dict)
         config = self.__testsession.configurator.get_config(config_setu_id)
+        extended_config = self.get_extended_config(json_dict)
         handler = GuiAutomatorHandler(self.__dispatcher)
-        handler.launch_automator(config)
+        handler.launch_automator(config, extended_config)
         self.__register_gui_automator_handler(handler)
         return {'automatorSetuId' : handler.setu_id}
 

@@ -14,7 +14,7 @@ class SetuConfigOption(Enum):
     APP_URL = auto()
 
     TESTRUN_ENVIRONMENT = auto()
-    TESTRUN_TARGET_PLATFORM = auto()
+    TESTRUN_TARGET_PLATFORM_NAME = auto()
     TESTRUN_TARGET_PLATFORM_VERSION = auto()
 
     GUIAUTO_AUTOMATOR_NAME = auto()
@@ -65,3 +65,9 @@ class Browser(Enum):
     FIREFOX = auto()
     SAFARI = auto()
     CHROME = auto()
+
+class TargetPlatform(Enum):
+    ANDROID = auto()
+    IOS = auto()
+    WINDOWS = auto()
+    MAC = auto()

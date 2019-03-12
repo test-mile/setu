@@ -2,7 +2,7 @@ import inspect
 import os
 import copy
 from urllib3.util import parse_url
-from setu.core.constants import SetuConfigOption, GuiAutomationContext, GuiAutomatorName, Browser
+from setu.core.constants import TargetPlatform, SetuConfigOption, GuiAutomationContext, GuiAutomatorName, Browser
 
 class ConfigValidator:
 
@@ -72,6 +72,14 @@ class ConfigValidator:
     def browser_name(cls, input):
         try:
             return Browser[input.upper()]
+        except:
+            cls.raise_exc(input)
+
+    @classmethod
+    def platform(cls, input):
+        print("PLLLLLAAAAAL")
+        try:
+            return TargetPlatform[input.upper()]
         except:
             cls.raise_exc(input)
 

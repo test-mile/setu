@@ -17,8 +17,8 @@ class GuiAutomatorHandler:
     def automator(self):
         return self.__automator
 
-    def launch_automator(self, config):
-        self.__automator = GuiAutomator(config)
+    def launch_automator(self, config, extended_config=None):
+        self.__automator = GuiAutomator(config, extended_config)
         self.__automator.dispatcher_creator = self.__dispatcher_creator
         self.__automator.launch()
 

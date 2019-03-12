@@ -8,12 +8,13 @@ from setu.core.guiauto.element.guielement import GuiElement
 from setu.core.guiauto.element.multielement import GuiMultiElement
 from setu.core.guiauto.locator.emd import SimpleGuiElementMetaData
 from setu.core.webclient.requester import SetuAgentRequester
-
+from .drivercaps import DriverCapabilities
 
 class GuiAutomator(ElementContainer):
 
-    def __init__(self, config):
+    def __init__(self, config, extended_config=None):
         super().__init__(config)
+        self.__extended_config = extended_config
         self.__automator_uri = "/guiauto/automator/{}".format(self.get_setu_id())
         self.__create_screenshots_dir()
         self.__main_window = None
@@ -78,6 +79,8 @@ class GuiAutomator(ElementContainer):
         return self.__automator_uri
 
     def launch(self):
+        # caps = DriverCapabilities(self.config, self.__extended_config)
+        # print(caps.processed_config)
         self.dispatcher.launch(self.config.as_json_dict())
 
         from setu.core.guiauto.element.window import MainWindow
