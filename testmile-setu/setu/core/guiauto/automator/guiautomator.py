@@ -1,6 +1,7 @@
 import base64
 import os
 import time
+import pprint
 
 from setu.core.constants import SetuConfigOption
 from setu.core.guiauto.base.element_container import ElementContainer
@@ -79,8 +80,9 @@ class GuiAutomator(ElementContainer):
         return self.__automator_uri
 
     def launch(self):
-        # caps = DriverCapabilities(self.config, self.__extended_config)
-        # print(caps.processed_config)
+        caps = DriverCapabilities(self.config, self.__extended_config)
+        pprint.pprint(caps.processed_config)
+        raise Exception("Deliberate")
         self.dispatcher.launch(self.config.as_json_dict())
 
         from setu.core.guiauto.element.window import MainWindow
