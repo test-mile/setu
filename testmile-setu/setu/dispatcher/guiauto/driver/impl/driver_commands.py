@@ -38,14 +38,14 @@ class DriverCommands:
         from selenium.webdriver.support.ui import WebDriverWait
         from selenium.webdriver.support import expected_conditions as EC
         try:
-            WebDriverWait(browser, 1).until(EC.alert_is_present(),'Timed out.')
+            WebDriverWait(driver, 1).until(EC.alert_is_present(),'Timed out.')
             return True
-        except:
+        except Exception as e:
             return False
 
     @classmethod
     def confirm_web_alert(cls, driver):
-        driver.switch_to.alert.confirm()
+        driver.switch_to.alert.accept()
 
     @classmethod
     def dismiss_web_alert(cls, driver):
@@ -61,7 +61,9 @@ class DriverCommands:
 
     @classmethod
     def focus_on_frame(cls, driver, element):
-        driver.switch_to.frame(element)
+        print(driver)
+        print(element)
+        driver.switch_to_frame(element)
 
     @classmethod
     def focus_on_dom_root(cls, driver):
@@ -73,7 +75,7 @@ class DriverCommands:
 
     @classmethod
     def execute_javascript(cls, driver, script):
-        return driver.execute_javascript(script)
+        return driver.execute_script(script)
 
     @classmethod
     def take_screenshot(cls, driver):
@@ -92,8 +94,8 @@ class DriverCommands:
         return driver.current_window_handle
 
     @classmethod
-    def focus_on_window(cls, driver, windowHandle):
-        driver.switch_to.window(windowHandle)
+    def focus_on_window(cls, driver, window_handle):
+        driver.switch_to.window(window_handle)
 
     @classmethod
     def close_current_window(cls, driver):

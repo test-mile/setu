@@ -126,8 +126,8 @@ class _GuiPartialElement(GuiElement):
         super().__init__(automator, multi_element.get_locator_meta_data())
         self.__multi_element = multi_element
         self.__instance_number = instance_number
-        dispatcher = self.__multi_element.dispatcher_creator.guiElementRemoteDispatcher(
-            automator.setu_id, self.__multi_element.setu_id
+        dispatcher = self.__multi_element.dispatcher_creator.create_gui_element_dispatcher(
+            self.__multi_element.get_automator().dispatcher, self.__multi_element.setu_id
         )
         dispatcher.set_partial(self.__instance_number)
         self._set_dispatcher(dispatcher)

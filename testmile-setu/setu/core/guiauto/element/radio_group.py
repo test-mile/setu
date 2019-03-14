@@ -6,7 +6,7 @@ class GuiWebRadioGroup(SetuManagedObject):
 
     def __init__(self, element_container, locator_meta_data):
         super().__init__()
-        self._radios = element_container.create_multielement_with_locator(locator_meta_data)
+        self._radios = element_container.create_multielement(locator_meta_data)
         self._validate_radio_buttons()
 
     def _validate_radio_buttons(self):

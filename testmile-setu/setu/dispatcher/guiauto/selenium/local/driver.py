@@ -94,7 +94,7 @@ class SeleniumDriver:
         return DriverCommands.get_all_winodw_handles(self.__driver)
 
     def focus_on_window(self, handle):
-        DriverCommands.focus_on_window(self.__driver)
+        DriverCommands.focus_on_window(self.__driver, handle)
 
     def close_current_window(self):
         DriverCommands.close_current_window(self.__driver)

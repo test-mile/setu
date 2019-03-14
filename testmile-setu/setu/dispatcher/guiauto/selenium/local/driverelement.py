@@ -24,16 +24,17 @@ class SeleniumDriverElement:
     def element_setu_id(self):
         return self.__element_set_id
 
+
     def find_element(self, child_gui_element_setu_id, with_type, with_value):
         wrapped_element = self.__driver_wrapper.get_driver_element(self.element_setu_id)
-        element = ElementFinder.find_element(wrapped_element, with_type, with_value)
-        self.__driver_wrapper.add_driver_element(child_gui_element_setu_id, element)
+        child_element = ElementFinder.find_element(wrapped_element, with_type, with_value)
+        self.__driver_wrapper.add_driver_element(child_gui_element_setu_id, child_element)
 
     def find_multielement(self, child_gui_element_setu_id, with_type, with_value):
         wrapped_element = self.__driver_wrapper.get_driver_element(self.element_setu_id)
-        melement = ElementFinder.find_elements(wrapped_element, with_type, with_value)
-        self.__driver_wrapper.add_driver_melement(child_gui_element_setu_id, melement)
-        return melement.get_instance_count()
+        child_melement = ElementFinder.find_elements(wrapped_element, with_type, with_value)
+        self.__driver_wrapper.add_driver_melement(child_gui_element_setu_id, child_melement)
+        return child_melement.get_instance_count()
 
     @property
     def driver(self):
@@ -41,7 +42,10 @@ class SeleniumDriverElement:
 
     @property
     def driver_element(self):
-        return self.__driver_wrapper.get_driver_element(self.element_setu_id)
+        if not self.__partial:
+            return self.__driver_wrapper.get_driver_element(self.element_setu_id)
+        else:
+            return self.__driver_wrapper.get_driver_melement(self.element_setu_id).get_element_at_index(self.__instance_index)
 
     def click(self):
         DriverElementCommands.click(self.driver_element)

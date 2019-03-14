@@ -141,6 +141,10 @@ class GuiElementMetaData:
     def locators(self):
         return self.__locators
 
+    @property
+    def raw_locators(self):
+        return self.__raw_locators
+
     def __process(self):
         for raw_locator in self.__raw_locators:
             rltype = raw_locator.ltype

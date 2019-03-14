@@ -20,4 +20,4 @@ class ElementFinder:
 
     @classmethod
     def find_elements(cls, container, byType, byValue):
-        return MultiElement(container.find_element(cls.BY_MAP[byType.upper()], byValue))
+        return MultiElement(container.find_elements(cls.BY_MAP[byType.upper()], byValue))

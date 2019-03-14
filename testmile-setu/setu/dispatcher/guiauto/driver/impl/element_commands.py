@@ -22,7 +22,7 @@ class DriverElementCommands:
         return element.text
 
     @classmethod
-    def get_attribute(cls, element, attr):
+    def get_attr_value(cls, element, attr):
         return element.get_attribute(attr)
 
     @classmethod

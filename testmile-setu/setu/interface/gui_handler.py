@@ -42,24 +42,24 @@ class GuiHandler:
     def automator_handler(self):
         return self.__automator_handler
 
-    def create_element(self, withType, withValue):
-        emd = self.gui.get_emd(withType, withValue)
+    def create_element(self, locators):
+        emd = self.gui.get_emd(locators)
         return self.automator_handler.create_element_with_emd(emd)
 
-    def create_multielement(self, withType, withValue):
-        emd = self.gui.get_emd(withType, withValue)
+    def create_multielement(self, locators):
+        emd = self.gui.get_emd(locators)
         return self.automator_handler.create_multielement_with_emd(emd)
 
-    def create_dropdown(self, withType, withValue):
-        emd = self.gui.get_emd(withType, withValue)
+    def create_dropdown(self, locators):
+        emd = self.gui.get_emd(locators)
         return self.automator_handler.create_dropdown_with_emd(emd)
 
-    def create_radiogroup(self, withType, withValue):
-        emd = self.gui.get_emd(withType, withValue)
+    def create_radiogroup(self, locators):
+        emd = self.gui.get_emd(locators)
         return self.automator_handler.create_radiogroup_with_emd(emd)
 
-    def create_frame(self, withType, withValue):
-        emd = self.gui.get_emd(withType, withValue)
+    def create_frame(self, locators):
+        emd = self.gui.get_emd(locators)
         return self.automator_handler.create_frame_with_emd(emd)
 
     def create_alert(self):

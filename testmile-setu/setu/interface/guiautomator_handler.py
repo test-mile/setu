@@ -41,7 +41,7 @@ class GuiAutomatorHandler:
         elem = self.automator.create_multielement(emd)
         return {"elementSetuId" : elem.setu_id}
 
-    def create_dropdown(self, withType, locators):
+    def create_dropdown(self, locators):
         dropdown = self.automator.create_dropdown(GuiElementMetaData.createEMD(locators))
         return {"elementSetuId" : dropdown.setu_id}
 
