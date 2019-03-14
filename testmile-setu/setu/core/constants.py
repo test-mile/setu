@@ -14,8 +14,6 @@ class SetuConfigOption(Enum):
     APP_URL = auto()
 
     TESTRUN_ENVIRONMENT = auto()
-    TESTRUN_TARGET_PLATFORM_NAME = auto()
-    TESTRUN_TARGET_PLATFORM_VERSION = auto()
 
     GUIAUTO_AUTOMATOR_NAME = auto()
 
@@ -36,6 +34,8 @@ class SetuConfigOption(Enum):
     GUIAUTO_SLOMO_ON = auto()
     GUIAUTO_SLOMO_INTERVAL = auto()
 
+    MOBILE_OS_NAME = auto()
+    MOBILE_OS_VERSION = auto()
     MOBILE_DEVICE_NAME = auto()
     MOBILE_DEVICE_UDID = auto()
     MOBILE_APP_FILE_PATH = auto()
@@ -66,8 +66,6 @@ class Browser(Enum):
     SAFARI = auto()
     CHROME = auto()
 
-class TargetPlatform(Enum):
+class MobileOsName(Enum):
     ANDROID = auto()
     IOS = auto()
-    WINDOWS = auto()
-    MAC = auto()

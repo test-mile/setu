@@ -56,14 +56,24 @@ class SetuGuiAutoActorElementActionType(Enum):
 	GET_TEXT_CONTENT = auto()
 
 class SetuActorConfigOption(Enum):
+    GUIAUTO_AUTOMATOR_NAME = auto()
+    GUIAUTO_CONTEXT = auto()
+
+    # Browser (Common)
     BROWSER_NAME = auto()
     BROWSER_BIN_PATH = auto()
     BROWSER_PROXY_ON = auto()
+    BROWSER_PROXY_HOST = auto()
+    BROWSER_PROXY_PORT = auto()
+    MOBILE_OS_NAME = auto()
 
+    # Selenium
     SELENIUM_DRIVER_PROP = auto()
     SELENIUM_DRIVER_PATH = auto()
 
+    # Appium
     APPIUM_HUB_URL = auto()
     APPIUM_AUTO_LAUNCH = auto()
 
-    IMAGE_COMPARISON_MIN_SCORE = auto()
+    # Image comparison
+    IMAGE_COMPARISON_MIN_SCORE = auto() 

@@ -81,9 +81,7 @@ class GuiAutomator(ElementContainer):
 
     def launch(self):
         caps = DriverCapabilities(self.config, self.__extended_config)
-        pprint.pprint(caps.processed_config)
-        raise Exception("Deliberate")
-        self.dispatcher.launch(self.config.as_json_dict())
+        self.dispatcher.launch(caps.processed_config)
 
         from setu.core.guiauto.element.window import MainWindow
         self.__main_window = MainWindow(self)

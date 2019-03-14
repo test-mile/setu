@@ -2,7 +2,7 @@ import inspect
 import os
 import copy
 from urllib3.util import parse_url
-from setu.core.constants import TargetPlatform, SetuConfigOption, GuiAutomationContext, GuiAutomatorName, Browser
+from setu.core.constants import MobileOsName, SetuConfigOption, GuiAutomationContext, GuiAutomatorName, Browser
 
 class ConfigValidator:
 
@@ -76,10 +76,9 @@ class ConfigValidator:
             cls.raise_exc(input)
 
     @classmethod
-    def platform(cls, input):
-        print("PLLLLLAAAAAL")
+    def mobile_os(cls, input):
         try:
-            return TargetPlatform[input.upper()]
+            return MobileOsName[input.upper()]
         except:
             cls.raise_exc(input)
 
