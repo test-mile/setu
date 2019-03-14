@@ -3,7 +3,7 @@ import os
 from setu.core.constants import SetuConfigOption
 from .nsloader import GuiNamespaceLoaderFactory
 from setu.core.lib.setu_types import SetuConfiguredObject
-from setu.core.guiauto.locator.emd import SimpleGuiElementMetaData, GuiElementMetaData
+from setu.core.guiauto.locator.emd import SimpleGuiElementMetaData, GuiElementMetaData, Locator
 
 class Gui(SetuConfiguredObject):
 
@@ -38,7 +38,7 @@ class Gui(SetuConfiguredObject):
                 emd = self.__ns.get_meta_data(raw_locator["withValue"], self.__auto_context)
                 final_locators.extend(emd.raw_locators)
             else:
-                final_locators.append(ltype=raw_locator["withType"], lvalue=raw_locator["withValue"])
+                final_locators.append(Locator(ltype=raw_locator["withType"], lvalue=raw_locator["withValue"]))
         return GuiElementMetaData(final_locators)
 
     def create_dispatcher(self):
