@@ -61,9 +61,7 @@ class DriverCommands:
 
     @classmethod
     def focus_on_frame(cls, driver, element):
-        print(driver)
-        print(element)
-        driver.switch_to_frame(element)
+        driver.switch_to.frame(element)
 
     @classmethod
     def focus_on_dom_root(cls, driver):

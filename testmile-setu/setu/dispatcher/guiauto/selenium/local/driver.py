@@ -115,7 +115,6 @@ class SeleniumDriver:
         DriverCommands.send_text_to_web_alert(self.__driver, text)
 
     def focus_on_frame(self, elem_setu_id, is_instance_action=False, instance_index=0):
-        DriverCommands.close_current_window(self.__driver)
         element = None
         if is_instance_action:
             element = self.__driver_melements[elem_setu_id].get_element_at_index(instance_index)
