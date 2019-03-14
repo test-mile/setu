@@ -1,11 +1,16 @@
 import inspect
 from setu.core.constants import SetuConfigOption
+from .driverelement import SeleniumDriverElement
 
-class GuiAutomator:
+class SeleniumDriver:
 
     def __init__(self, setu_id, requester):
         self.__setu_id = setu_id
         self.__requester = requester
+
+    def create_gui_element_dispatacher(self, element_setu_id):
+        return SeleniumDriverElement()
+        self.__dispatcher.create_gui_element_dispatacher(element_setu_id)
 
     def __post_to_actor(self, action, actor_uri, **kwargs):
         input_dict = {"automatorSetuId" : self.setu_id}

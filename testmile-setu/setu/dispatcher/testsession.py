@@ -1,14 +1,9 @@
-from setu.dispatcher.setu_actor_requester import SetuActorRequester
-from setu.dispatcher.guiauto.remote.guiautomator import GuiAutomator 
-from setu.dispatcher.guiauto.remote.guielement import GuiElement 
+from .guiautomator_dispatcher import GuiAutomatorDispatcher 
 
 class TestSessionDispatcher:
 
-    def __init__(self):
-        self.__java_actor_url = "http://localhost:9898/setuactor"
+    def create_gui_automator_dispatcher(self, config, setu_id):
+        return GuiAutomatorDispatcher(config, setu_id)
 
-    def guiAutomatorRemoteDispatcher(self, setu_id):
-        return GuiAutomator(setu_id, SetuActorRequester(self.__java_actor_url + "/guiauto"))
-
-    def guiElementRemoteDispatcher(self, automator_setu_id, element_setu_id):
-        return GuiElement(automator_setu_id, element_setu_id, SetuActorRequester(self.__java_actor_url + "/guiauto"))
+    def create_gui_element_dispatcher(self, atuomator_dispatcher, element_setu_id):
+        return atuomator_dispatcher.create_gui_element_dispatacher(element_setu_id)

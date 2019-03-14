@@ -11,6 +11,9 @@ class SetuConfigOption(Enum):
     PROJECT_CONF_DIR = auto()
     PROJECT_CONF_FILE = auto()
 
+    SETUACTOR_GUIAUTO_MODE = auto()
+    SETUACTOR_GUIAUTO_URL = auto()
+
     APP_URL = auto()
 
     TESTRUN_ENVIRONMENT = auto()
@@ -48,6 +51,10 @@ class SetuConfigOption(Enum):
     APPIUM_AUTO_LAUNCH = auto()
 
     IMAGE_COMPARISON_MIN_SCORE = auto()
+
+class SetuActorMode(Enum):
+    LOCAL = auto()
+    REMOTE = auto()
 
 class GuiAutomatorName(Enum):
     SELENIUM = auto()

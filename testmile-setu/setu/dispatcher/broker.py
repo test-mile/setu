@@ -55,7 +55,7 @@ class SetuGuiAutoActorElementActionType(Enum):
 	GET_ATTR_VALUE = auto()
 	GET_TEXT_CONTENT = auto()
 
-class SetuActorConfigOption(Enum):
+class SetuActorDriverConfigOption(Enum):
     GUIAUTO_AUTOMATOR_NAME = auto()
     GUIAUTO_CONTEXT = auto()
 
@@ -74,6 +74,3 @@ class SetuActorConfigOption(Enum):
     # Appium
     APPIUM_HUB_URL = auto()
     APPIUM_AUTO_LAUNCH = auto()
-
-    # Image comparison
-    IMAGE_COMPARISON_MIN_SCORE = auto() 

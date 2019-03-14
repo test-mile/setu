@@ -1,5 +1,5 @@
 from setu.core.constants import SetuConfigOption
-from setu.dispatcher.guiauto.broker import SetuActorConfigOption
+from setu.dispatcher.broker import SetuActorDriverConfigOption
 import copy
 import pprint
 
@@ -102,7 +102,7 @@ class DriverCapabilities:
         self.__out_dict["automationContext"] = config.setu_config.value(SetuConfigOption.GUIAUTO_CONTEXT).name.upper()
         temp_d = config.setu_config.as_json_dict()
         for k,v in temp_d.items():
-            if k in SetuActorConfigOption.__members__:
+            if k in SetuActorDriverConfigOption.__members__:
                 self.__out_dict["setuOptions"][k] = v
         pprint.pprint(self.__out_dict)
         
@@ -115,7 +115,8 @@ class DriverCapabilities:
         if "browserArgs" in dict_from_requester and dict_from_requester["browserArgs"]:
             self.__out_dict["browserArgs"].extend(dict_from_requester["browserArgs"])
         if "driverCapabilities" in dict_from_requester and dict_from_requester["driverCapabilities"]:
-            self.__out_dict["driverCapabilities"].update(dict_from_requester["driverCapabilities"])
+            self.__out_dict["driverCapabilities"].update(
+                {i:j for i,j in dict_from_requester["driverCapabilities"].items() if j !="not_set"})
         if "browserPreferences" in dict_from_requester and dict_from_requester["browserPreferences"]:
             self.__out_dict["browserPreferences"] = dict_from_requester["browserPreferences"]
         if "browserExtensions" in dict_from_requester and dict_from_requester["browserExtensions"]:

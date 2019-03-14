@@ -39,7 +39,7 @@ class GuiAutomator(ElementContainer):
         return GuiMultiElement(self, locator_meta_data) 
 
     def create_dispatcher(self):
-        self._set_dispatcher(self.dispatcher_creator.guiAutomatorRemoteDispatcher(self.setu_id))
+        self._set_dispatcher(self.dispatcher_creator.create_gui_automator_dispatcher(self.config, self.setu_id))
 
     def slomo(self):
         if self.__in_slomo:
@@ -81,6 +81,7 @@ class GuiAutomator(ElementContainer):
 
     def launch(self):
         caps = DriverCapabilities(self.config, self.__extended_config)
+        print(self.dispatcher, caps.processed_config)
         self.dispatcher.launch(caps.processed_config)
 
         from setu.core.guiauto.element.window import MainWindow

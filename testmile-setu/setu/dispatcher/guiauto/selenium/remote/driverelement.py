@@ -1,6 +1,6 @@
 import inspect
 
-class GuiElement:
+class SeleniumDriverElement:
 
     def __init__(self, automator_setu_id, element_setu_id, requester):
         self.__automator_setu_id = automator_setu_id

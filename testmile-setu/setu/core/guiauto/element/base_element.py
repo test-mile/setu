@@ -25,7 +25,7 @@ class BaseElement(ElementContainer, metaclass=abc.ABCMeta):
         return GuiMultiElement(self.__automator, locator_meta_data, parent=self) 
 
     def create_dispatcher(self):
-        self._set_dispatcher(self.dispatcher_creator.guiElementRemoteDispatcher(self.__automator.setu_id, self.setu_id))
+        self._set_dispatcher(self.dispatcher_creator.create_gui_element_dispatcher(self.__automator.dispatcher, self.setu_id))
 
     @abc.abstractmethod
     def find_if_not_found(self):

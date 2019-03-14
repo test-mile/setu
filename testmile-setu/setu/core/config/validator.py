@@ -2,7 +2,7 @@ import inspect
 import os
 import copy
 from urllib3.util import parse_url
-from setu.core.constants import MobileOsName, SetuConfigOption, GuiAutomationContext, GuiAutomatorName, Browser
+from setu.core.constants import *
 
 class ConfigValidator:
 
@@ -66,6 +66,13 @@ class ConfigValidator:
             return GuiAutomationContext[input.upper()]
         except Exception as e:
             print(e)
+            cls.raise_exc(input)
+
+    @classmethod
+    def actor_mode(cls, input):
+        try:
+            return SetuActorMode[input.upper()]
+        except:
             cls.raise_exc(input)
 
     @classmethod
